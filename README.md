@@ -12,6 +12,11 @@ __objectos::orm__ is at Maven central.
     <artifactId>orm</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 </dependency>
+<dependency>
+    <groupId>br.com.objectos</groupId>
+    <artifactId>orm-compiler</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+</dependency>
 ```
 
 ## License
