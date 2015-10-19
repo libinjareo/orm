@@ -61,7 +61,7 @@
 		<objectos.code.version>0.8.1</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
-		<objectos.pojo.version>0.5.2</objectos.pojo.version>
+		<objectos.pojo.version>0.5.3-SNAPSHOT</objectos.pojo.version>
 		<objectos.schema.version>0.1.1-SNAPSHOT</objectos.schema.version>
 		<objectos.testable.version>0.4.1</objectos.testable.version>
 	</properties>
@@ -75,10 +75,19 @@
 				<scope>test</scope>
 				<exclusions>
 					<exclusion>
+						<groupId>br.com.objectos</groupId>
+						<artifactId>core</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>com.google.guava</groupId>
 						<artifactId>guava</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>code-apt</artifactId>
+				<version>${objectos.code.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
@@ -126,16 +135,6 @@
 				<artifactId>schema-info-testing</artifactId>
 				<version>${objectos.schema.version}</version>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>schema-meta</artifactId>
-				<version>${objectos.schema.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>schema-type</artifactId>
-				<version>${objectos.schema.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>

@@ -15,7 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.testing.AnnotationProcessorAssert;
+import br.com.objectos.pojo.plugin.Plugin;
+import br.com.objectos.pojo.testing.PluginAssertion;
 
 import org.testng.annotations.Test;
 
@@ -24,15 +25,13 @@ import org.testng.annotations.Test;
  */
 public class SqlPojoCompilerTest {
 
+  private final Plugin[] pluginArray = new Plugin[] { new ColumnPropertyPlugin() };
+
   @Test
   public void pair() {
-    AnnotationProcessorAssert
-        .using(SqlPojoCompiler.with())
-        .dir("code/orm-compiler")
-        .pack("br.com.objectos.orm.it")
-        .input("Pair")
-        .output("PairPojo", "PairBuilder", "PairBuilderPojo")
-        .verify();
+    PluginAssertion.assertThat(pluginArray)
+        .with("Pair", "OBJECTOS_SQL", "V001__First_Migration", "PAIR")
+        .generates("PairPojo", "PairBuilder", "PairBuilderPojo");
   }
 
 }
