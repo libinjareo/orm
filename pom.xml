@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:ormLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>br.com.objectos</groupId>
+		<artifactId>parent</artifactId>
+		<version>39</version>
+	</parent>
+
+	<artifactId>orm-parent</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>objectos :: orm :: parent</name>
+	<description>A lightweight Java8 ORM library.</description>
+	<url>https://github.com/objectos/orm</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/objectos/orm</url>
+		<connection>scm:git:git://objectos/orm.git</connection>
+		<developerConnection>scm:git:git@github.com:objectos/orm.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/objectos/orm/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<id>moe</id>
+			<name>Marcio Endo</name>
+			<email>marcio.endo@objectos.com.br</email>
+		</developer>
+	</developers>
+
+	<organization>
+		<name>Objectos Software LTDA</name>
+		<url>http://www.objectos.com.br</url>
+	</organization>
+
+</project>
