@@ -58,9 +58,11 @@
 
 	<properties>
 		<objectos.assertion.version>0.1.1</objectos.assertion.version>
-		<objectos.code.version>0.8.0</objectos.code.version>
+		<objectos.code.version>0.8.1</objectos.code.version>
+		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
 		<objectos.pojo.version>0.5.2</objectos.pojo.version>
+		<objectos.schema.version>0.1.1-SNAPSHOT</objectos.schema.version>
 		<objectos.testable.version>0.4.1</objectos.testable.version>
 	</properties>
 
@@ -71,6 +73,17 @@
 				<artifactId>assertion</artifactId>
 				<version>${objectos.assertion.version}</version>
 				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>guava</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>collections</artifactId>
+				<version>${objectos.collections.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
@@ -102,6 +115,27 @@
 				<artifactId>pojo-testing</artifactId>
 				<version>${objectos.pojo.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>schema-info</artifactId>
+				<version>${objectos.schema.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>schema-info-testing</artifactId>
+				<version>${objectos.schema.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>schema-meta</artifactId>
+				<version>${objectos.schema.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>schema-type</artifactId>
+				<version>${objectos.schema.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>

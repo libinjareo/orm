@@ -23,6 +23,10 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
+			<artifactId>collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
 			<artifactId>metainf-compiler</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -32,11 +36,47 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
+			<artifactId>pojo-compiler</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
 			<artifactId>pojo-plugin</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>pojo-testing</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>schema-info</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>schema-info-testing</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>schema-meta</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>schema-type</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>testable</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>testable-pojo-plugin</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
