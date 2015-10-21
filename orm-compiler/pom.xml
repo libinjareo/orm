@@ -57,14 +57,6 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
-			<artifactId>schema-meta</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
-			<artifactId>schema-type</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
 			<artifactId>testable</artifactId>
 		</dependency>
 		<dependency>

@@ -15,13 +15,13 @@
  */
 package br.com.objectos.orm.it;
 
-import br.com.objectos.orm.annotation.SqlPojo;
+import br.com.objectos.pojo.Pojo;
 import br.com.objectos.testable.Testable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@SqlPojo
+@Pojo
 abstract class Pair implements Testable {
 
   abstract int id();

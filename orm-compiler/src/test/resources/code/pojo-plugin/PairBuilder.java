@@ -1,9 +1,9 @@
-package br.com.objectos.orm.it;
+package br.com.objectos.pojo.plugin;
 
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.SqlPojoCompiler",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 interface PairBuilder {

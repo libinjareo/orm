@@ -13,24 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.schema.info;
+package br.com.objectos.orm.compiler;
 
-import br.com.objectos.code.AnnotationInfo;
+import br.com.objectos.metainf.Services;
+import br.com.objectos.pojo.plugin.AbstractPlugin;
+import br.com.objectos.pojo.plugin.Plugin;
+import br.com.objectos.pojo.plugin.PojoProperty;
+import br.com.objectos.pojo.plugin.PojoPropertyAction;
+import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class AnnotationInfoFake {
+@Services(Plugin.class)
+public class ColumnPropertyPlugin extends AbstractPlugin implements PojoPropertyAction {
 
-  public static final AnnotationInfo PAIR_ID = MethodInfoFake.Pair_ID
-      .annotationInfoAnnotatedWith(ColumnAnnotation.class)
-      .get();
-  public static final AnnotationInfo PAIR_NAME = MethodInfoFake.Pair_NAME
-      .annotationInfoAnnotatedWith(ColumnAnnotation.class)
-      .get();
+  @Override
+  protected void configure() {
+    when(property(hasAnnotationAnnotatedWith(ColumnAnnotation.class))).execute(this);
+  }
 
-  private AnnotationInfoFake() {
+  @Override
+  public PojoProperty execute(Property property) {
+    return ColumnSqlPojoMethod.of(property).execute();
   }
 
 }

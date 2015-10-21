@@ -13,31 +13,39 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.schema.info;
+package br.com.objectos.orm.compiler;
 
-import static br.com.objectos.assertion.TestableAssertion.assertThat;
-
-import br.com.objectos.code.AnnotationInfo;
-
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import br.com.objectos.pojo.plugin.PojoProperty;
+import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.testable.Testable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class TableClassInfoTest {
+abstract class SqlPojoMethod implements Testable {
 
-  @DataProvider
-  public Object[][] ofProvider() {
-    return new Object[][] {
-        { AnnotationInfoFake.PAIR_ID, TableClassInfoFake.PAIR }
-    };
+  abstract Property property();
+
+  SqlPojoMethod() {
   }
 
-  @Test(dataProvider = "ofProvider")
-  public void of(AnnotationInfo annotationInfo, TableClassInfo expected) {
-    TableClassInfo res = TableClassInfo.of(annotationInfo);
-    assertThat(res).isEqualTo(expected);
+  public final PojoProperty execute() {
+    return PojoProperty.of(
+        constructorStatement(),
+        field(),
+        method());
+  }
+
+  PojoProperty constructorStatement() {
+    return property().standardPojoConstructorStatement();
+  }
+
+  PojoProperty field() {
+    return property().standardPojoField();
+  }
+
+  PojoProperty method() {
+    return property().standardPojoMethod();
   }
 
 }
