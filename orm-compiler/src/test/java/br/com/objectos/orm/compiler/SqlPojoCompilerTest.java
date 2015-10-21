@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.stream.Stream;
+
 import br.com.objectos.pojo.plugin.Plugin;
 import br.com.objectos.pojo.testing.PluginAssertion;
 
@@ -28,10 +30,23 @@ public class SqlPojoCompilerTest {
   private final Plugin[] pluginArray = new Plugin[] { new ColumnPropertyPlugin() };
 
   @Test
+  public void enumerated() {
+    test("Enumerated");
+  }
+
+  @Test
   public void pair() {
+    test("Pair");
+  }
+
+  private void test(String pojo) {
     PluginAssertion.assertThat(pluginArray)
-        .with("Pair", "OBJECTOS_SQL", "V001__First_Migration", "PAIR")
-        .generates("PairPojo", "PairBuilder", "PairBuilderPojo");
+        .with(pojo, "OBJECTOS_SQL", "V001__First_Migration", "PAIR")
+        .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo"));
+  }
+
+  private String[] generates(String pojo, String... suffixes) {
+    return Stream.of(suffixes).map(suffix -> pojo + suffix).toArray(String[]::new);
   }
 
 }
