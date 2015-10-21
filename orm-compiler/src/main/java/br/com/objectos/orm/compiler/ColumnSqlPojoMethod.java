@@ -15,6 +15,9 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.AnnotationInfo;
@@ -22,6 +25,7 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoProperty;
+import br.com.objectos.pojo.plugin.PojoPropertyConstructorStatementBuilder.Add;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
 import br.com.objectos.schema.meta.ColumnClass;
@@ -36,12 +40,20 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
 
   abstract AnnotationInfo columnAnnotationInfo();
   abstract ClassName columnClassName();
+  abstract ColumnSqlPojoBindType bindType();
 
   ColumnSqlPojoMethod() {
   }
 
   public static ColumnSqlPojoMethod of(Property property) {
     AnnotationInfo columnAnnotationInfo = property.annotationInfoAnnotatedWith(ColumnAnnotation.class).get();
+    SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
+    TypeInfo columnClassTypeInfo = columnAnnotationInfo
+        .annotationInfo(ColumnClass.class)
+        .flatMap(annotationInfo -> annotationInfo.simpleTypeInfoValue("value"))
+        .flatMap(typeInfo -> typeInfo.typeInfo())
+        .get();
+    SqlPojoReturnType returnType = SqlPojoReturnType.of(returnTypeInfo);
     return ColumnSqlPojoMethod.builder()
         .property(property)
         .columnAnnotationInfo(columnAnnotationInfo)
@@ -51,6 +63,7 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
             .flatMap(typeInfo -> typeInfo.typeInfo())
             .get()
             .className())
+        .bindType(returnType.bindType(returnTypeInfo, columnClassTypeInfo))
         .build();
   }
 
@@ -58,15 +71,18 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
     return new ColumnSqlPojoMethodBuilderPojo();
   }
 
+  public ConstructorStatementWriter constructorStatementWriter(String statement) {
+    Add builder = PojoProperty.constructorStatementBuilder(property()).add(statement);
+    return new ConstructorStatementWriter(builder);
+  }
+
+  public MethodWriter methodWriter(String statement) {
+    return new MethodWriter(statement);
+  }
+
   @Override
   PojoProperty constructorStatement() {
-    return PojoProperty.constructorStatementBuilder(property())
-        .add("$L = $T.get().$L($L)")
-        .setPropertyName()
-        .set(tableClassName())
-        .set(columnAnnotationInfo().simpleName())
-        .setBuilderGet()
-        .build();
+    return bindType().constructorStatement(this);
   }
 
   @Override
@@ -79,9 +95,7 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
 
   @Override
   PojoProperty method() {
-    return PojoProperty.overridingMethodBuilder(property())
-        .statement("return $L.get()", property().name())
-        .build();
+    return bindType().method(this);
   }
 
   private ClassName tableClassName() {
@@ -92,6 +106,68 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
         .flatMap(TypeInfo::enclosingTypeInfo)
         .get()
         .className();
+  }
+
+  public class ConstructorStatementWriter {
+
+    private final Add builder;
+
+    private ConstructorStatementWriter(Add builder) {
+      this.builder = builder;
+    }
+
+    public PojoProperty build() {
+      return builder.build();
+    }
+
+    public ConstructorStatementWriter setBuilderGet() {
+      builder.setBuilderGet();
+      return this;
+    }
+
+    public ConstructorStatementWriter setColumnAnnotationSimpleName() {
+      builder.set(columnAnnotationInfo().simpleName());
+      return this;
+    }
+
+    public ConstructorStatementWriter setPropertyName() {
+      builder.setPropertyName();
+      return this;
+    }
+
+    public ConstructorStatementWriter setTableClassName() {
+      builder.set(tableClassName());
+      return this;
+    }
+
+  }
+
+  public class MethodWriter {
+
+    private final String template;
+    private final List<Object> argList = new ArrayList<>();
+
+    private MethodWriter(String template) {
+      this.template = template;
+    }
+
+    public PojoProperty build() {
+      return PojoProperty.overridingMethodBuilder(property())
+          .statement(template, argList.toArray())
+          .build();
+    }
+
+    public MethodWriter setPropertyName() {
+      argList.add(property().name());
+      return this;
+    }
+
+    public MethodWriter setReturnTypeName() {
+      SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
+      argList.add(returnTypeInfo.typeName());
+      return this;
+    }
+
   }
 
 }
