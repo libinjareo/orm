@@ -43,12 +43,12 @@ abstract class OptionalSqlPojoReturnType extends SqlPojoReturnType {
   }
 
   @Override
-  public ColumnSqlPojoBindType bindType(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  public ColumnPropertyBindType bindType(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     SimpleTypeInfo enclosedTypeInfo = returnTypeInfo.getTypeParameterInfoStream()
         .findFirst()
         .map(TypeParameterInfo::simpleTypeInfo)
         .get();
-    return ColumnSqlPojoBindType.of(enclosedTypeInfo, columnClassTypeInfo);
+    return ColumnPropertyBindType.of(enclosedTypeInfo, columnClassTypeInfo);
   }
 
   @Override

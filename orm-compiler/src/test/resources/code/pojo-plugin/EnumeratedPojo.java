@@ -5,7 +5,7 @@ import br.com.objectos.schema.meta.EnumType;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyPlugin",
+  "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
   "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EnumeratedPojo extends Enumerated {

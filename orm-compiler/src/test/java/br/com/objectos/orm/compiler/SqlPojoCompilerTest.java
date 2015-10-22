@@ -17,7 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.stream.Stream;
 
-import br.com.objectos.pojo.plugin.Plugin;
+import br.com.objectos.pojo.plugin.OptionalPlugin;
 import br.com.objectos.pojo.testing.PluginAssertion;
 
 import org.testng.annotations.Test;
@@ -27,11 +27,14 @@ import org.testng.annotations.Test;
  */
 public class SqlPojoCompilerTest {
 
-  private final Plugin[] pluginArray = new Plugin[] { new ColumnPropertyPlugin() };
-
   @Test
   public void enumerated() {
     test("Enumerated");
+  }
+
+  @Test
+  public void enumeratedDuo() {
+    test("EnumeratedDuo");
   }
 
   @Test
@@ -40,8 +43,17 @@ public class SqlPojoCompilerTest {
   }
 
   private void test(String pojo) {
-    PluginAssertion.assertThat(pluginArray)
-        .with(pojo, "OBJECTOS_SQL", "V001__First_Migration", "PAIR")
+    PluginAssertion.assertThat(new ColumnPropertyPlugin(), new OptionalPlugin())
+        .with(pojo,
+            "DUO",
+            "EMPLOYEE_V002",
+            "OBJECTOS_SQL",
+            "PAIR",
+            "REVISION_V003",
+            "V001__First_Migration",
+            "V002__Employee_Salary",
+            "V003__Revision",
+            "V004__More")
         .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo"));
   }
 

@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Optional;
+
 import br.com.objectos.metainf.Services;
 import br.com.objectos.pojo.plugin.AbstractPlugin;
 import br.com.objectos.pojo.plugin.Plugin;
@@ -27,16 +29,32 @@ import br.com.objectos.schema.meta.ColumnAnnotation;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Services(Plugin.class)
-public class ColumnPropertyPlugin extends AbstractPlugin implements PojoPropertyAction {
+public class ColumnPropertyPlugin extends AbstractPlugin {
 
   @Override
   protected void configure() {
-    when(property(hasAnnotationAnnotatedWith(ColumnAnnotation.class))).execute(this);
+    when(property(hasAnnotationAnnotatedWith(ColumnAnnotation.class)))
+        .and(instanceOf(Optional.class))
+        .execute(OptionalAction.INSTANCE);
+
+    when(property(hasAnnotationAnnotatedWith(ColumnAnnotation.class)))
+        .execute(StandardAction.INSTANCE);
   }
 
-  @Override
-  public PojoProperty execute(Property property) {
-    return ColumnSqlPojoMethod.of(property).execute();
+  private static enum OptionalAction implements PojoPropertyAction {
+    INSTANCE;
+    @Override
+    public PojoProperty execute(Property property) {
+      return OptionalColumnProperty.of(property).execute();
+    }
+  }
+
+  private static enum StandardAction implements PojoPropertyAction {
+    INSTANCE;
+    @Override
+    public PojoProperty execute(Property property) {
+      return StandardColumnProperty.of(property).execute();
+    }
   }
 
 }

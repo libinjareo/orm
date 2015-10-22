@@ -23,7 +23,6 @@ import javax.lang.model.element.Modifier;
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
-import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.pojo.plugin.PojoPropertyConstructorStatementBuilder.Add;
 import br.com.objectos.pojo.plugin.Property;
@@ -35,17 +34,27 @@ import com.squareup.javapoet.ClassName;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
+abstract class ColumnProperty {
 
-  abstract AnnotationInfo columnAnnotationInfo();
-  abstract ClassName columnClassName();
-  abstract ColumnSqlPojoBindType bindType();
+  private final Property property;
+  private final AnnotationInfo columnAnnotationInfo;
+  private final ClassName columnClassName;
+  private final SimpleTypeInfo returnTypeInfo;
+  final ColumnPropertyBindType bindType;
 
-  ColumnSqlPojoMethod() {
+  public ColumnProperty(Property property,
+                        AnnotationInfo columnAnnotationInfo,
+                        ClassName columnClassName,
+                        SimpleTypeInfo returnTypeInfo,
+                        ColumnPropertyBindType bindType) {
+    this.property = property;
+    this.columnAnnotationInfo = columnAnnotationInfo;
+    this.columnClassName = columnClassName;
+    this.returnTypeInfo = returnTypeInfo;
+    this.bindType = bindType;
   }
 
-  public static ColumnSqlPojoMethod of(Property property) {
+  static ColumnProperty of0(Property property, Constructor constructor) {
     AnnotationInfo columnAnnotationInfo = property.annotationInfoAnnotatedWith(ColumnAnnotation.class).get();
     SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
     TypeInfo columnClassTypeInfo = columnAnnotationInfo
@@ -53,26 +62,28 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
         .flatMap(annotationInfo -> annotationInfo.simpleTypeInfoValue("value"))
         .flatMap(typeInfo -> typeInfo.typeInfo())
         .get();
-    SqlPojoReturnType returnType = SqlPojoReturnType.of(returnTypeInfo);
-    return ColumnSqlPojoMethod.builder()
-        .property(property)
-        .columnAnnotationInfo(columnAnnotationInfo)
-        .columnClassName(columnAnnotationInfo
+    return constructor.apply(
+        property,
+        columnAnnotationInfo,
+        columnAnnotationInfo
             .annotationInfo(ColumnClass.class)
             .flatMap(annotationInfo -> annotationInfo.simpleTypeInfoValue("value"))
             .flatMap(typeInfo -> typeInfo.typeInfo())
             .get()
-            .className())
-        .bindType(returnType.bindType(returnTypeInfo, columnClassTypeInfo))
-        .build();
+            .className(),
+        returnTypeInfo,
+        columnClassTypeInfo);
   }
 
-  private static ColumnSqlPojoMethodBuilder builder() {
-    return new ColumnSqlPojoMethodBuilderPojo();
+  public final PojoProperty execute() {
+    return PojoProperty.of(
+        constructorStatement(),
+        field(),
+        method());
   }
 
   public ConstructorStatementWriter constructorStatementWriter(String statement) {
-    Add builder = PojoProperty.constructorStatementBuilder(property()).add(statement);
+    Add builder = PojoProperty.constructorStatementBuilder(property).add(statement);
     return new ConstructorStatementWriter(builder);
   }
 
@@ -80,26 +91,19 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
     return new MethodWriter(statement);
   }
 
-  @Override
-  PojoProperty constructorStatement() {
-    return bindType().constructorStatement(this);
-  }
+  abstract PojoProperty constructorStatement();
 
-  @Override
-  PojoProperty field() {
-    return PojoProperty.fieldBuilder(property())
+  abstract PojoProperty method();
+
+  private PojoProperty field() {
+    return PojoProperty.fieldBuilder(property)
         .modifiers(Modifier.PRIVATE, Modifier.FINAL)
-        .type(columnClassName())
+        .type(columnClassName)
         .build();
   }
 
-  @Override
-  PojoProperty method() {
-    return bindType().method(this);
-  }
-
   private ClassName tableClassName() {
-    return columnAnnotationInfo()
+    return columnAnnotationInfo
         .annotationInfo(ColumnClass.class)
         .flatMap(ann -> ann.simpleTypeInfoValue("value"))
         .flatMap(SimpleTypeInfo::typeInfo)
@@ -126,7 +130,7 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
     }
 
     public ConstructorStatementWriter setColumnAnnotationSimpleName() {
-      builder.set(columnAnnotationInfo().simpleName());
+      builder.set(columnAnnotationInfo.simpleName());
       return this;
     }
 
@@ -152,21 +156,32 @@ abstract class ColumnSqlPojoMethod extends SqlPojoMethod {
     }
 
     public PojoProperty build() {
-      return PojoProperty.overridingMethodBuilder(property())
+      return PojoProperty.overridingMethodBuilder(property)
           .statement(template, argList.toArray())
           .build();
     }
 
     public MethodWriter setPropertyName() {
-      argList.add(property().name());
+      argList.add(property.name());
       return this;
     }
 
     public MethodWriter setReturnTypeName() {
-      SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
       argList.add(returnTypeInfo.typeName());
       return this;
     }
+
+  }
+
+  @FunctionalInterface
+  static interface Constructor {
+
+    ColumnProperty apply(
+        Property property,
+        AnnotationInfo columnAnnotationInfo,
+        ClassName columnClassName,
+        SimpleTypeInfo returnTypeInfo,
+        TypeInfo columnClassTypeInfo);
 
   }
 

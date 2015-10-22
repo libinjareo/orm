@@ -27,12 +27,17 @@ import br.com.objectos.schema.meta.ValueType;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum ColumnSqlPojoBindType {
+enum ColumnPropertyBindType {
 
   BOOLEAN_INT {
     @Override
-    public PojoProperty method(ColumnSqlPojoMethod method) {
-      return method.methodWriter("return $L.booleanValue()")
+    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public PojoProperty standardMethod(StandardColumnProperty property) {
+      return property.methodWriter("return $L.booleanValue()")
           .setPropertyName()
           .build();
     }
@@ -45,8 +50,16 @@ enum ColumnSqlPojoBindType {
 
   ENUM_ORDINAL {
     @Override
-    public PojoProperty method(ColumnSqlPojoMethod method) {
-      return method.methodWriter("return $T.values()[$L.get()]")
+    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+      return property.methodWriter("return $L.ifPresent(i -> $T.values()[$L.get()])")
+          .setPropertyName()
+          .setReturnTypeName()
+          .build();
+    }
+
+    @Override
+    public PojoProperty standardMethod(StandardColumnProperty property) {
+      return property.methodWriter("return $T.values()[$L.get()]")
           .setReturnTypeName()
           .setPropertyName()
           .build();
@@ -60,8 +73,16 @@ enum ColumnSqlPojoBindType {
 
   ENUM_SQL {
     @Override
-    public PojoProperty method(ColumnSqlPojoMethod method) {
-      return method.methodWriter("return $T.load($L.get())")
+    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+      return property.methodWriter("return $L.getIfPresent().map(s -> $T.load(s))")
+          .setPropertyName()
+          .setReturnTypeName()
+          .build();
+    }
+
+    @Override
+    public PojoProperty standardMethod(StandardColumnProperty property) {
+      return property.methodWriter("return $T.load($L.get())")
           .setReturnTypeName()
           .setPropertyName()
           .build();
@@ -75,8 +96,16 @@ enum ColumnSqlPojoBindType {
 
   ENUM_STRING {
     @Override
-    public PojoProperty method(ColumnSqlPojoMethod method) {
-      return method.methodWriter("return $T.valueOf($L.get())")
+    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+      return property.methodWriter("return $L.getIfPresent().map(s -> $T.valueOf(s))")
+          .setPropertyName()
+          .setReturnTypeName()
+          .build();
+    }
+
+    @Override
+    public PojoProperty standardMethod(StandardColumnProperty property) {
+      return property.methodWriter("return $T.valueOf($L.get())")
           .setReturnTypeName()
           .setPropertyName()
           .build();
@@ -90,8 +119,15 @@ enum ColumnSqlPojoBindType {
 
   STANDARD {
     @Override
-    public PojoProperty method(ColumnSqlPojoMethod method) {
-      return method.methodWriter("return $L.get()")
+    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+      return property.methodWriter("return $L.getIfPresent()")
+          .setPropertyName()
+          .build();
+    }
+
+    @Override
+    public PojoProperty standardMethod(StandardColumnProperty property) {
+      return property.methodWriter("return $L.get()")
           .setPropertyName()
           .build();
     }
@@ -102,13 +138,13 @@ enum ColumnSqlPojoBindType {
     }
   };
 
-  public static ColumnSqlPojoBindType of(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  public static ColumnPropertyBindType of(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     return returnTypeInfo.isEnum()
         ? ofEnum(returnTypeInfo, columnClassTypeInfo)
         : ofStandard(returnTypeInfo, columnClassTypeInfo);
   }
 
-  private static ColumnSqlPojoBindType ofBoolean(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static ColumnPropertyBindType ofBoolean(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     String simpleName = columnClassTypeInfo.annotationInfo(ValueType.class)
         .flatMap(ann -> ann.simpleTypeInfoValue("value"))
         .map(SimpleTypeInfo::simpleName)
@@ -118,7 +154,7 @@ enum ColumnSqlPojoBindType {
         : STANDARD;
   }
 
-  private static ColumnSqlPojoBindType ofEnum(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static ColumnPropertyBindType ofEnum(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     EnumType enumType = columnClassTypeInfo.annotationInfo(EnumColumn.class)
         .flatMap(ann -> ann.enumConstantInfoValue("value"))
         .map(info -> info.getEnumValue(EnumType.class))
@@ -136,14 +172,25 @@ enum ColumnSqlPojoBindType {
     }
   }
 
-  private static ColumnSqlPojoBindType ofStandard(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static ColumnPropertyBindType ofStandard(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     return returnTypeInfo.equals(SimpleTypePrimitives.BOOLEAN)
         ? ofBoolean(returnTypeInfo, columnClassTypeInfo)
         : STANDARD;
   }
 
-  public PojoProperty constructorStatement(ColumnSqlPojoMethod method) {
-    return method.constructorStatementWriter(constructorCode())
+  public PojoProperty optionalConstructorStatement(OptionalColumnProperty property) {
+    return property.constructorStatementWriter(optionalConstructorCode())
+        .setPropertyName()
+        .setBuilderGet()
+        .setTableClassName()
+        .setColumnAnnotationSimpleName()
+        .build();
+  }
+
+  public abstract PojoProperty optionalMethod(OptionalColumnProperty property);
+
+  public PojoProperty standardConstructorStatement(StandardColumnProperty property) {
+    return property.constructorStatementWriter(standardConstructorCode())
         .setPropertyName()
         .setTableClassName()
         .setColumnAnnotationSimpleName()
@@ -151,11 +198,19 @@ enum ColumnSqlPojoBindType {
         .build();
   }
 
-  public abstract PojoProperty method(ColumnSqlPojoMethod method);
+  public abstract PojoProperty standardMethod(StandardColumnProperty property);
 
   abstract String accessor();
 
-  private String constructorCode() {
+  private String optionalConstructorCode() {
+    return String.format(""
+        + "$L = $L\n"
+        + "    .map(o -> $3T.get().$4L(o%s))\n"
+        + "    .orElse($3T.get().$4L())",
+        accessor());
+  }
+
+  private String standardConstructorCode() {
     return String.format("$L = $T.get().$L($L%s)", accessor());
   }
 
