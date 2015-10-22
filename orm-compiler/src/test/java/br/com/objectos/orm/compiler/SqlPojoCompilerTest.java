@@ -15,8 +15,10 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
 import java.util.stream.Stream;
 
+import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.plugin.OptionalPlugin;
 import br.com.objectos.pojo.testing.PluginAssertion;
 
@@ -26,6 +28,11 @@ import org.testng.annotations.Test;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public class SqlPojoCompilerTest {
+
+  @Test
+  public void employee() {
+    test("Employee");
+  }
 
   @Test
   public void enumerated() {
@@ -42,18 +49,29 @@ public class SqlPojoCompilerTest {
     test("Pair");
   }
 
-  private void test(String pojo) {
+  @Test
+  public void salary() {
+    test("Salary", "Employee");
+  }
+
+  private void test(String pojo, String... more) {
+    List<String> with = ImmutableList.<String> builder()
+        .add(pojo)
+        .add(more)
+        .add("DUO")
+        .add("EMPLOYEE_V002")
+        .add("EMPLOYEE")
+        .add("OBJECTOS_SQL")
+        .add("PAIR")
+        .add("REVISION_V003")
+        .add("SALARY")
+        .add("V001__First_Migration")
+        .add("V002__Employee_Salary")
+        .add("V003__Revision")
+        .add("V004__More")
+        .build();
     PluginAssertion.assertThat(new ColumnPropertyPlugin(), new OptionalPlugin())
-        .with(pojo,
-            "DUO",
-            "EMPLOYEE_V002",
-            "OBJECTOS_SQL",
-            "PAIR",
-            "REVISION_V003",
-            "V001__First_Migration",
-            "V002__Employee_Salary",
-            "V003__Revision",
-            "V004__More")
+        .with(with.toArray(new String[] {}))
         .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo"));
   }
 
