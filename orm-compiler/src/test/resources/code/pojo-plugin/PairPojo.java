@@ -4,7 +4,7 @@ import br.com.objectos.schema.it.PAIR;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyPlugin",
+  "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
   "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class PairPojo extends Pair {

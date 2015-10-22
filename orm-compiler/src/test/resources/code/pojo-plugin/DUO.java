@@ -10,6 +10,7 @@ import br.com.objectos.schema.meta.ColumnClass;
 import br.com.objectos.schema.meta.ColumnName;
 import br.com.objectos.schema.meta.ColumnSeq;
 import br.com.objectos.schema.meta.MigrationPrefix;
+import br.com.objectos.schema.meta.Nullable;
 import br.com.objectos.schema.meta.SchemaName;
 import br.com.objectos.schema.meta.TableClass;
 import br.com.objectos.schema.meta.TableName;
@@ -25,46 +26,47 @@ import javax.annotation.Generated;
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
 @SchemaName("OBJECTOS_SQL")
-@TableName("PAIR")
-@ColumnAnnotationClassArray({ PAIR.ID.class, PAIR.NAME.class })
-@MigrationPrefix("V001")
-public final class PAIR extends Table implements V001__First_Migration.PAIR {
-  private static final PAIR INSTANCE = new PAIR();
+@TableName("DUO")
+@ColumnAnnotationClassArray({ DUO.ID.class, DUO.NAME.class })
+@MigrationPrefix("V004")
+public final class DUO extends Table implements V004__More.DUO {
+  private static final DUO INSTANCE = new DUO();
 
-  private PAIR() {
-    super("OBJECTOS_SQL", "PAIR");
+  private DUO() {
+    super("OBJECTOS_SQL", "DUO");
   }
 
-  public static PAIR get() {
+  public static DUO get() {
     return INSTANCE;
   }
 
   @Override
-  public PAIR_ID ID() {
-    return new PAIR_ID();
+  public DUO_ID ID() {
+    return new DUO_ID();
   }
 
-  public PAIR_ID ID(int value) {
-    return new PAIR_ID(value);
+  public DUO_ID ID(int value) {
+    return new DUO_ID(value);
   }
 
   @Override
-  public PAIR_NAME NAME() {
-    return new PAIR_NAME();
+  public DUO_NAME NAME() {
+    return new DUO_NAME();
   }
 
-  public PAIR_NAME NAME(String value) {
-    return new PAIR_NAME(value);
+  public DUO_NAME NAME(String value) {
+    return new DUO_NAME(value);
   }
 
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
   @SchemaName("OBJECTOS_SQL")
-  @TableName("PAIR")
+  @TableName("DUO")
   @ColumnName("ID")
   @ColumnSeq(0)
-  @ColumnClass(PAIR_ID.class)
+  @ColumnClass(DUO_ID.class)
+  @Nullable
   public @interface ID {
     NumericComparison comparison() default NumericComparison.EQ;
 
@@ -75,48 +77,49 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
   @SchemaName("OBJECTOS_SQL")
-  @TableName("PAIR")
+  @TableName("DUO")
   @ColumnName("NAME")
   @ColumnSeq(1)
-  @ColumnClass(PAIR_NAME.class)
+  @ColumnClass(DUO_NAME.class)
+  @Nullable
   public @interface NAME {
     StringComparison comparison() default StringComparison.EQ;
 
     SortOrder orderBy() default SortOrder.ASC;
   }
 
-  public static final class PAIR_ID extends IntColumn implements ColumnOf<PAIR> {
-    private PAIR_ID() {
+  public static final class DUO_ID extends IntColumn implements ColumnOf<DUO> {
+    private DUO_ID() {
       super(INSTANCE, "ID");
     }
 
-    private PAIR_ID(int value) {
+    private DUO_ID(int value) {
       super(INSTANCE, "ID", value);
     }
 
     @Override
-    public PAIR_ID nullValue() {
-      return new PAIR_ID();
+    public DUO_ID nullValue() {
+      return new DUO_ID();
     }
 
     @Override
-    public PAIR_ID withValue(int value) {
-      return new PAIR_ID(value);
+    public DUO_ID withValue(int value) {
+      return new DUO_ID(value);
     }
   }
 
-  public static final class PAIR_NAME extends VarcharColumn implements ColumnOf<PAIR> {
-    private PAIR_NAME() {
+  public static final class DUO_NAME extends VarcharColumn implements ColumnOf<DUO> {
+    private DUO_NAME() {
       super(INSTANCE, "NAME");
     }
 
-    private PAIR_NAME(String value) {
+    private DUO_NAME(String value) {
       super(INSTANCE, "NAME", value);
     }
 
     @Override
-    public PAIR_NAME withValue(String value) {
-      return new PAIR_NAME(value);
+    public DUO_NAME withValue(String value) {
+      return new DUO_NAME(value);
     }
   }
 }

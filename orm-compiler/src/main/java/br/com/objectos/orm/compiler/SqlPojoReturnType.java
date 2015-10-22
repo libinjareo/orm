@@ -65,8 +65,8 @@ abstract class SqlPojoReturnType implements Testable {
         .build();
   }
 
-  public ColumnSqlPojoBindType bindType(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
-    return ColumnSqlPojoBindType.of(returnTypeInfo, columnClassTypeInfo);
+  public ColumnPropertyBindType bindType(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+    return ColumnPropertyBindType.of(returnTypeInfo, columnClassTypeInfo);
   }
 
   public String constructorCode(String code) {
