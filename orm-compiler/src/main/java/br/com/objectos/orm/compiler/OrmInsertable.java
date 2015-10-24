@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Testable;
 
 /**
@@ -49,5 +50,7 @@ interface OrmInsertable extends Testable {
         ? IsOrmInsertable.of(propertyList)
         : NotOrmInsertable.INSTANCE;
   }
+
+  Contribution execute();
 
 }

@@ -67,4 +67,8 @@ abstract class OrmProperty implements Testable {
         .map(SimpleTypeInfo::className);
   }
 
+  public String name() {
+    return property().name();
+  }
+
 }

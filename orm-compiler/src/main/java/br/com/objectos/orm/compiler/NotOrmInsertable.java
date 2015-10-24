@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Equality;
 import br.com.objectos.testable.Tester;
 
@@ -24,6 +25,11 @@ import br.com.objectos.testable.Tester;
 enum NotOrmInsertable implements OrmInsertable {
 
   INSTANCE;
+
+  @Override
+  public Contribution execute() {
+    return Contribution.empty();
+  }
 
   @Override
   public Equality isEqualTo(Object that) {
