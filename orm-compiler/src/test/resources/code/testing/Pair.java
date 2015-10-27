@@ -2,6 +2,7 @@ package br.com.objectos.schema.it;
 
 import br.com.objectos.code.Testing;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.schema.it.PAIR;
 
 @Pojo
 @Testing
