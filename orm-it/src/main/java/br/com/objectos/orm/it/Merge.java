@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,27 +15,27 @@
  */
 package br.com.objectos.orm.it;
 
+import java.util.Optional;
+
 import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.schema.it.MERGE;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Pair implements Testable {
+abstract class Merge {
 
-  @PAIR.ID
-  abstract int id();
+  @MERGE.SEQ
+  abstract int seq();
 
-  @PAIR.NAME
-  abstract String name();
+  @MERGE.MERGE_REVISION_PARENT_A_FK
+  abstract Revision parentA();
 
-  Pair() {
-  }
+  @MERGE.MERGE_REVISION_PARENT_B_FK
+  abstract Optional<Revision> parentB();
 
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
+  Merge() {
   }
 
 }

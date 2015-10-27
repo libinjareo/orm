@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,25 +17,21 @@ package br.com.objectos.orm.it;
 
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.schema.meta.EnumType;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Pair implements Testable {
+abstract class Enumerated {
 
   @PAIR.ID
-  abstract int id();
+  abstract EnumType ordinalEnum();
 
   @PAIR.NAME
-  abstract String name();
+  abstract EnumType stringEnum();
 
-  Pair() {
-  }
-
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
+  Enumerated() {
   }
 
 }

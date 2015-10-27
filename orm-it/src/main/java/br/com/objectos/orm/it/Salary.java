@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,27 +15,33 @@
  */
 package br.com.objectos.orm.it;
 
+import java.time.LocalDate;
+
 import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.schema.it.SALARY.FROM_DATE;
+import br.com.objectos.schema.it.SALARY.SALARY_;
+import br.com.objectos.schema.it.SALARY.SALARY_EMP_NO_FK;
+import br.com.objectos.schema.it.SALARY.TO_DATE;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Pair implements Testable {
+abstract class Salary {
 
-  @PAIR.ID
-  abstract int id();
+  @SALARY_EMP_NO_FK
+  abstract Employee employee();
 
-  @PAIR.NAME
-  abstract String name();
+  @SALARY_
+  abstract int salary();
 
-  Pair() {
-  }
+  @FROM_DATE
+  abstract LocalDate fromDate();
 
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
+  @TO_DATE
+  abstract LocalDate toDate();
+
+  Salary() {
   }
 
 }

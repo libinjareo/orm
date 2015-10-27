@@ -13,29 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.it;
+package br.com.objectos.schema.it;
 
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.schema.annotation.Schema;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Pair implements Testable {
-
-  @PAIR.ID
-  abstract int id();
-
-  @PAIR.NAME
-  abstract String name();
-
-  Pair() {
-  }
-
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
-  }
+@Schema(migrations = {
+  V001__First_Migration.class,
+  V002__Employee_Salary.class,
+  V003__Revision.class,
+  V004__More.class
+})
+public class OBJECTOS_SQL {
 
 }
