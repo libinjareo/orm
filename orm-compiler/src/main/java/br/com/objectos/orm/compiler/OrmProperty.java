@@ -18,9 +18,11 @@ package br.com.objectos.orm.compiler;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
+import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
 
 /**
@@ -36,8 +38,19 @@ abstract class OrmProperty implements Testable {
   }
 
   public static Optional<OrmProperty> of(Property property) {
-    return property.annotationInfoAnnotatedWith(ColumnAnnotation.class)
-        .map(ann -> ColumnOrmProperty.of(property, ann));
+    Optional<AnnotationInfo> columnAnnotation = property.annotationInfoAnnotatedWith(ColumnAnnotation.class);
+
+    if (columnAnnotation.isPresent()) {
+      return columnAnnotation.map(ann -> ColumnOrmProperty.of(property, ann));
+    }
+
+    Optional<AnnotationInfo> foreignKey = property.annotationInfoAnnotatedWith(ForeignKeyAnnotation.class);
+
+    if (foreignKey.isPresent()) {
+      return foreignKey.map(ann -> ForeignKeyOrmProperty.of(property, ann));
+    }
+
+    return Optional.empty();
   }
 
 }

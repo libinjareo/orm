@@ -25,6 +25,7 @@ class AnnotationInfoFake {
 
   public static final AnnotationInfo PAIR_ID = methodFirst(TypeInfoFake.Pair, "id");
   public static final AnnotationInfo PAIR_NAME = methodFirst(TypeInfoFake.Pair, "name");
+  public static final AnnotationInfo SALARY_EMP_NO_FK = methodFirst(TypeInfoFake.Salary, "employee");
 
   private AnnotationInfoFake() {
   }

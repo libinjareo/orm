@@ -35,7 +35,8 @@ public class OrmPropertyTest {
   public Object[][] ofProvider() {
     return new Object[][] {
       { PropertyFake.Pair_id, OrmPropertyFake.Pair_id },
-      { PropertyFake.Pair_name, OrmPropertyFake.Pair_name }
+      { PropertyFake.Pair_name, OrmPropertyFake.Pair_name },
+      { PropertyFake.Salary_employee, OrmPropertyFake.Salary_employee }
     };
   }
 

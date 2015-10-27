@@ -16,32 +16,35 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.AnnotationInfo;
-import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class ColumnOrmProperty extends OrmProperty {
+abstract class ForeignKeyOrmProperty extends OrmProperty {
 
-  abstract AnnotationInfo columnAnnotationInfo();
+  abstract AnnotationInfo foreignKeyAnnotationInfo();
 
-  ColumnOrmProperty() {
+  ForeignKeyOrmProperty() {
   }
 
-  public static ColumnOrmProperty of(Property property, AnnotationInfo columnAnnotationInfo) {
-    return ColumnOrmProperty.builder()
+  public static ForeignKeyOrmProperty of(Property property, AnnotationInfo foreignKeyAnnotationInfo) {
+    return ForeignKeyOrmProperty.builder()
         .property(property)
-        .tableClassInfo(TableClassInfo.of(columnAnnotationInfo))
-        .columnAnnotationClassList(ImmutableList.of(columnAnnotationInfo.simpleTypeInfo()))
-        .columnAnnotationInfo(columnAnnotationInfo)
+        .tableClassInfo(TableClassInfo.of(foreignKeyAnnotationInfo))
+        .columnAnnotationClassList(foreignKeyAnnotationInfo
+            .annotationInfo(ColumnAnnotationClassArray.class)
+            .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
+            .get())
+        .foreignKeyAnnotationInfo(foreignKeyAnnotationInfo)
         .build();
   }
 
-  static ColumnOrmPropertyBuilder builder() {
-    return new ColumnOrmPropertyBuilderPojo();
+  static ForeignKeyOrmPropertyBuilder builder() {
+    return new ForeignKeyOrmPropertyBuilderPojo();
   }
 
 }
