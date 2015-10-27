@@ -29,6 +29,11 @@
 				<dependencies>
 					<dependency>
 						<groupId>br.com.objectos</groupId>
+						<artifactId>schema-compiler</artifactId>
+						<version>${objectos.schema.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>br.com.objectos</groupId>
 						<artifactId>pojo-compiler</artifactId>
 						<version>${objectos.pojo.version}</version>
 					</dependency>
@@ -64,6 +69,10 @@
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>schema</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>

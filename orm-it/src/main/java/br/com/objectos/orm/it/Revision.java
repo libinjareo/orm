@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,27 +15,27 @@
  */
 package br.com.objectos.orm.it;
 
+import java.time.LocalDate;
+
 import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.schema.it.REVISION;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Pair implements Testable {
+abstract class Revision {
 
-  @PAIR.ID
-  abstract int id();
+  @REVISION.SEQ
+  abstract int seq();
 
-  @PAIR.NAME
-  abstract String name();
+  @REVISION.DATE
+  abstract LocalDate date();
 
-  Pair() {
-  }
+  @REVISION.DESCRIPTION
+  abstract String description();
 
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
+  Revision() {
   }
 
 }

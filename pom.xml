@@ -127,6 +127,11 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
+				<artifactId>schema</artifactId>
+				<version>${objectos.schema.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
 				<artifactId>schema-info</artifactId>
 				<version>${objectos.schema.version}</version>
 			</dependency>
