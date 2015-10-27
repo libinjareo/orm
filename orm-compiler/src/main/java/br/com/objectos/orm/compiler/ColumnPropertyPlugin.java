@@ -41,6 +41,11 @@ public class ColumnPropertyPlugin extends AbstractPlugin {
         .execute(StandardAction.INSTANCE);
   }
 
+  @Override
+  public void onStart() {
+    Compiler.invalidate();
+  }
+
   private static enum OptionalAction implements PojoPropertyAction {
     INSTANCE;
     @Override
