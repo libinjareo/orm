@@ -30,12 +30,27 @@ class TypeInfoFake {
       "OBJECTOS_SQL.java",
       "Pair.java",
       "PAIR.java",
-      "V001__First_Migration.java");
+      "V001__First_Migration.java",
+      "V002__Employee_Salary.java",
+      "V003__Revision.java",
+      "V004__More.java",
+      "EMPLOYEE_V002.java",
+      "Employee.java",
+      "EMPLOYEE.java",
+      "REVISION_V003.java",
+      "Salary.java",
+      "SALARY.java");
 
   public static final TypeInfo Pair = get("Pair");
   public static final TypeInfo PAIR = get("PAIR");
   public static final TypeInfo PAIR_ID = get("PAIR.ID");
   public static final TypeInfo PAIR_NAME = get("PAIR.NAME");
+  public static final TypeInfo Salary = get("Salary");
+  public static final TypeInfo SALARY = get("SALARY");
+  public static final TypeInfo SALARY_EMP_NO = get("SALARY.EMP_NO");
+  public static final TypeInfo SALARY_SALARY_ = get("SALARY.SALARY_");
+  public static final TypeInfo SALARY_FROM_DATE = get("SALARY.FROM_DATE");
+  public static final TypeInfo SALARY_TO_DATE = get("SALARY.TO_DATE");
 
   private TypeInfoFake() {
   }

@@ -28,6 +28,13 @@ class TableClassInfoFake {
           simple(TypeInfoFake.PAIR_ID),
           simple(TypeInfoFake.PAIR_NAME))
       .build();
+  public static final TableClassInfo SALARY = TableClassInfo.builder()
+      .columnAnnotationClassList(
+          simple(TypeInfoFake.SALARY_EMP_NO),
+          simple(TypeInfoFake.SALARY_SALARY_),
+          simple(TypeInfoFake.SALARY_FROM_DATE),
+          simple(TypeInfoFake.SALARY_TO_DATE))
+      .build();
 
   private TableClassInfoFake() {
   }

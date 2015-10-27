@@ -23,6 +23,7 @@ import br.com.objectos.pojo.plugin.PojoInfo;
 class PojoInfoFake {
 
   public static final PojoInfo Pair = PojoInfo.of(TypeInfoFake.Pair);
+  public static final PojoInfo Salary = PojoInfo.of(TypeInfoFake.Salary);
 
   private PojoInfoFake() {
   }
