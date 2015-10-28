@@ -63,4 +63,8 @@ abstract class TableClassInfo implements Testable {
         .build();
   }
 
+  public boolean containsAll(List<SimpleTypeInfo> columnAnnotationClassList) {
+    return columnAnnotationClassList().containsAll(columnAnnotationClassList);
+  }
+
 }

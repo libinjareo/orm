@@ -35,6 +35,7 @@ abstract class OrmPojoInfo implements Testable {
 
   abstract PojoInfo pojoInfo();
   abstract List<OrmProperty> propertyList();
+  abstract OrmInsertable insertable();
 
   OrmPojoInfo() {
   }
@@ -52,13 +53,16 @@ abstract class OrmPojoInfo implements Testable {
   }
 
   private static OrmPojoInfo of0(PojoInfo pojoInfo) {
+    List<OrmProperty> propertyList = pojoInfo.propertyStream()
+        .map(OrmProperty::of)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(MoreCollectors.toImmutableList());
+
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
-        .propertyList(pojoInfo.propertyStream()
-            .map(OrmProperty::of)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(MoreCollectors.toImmutableList()))
+        .propertyList(propertyList)
+        .insertable(OrmInsertable.of(propertyList))
         .build();
   }
 

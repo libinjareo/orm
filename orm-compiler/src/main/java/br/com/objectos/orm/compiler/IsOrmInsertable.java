@@ -15,20 +15,31 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.collections.MoreCollectors;
+import br.com.objectos.pojo.Pojo;
+
+import com.squareup.javapoet.ClassName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+@Pojo
+abstract class IsOrmInsertable implements OrmInsertable {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  abstract List<ClassName> columnClassNameList();
 
-  private OrmPojoInfoFake() {
+  public static IsOrmInsertable of(List<OrmProperty> propertyList) {
+    return IsOrmInsertable.builder()
+        .columnClassNameList(propertyList.stream()
+            .flatMap(OrmProperty::columnClassNameStream)
+            .collect(MoreCollectors.toImmutableList()))
+        .build();
+  }
+
+  static IsOrmInsertableBuilder builder() {
+    return new IsOrmInsertableBuilderPojo();
   }
 
 }

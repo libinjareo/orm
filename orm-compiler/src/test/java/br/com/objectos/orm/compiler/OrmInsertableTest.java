@@ -15,20 +15,32 @@
  */
 package br.com.objectos.orm.compiler;
 
+import static br.com.objectos.assertion.TestableAssertion.assertThat;
+
+import java.util.List;
+
+import br.com.objectos.pojo.plugin.PojoInfo;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+public class OrmInsertableTest {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  @DataProvider
+  public Object[][] ofProvider() {
+    return new Object[][] {
+      { PojoInfoFake.Pair, OrmInsertableFake.Pair }
+    };
+  }
 
-  private OrmPojoInfoFake() {
+  @Test(dataProvider = "ofProvider")
+  public void of(PojoInfo pojoInfo, OrmInsertable expected) {
+    List<OrmProperty> propertyList = OrmPojoInfo.of(pojoInfo).propertyList();
+    OrmInsertable res = OrmInsertable.of(propertyList);
+    assertThat(res).isEqualTo(expected);
   }
 
 }

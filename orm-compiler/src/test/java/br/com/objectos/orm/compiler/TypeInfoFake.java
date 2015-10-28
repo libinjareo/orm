@@ -45,6 +45,8 @@ class TypeInfoFake {
   public static final TypeInfo PAIR = get("PAIR");
   public static final TypeInfo PAIR_ID = get("PAIR.ID");
   public static final TypeInfo PAIR_NAME = get("PAIR.NAME");
+  public static final TypeInfo PAIR_PAIR_ID = get("PAIR.PAIR_ID");
+  public static final TypeInfo PAIR_PAIR_NAME = get("PAIR.PAIR_NAME");
   public static final TypeInfo Salary = get("Salary");
   public static final TypeInfo SALARY = get("SALARY");
   public static final TypeInfo SALARY_EMP_NO = get("SALARY.EMP_NO");
