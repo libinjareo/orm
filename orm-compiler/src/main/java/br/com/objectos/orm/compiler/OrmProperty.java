@@ -17,13 +17,17 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
+import br.com.objectos.schema.meta.ColumnClass;
 import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -51,6 +55,16 @@ abstract class OrmProperty implements Testable {
     }
 
     return Optional.empty();
+  }
+
+  public Stream<ClassName> columnClassNameStream() {
+    return columnAnnotationClassList().stream()
+        .map(SimpleTypeInfo::typeInfo)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .map(typeInfo -> typeInfo.annotationInfo(ColumnClass.class).get())
+        .map(ann -> ann.simpleTypeInfoValue("value").get())
+        .map(SimpleTypeInfo::className);
   }
 
 }

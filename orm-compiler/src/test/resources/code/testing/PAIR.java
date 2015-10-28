@@ -89,6 +89,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
     SortOrder orderBy() default SortOrder.ASC;
   }
 
+  @Testing
   public static final class PAIR_ID extends IntColumn implements ColumnOf<PAIR> {
     private PAIR_ID() {
       super(INSTANCE, "ID");
@@ -109,6 +110,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
     }
   }
 
+  @Testing
   public static final class PAIR_NAME extends VarcharColumn implements ColumnOf<PAIR> {
     private PAIR_NAME() {
       super(INSTANCE, "NAME");

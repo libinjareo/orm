@@ -58,12 +58,12 @@
 
 	<properties>
 		<objectos.assertion.version>0.1.1</objectos.assertion.version>
-		<objectos.code.version>0.8.1</objectos.code.version>
+		<objectos.code.version>0.8.2-SNAPSHOT</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
-		<objectos.pojo.version>0.5.3</objectos.pojo.version>
+		<objectos.pojo.version>0.5.4-SNAPSHOT</objectos.pojo.version>
 		<objectos.schema.version>0.1.1-SNAPSHOT</objectos.schema.version>
-		<objectos.testable.version>0.4.2</objectos.testable.version>
+		<objectos.testable.version>0.4.3-SNAPSHOT</objectos.testable.version>
 	</properties>
 
 	<dependencyManagement>

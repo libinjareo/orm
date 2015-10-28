@@ -15,20 +15,26 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.code.TypeInfo;
+
+import com.squareup.javapoet.ClassName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+class OrmInsertableFake {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .insertable(OrmInsertableFake.Pair)
+  public static final OrmInsertable Pair = IsOrmInsertable.builder()
+      .columnClassNameList(
+          cn(TypeInfoFake.PAIR_PAIR_ID),
+          cn(TypeInfoFake.PAIR_PAIR_NAME))
       .build();
 
-  private OrmPojoInfoFake() {
+  private OrmInsertableFake() {
+  }
+
+  private static ClassName cn(TypeInfo typeInfo) {
+    return typeInfo.className();
   }
 
 }

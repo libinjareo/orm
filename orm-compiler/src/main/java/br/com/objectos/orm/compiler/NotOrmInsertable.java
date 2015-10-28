@@ -15,20 +15,19 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.testable.Equality;
+import br.com.objectos.testable.Tester;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+enum NotOrmInsertable implements OrmInsertable {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  INSTANCE;
 
-  private OrmPojoInfoFake() {
+  @Override
+  public Equality isEqualTo(Object that) {
+    return Tester.of(NotOrmInsertable.class).test(this, that);
   }
 
 }
