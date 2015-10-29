@@ -15,12 +15,21 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import br.com.objectos.collections.MoreCollectors;
+import javax.lang.model.element.Modifier;
+
+import br.com.objectos.collections.ImmutableList;
+import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.pojo.plugin.Contribution;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -28,18 +37,58 @@ import com.squareup.javapoet.ClassName;
 @Pojo
 abstract class IsOrmInsertable implements OrmInsertable {
 
-  abstract List<ClassName> columnClassNameList();
+  abstract ParameterizedTypeName insertableRowTypeName();
+  abstract List<String> valueNameList();
+
+  IsOrmInsertable() {
+  }
 
   public static IsOrmInsertable of(List<OrmProperty> propertyList) {
+    List<ClassName> columnClassNameList = new ArrayList<>();
+    ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
+
+    for (OrmProperty property : propertyList) {
+      property.columnClassNameStream().forEach(columnClassNameList::add);
+      valueNameList.add(property.name());
+    }
+
     return IsOrmInsertable.builder()
-        .columnClassNameList(propertyList.stream()
-            .flatMap(OrmProperty::columnClassNameStream)
-            .collect(MoreCollectors.toImmutableList()))
+        .insertableRowTypeName(insertableRowTypeName(columnClassNameList))
+        .valueNameList(valueNameList.build())
         .build();
   }
 
   static IsOrmInsertableBuilder builder() {
     return new IsOrmInsertableBuilderPojo();
+  }
+
+  private static ParameterizedTypeName insertableRowTypeName(List<ClassName> columnClassNameList) {
+    int size = columnClassNameList.size();
+    ClassName rawType = Naming.insertableRow(size);
+    return ParameterizedTypeName.get(rawType, columnClassNameList.toArray(new ClassName[] {}));
+  }
+
+  @Override
+  public Contribution execute() {
+    return Contribution.builder()
+        .addSuperinterface(superinterface())
+        .addMethod(bindInsertableRow())
+        .build();
+  }
+
+  private MethodSpec bindInsertableRow() {
+    return MethodSpec.methodBuilder("bindInsertableRow")
+        .addAnnotation(Override.class)
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(insertableRowTypeName(), "row")
+        .returns(insertableRowTypeName())
+        .addStatement("return row.values($L)", valueNameList().stream().collect(Collectors.joining(", ")))
+        .build();
+  }
+
+  private TypeName superinterface() {
+    ClassName rawType = ClassName.get(InsertableRowBinder.class);
+    return ParameterizedTypeName.get(rawType, insertableRowTypeName());
   }
 
 }

@@ -70,7 +70,10 @@ public class SqlPojoCompilerTest {
         .add("V003__Revision")
         .add("V004__More")
         .build();
-    PluginAssertion.assertThat(new ColumnPropertyPlugin(), new OptionalPlugin())
+    PluginAssertion.assertThat(
+        new ColumnPropertyPlugin(),
+        new InsertablePlugin(),
+        new OptionalPlugin())
         .with(with.toArray(new String[] {}))
         .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo"));
   }

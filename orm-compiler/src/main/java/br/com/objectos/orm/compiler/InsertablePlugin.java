@@ -15,30 +15,30 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.code.TypeInfo;
-
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
+import br.com.objectos.metainf.Services;
+import br.com.objectos.orm.Insertable;
+import br.com.objectos.pojo.plugin.AbstractPlugin;
+import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.pojo.plugin.Plugin;
+import br.com.objectos.pojo.plugin.PojoAction;
+import br.com.objectos.pojo.plugin.PojoInfo;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmInsertableFake {
+@Services(Plugin.class)
+public class InsertablePlugin extends AbstractPlugin implements PojoAction {
 
-  public static final OrmInsertable Pair = IsOrmInsertable.builder()
-      .insertableRowTypeName(
-          ParameterizedTypeName.get(
-              Naming.insertableRow(2),
-              cn(TypeInfoFake.PAIR_PAIR_ID),
-              cn(TypeInfoFake.PAIR_PAIR_NAME)))
-      .valueNameList("id", "name")
-      .build();
-
-  private OrmInsertableFake() {
+  @Override
+  protected void configure() {
+    when(pojo(instanceOf(Insertable.class))).execute(this);
   }
 
-  private static ClassName cn(TypeInfo typeInfo) {
-    return typeInfo.className();
+  @Override
+  public Contribution execute(PojoInfo pojoInfo) {
+    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo);
+    OrmInsertable insertable = orm.insertable();
+    return insertable.execute();
   }
 
 }

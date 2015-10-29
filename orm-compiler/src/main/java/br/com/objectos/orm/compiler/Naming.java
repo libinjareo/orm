@@ -15,30 +15,18 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.code.TypeInfo;
-
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmInsertableFake {
+class Naming {
 
-  public static final OrmInsertable Pair = IsOrmInsertable.builder()
-      .insertableRowTypeName(
-          ParameterizedTypeName.get(
-              Naming.insertableRow(2),
-              cn(TypeInfoFake.PAIR_PAIR_ID),
-              cn(TypeInfoFake.PAIR_PAIR_NAME)))
-      .valueNameList("id", "name")
-      .build();
-
-  private OrmInsertableFake() {
+  private Naming() {
   }
 
-  private static ClassName cn(TypeInfo typeInfo) {
-    return typeInfo.className();
+  public static ClassName insertableRow(int size) {
+    return ClassName.get("br.com.objectos.sql.query", "InsertableRow" + size);
   }
 
 }

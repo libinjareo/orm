@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,30 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.it;
+package br.com.objectos.orm;
 
-import br.com.objectos.orm.Insertable;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.sql.query.InsertableRow;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Pair implements Insertable, Testable {
+public interface InsertableRowBinder<T extends InsertableRow> {
 
-  @PAIR.ID
-  abstract int id();
-
-  @PAIR.NAME
-  abstract String name();
-
-  Pair() {
-  }
-
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
-  }
+  T bindInsertableRow(T row);
 
 }

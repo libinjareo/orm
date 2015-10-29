@@ -13,32 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
-
-import br.com.objectos.code.TypeInfo;
-
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
+package br.com.objectos.orm;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmInsertableFake {
-
-  public static final OrmInsertable Pair = IsOrmInsertable.builder()
-      .insertableRowTypeName(
-          ParameterizedTypeName.get(
-              Naming.insertableRow(2),
-              cn(TypeInfoFake.PAIR_PAIR_ID),
-              cn(TypeInfoFake.PAIR_PAIR_NAME)))
-      .valueNameList("id", "name")
-      .build();
-
-  private OrmInsertableFake() {
-  }
-
-  private static ClassName cn(TypeInfo typeInfo) {
-    return typeInfo.className();
-  }
-
-}
+public interface Insertable {}

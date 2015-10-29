@@ -63,6 +63,7 @@
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
 		<objectos.pojo.version>0.5.4-SNAPSHOT</objectos.pojo.version>
 		<objectos.schema.version>0.1.1-SNAPSHOT</objectos.schema.version>
+		<objectos.sql.version>0.11.1-SNAPSHOT</objectos.sql.version>
 		<objectos.testable.version>0.4.3-SNAPSHOT</objectos.testable.version>
 	</properties>
 
@@ -140,6 +141,11 @@
 				<artifactId>schema-info-testing</artifactId>
 				<version>${objectos.schema.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>br.com.objectos</groupId>
+				<artifactId>sql</artifactId>
+				<version>${objectos.sql.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
