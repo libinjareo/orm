@@ -10,7 +10,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
-final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME>> {
+final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME>, InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME>> {
   private final PAIR.PAIR_ID id;
 
   private final PAIR.PAIR_NAME name;
@@ -32,7 +32,7 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
   }
 
   @Override
-  public InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME> bindInsertableRow(InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
+  public InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME> bindInsertableRow(InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
     return row.values(id, name);
   }
 }
