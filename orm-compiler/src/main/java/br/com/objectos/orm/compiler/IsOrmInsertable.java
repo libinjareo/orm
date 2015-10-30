@@ -38,6 +38,7 @@ import com.squareup.javapoet.TypeName;
 abstract class IsOrmInsertable implements OrmInsertable {
 
   abstract ParameterizedTypeName insertableRowTypeName();
+  abstract ParameterizedTypeName insertableRowValuesTypeName();
   abstract List<String> valueNameList();
 
   IsOrmInsertable() {
@@ -52,20 +53,17 @@ abstract class IsOrmInsertable implements OrmInsertable {
       valueNameList.add(property.name());
     }
 
+    ClassName[] columnClassNameArray = columnClassNameList.toArray(new ClassName[] {});
+
     return IsOrmInsertable.builder()
-        .insertableRowTypeName(insertableRowTypeName(columnClassNameList))
+        .insertableRowTypeName(Naming.insertableRowTypeName(columnClassNameArray))
+        .insertableRowValuesTypeName(Naming.insertableRowValuesTypeName(columnClassNameArray))
         .valueNameList(valueNameList.build())
         .build();
   }
 
   static IsOrmInsertableBuilder builder() {
     return new IsOrmInsertableBuilderPojo();
-  }
-
-  private static ParameterizedTypeName insertableRowTypeName(List<ClassName> columnClassNameList) {
-    int size = columnClassNameList.size();
-    ClassName rawType = Naming.insertableRow(size);
-    return ParameterizedTypeName.get(rawType, columnClassNameList.toArray(new ClassName[] {}));
   }
 
   @Override
@@ -81,14 +79,14 @@ abstract class IsOrmInsertable implements OrmInsertable {
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
         .addParameter(insertableRowTypeName(), "row")
-        .returns(insertableRowTypeName())
+        .returns(insertableRowValuesTypeName())
         .addStatement("return row.values($L)", valueNameList().stream().collect(Collectors.joining(", ")))
         .build();
   }
 
   private TypeName superinterface() {
     ClassName rawType = ClassName.get(InsertableRowBinder.class);
-    return ParameterizedTypeName.get(rawType, insertableRowTypeName());
+    return ParameterizedTypeName.get(rawType, insertableRowTypeName(), insertableRowValuesTypeName());
   }
 
 }

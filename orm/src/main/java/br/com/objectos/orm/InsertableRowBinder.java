@@ -20,8 +20,8 @@ import br.com.objectos.sql.query.InsertableRow;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public interface InsertableRowBinder<T extends InsertableRow> {
+public interface InsertableRowBinder<T extends InsertableRow, R extends InsertableRow.Values> {
 
-  T bindInsertableRow(T row);
+  R bindInsertableRow(T row);
 
 }
