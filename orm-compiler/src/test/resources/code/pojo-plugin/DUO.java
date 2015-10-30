@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
-@SchemaName("OBJECTOS_SQL")
+@SchemaName("OBJECTOS_ORM")
 @TableName("DUO")
 @ColumnAnnotationClassArray({ DUO.ID.class, DUO.NAME.class })
 @MigrationPrefix("V004")
@@ -33,7 +33,7 @@ public final class DUO extends Table implements V004__More.DUO {
   private static final DUO INSTANCE = new DUO();
 
   private DUO() {
-    super("OBJECTOS_SQL", "DUO");
+    super("OBJECTOS_ORM", "DUO");
   }
 
   public static DUO get() {
@@ -61,7 +61,7 @@ public final class DUO extends Table implements V004__More.DUO {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("DUO")
   @ColumnName("ID")
   @ColumnSeq(0)
@@ -76,7 +76,7 @@ public final class DUO extends Table implements V004__More.DUO {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("DUO")
   @ColumnName("NAME")
   @ColumnSeq(1)

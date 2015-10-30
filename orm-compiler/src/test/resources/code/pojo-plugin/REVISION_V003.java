@@ -29,7 +29,7 @@ public final class REVISION_V003 extends Table implements V003__Revision.REVISIO
   private static final REVISION_V003 INSTANCE = new REVISION_V003();
 
   private REVISION_V003() {
-    super("OBJECTOS_SQL", "REVISION");
+    super("OBJECTOS_ORM", "REVISION");
   }
 
   public static REVISION_V003 get() {
@@ -66,7 +66,7 @@ public final class REVISION_V003 extends Table implements V003__Revision.REVISIO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("SEQ")
   @ColumnSeq(0)
@@ -78,7 +78,7 @@ public final class REVISION_V003 extends Table implements V003__Revision.REVISIO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("DATE")
   @ColumnSeq(1)
@@ -89,7 +89,7 @@ public final class REVISION_V003 extends Table implements V003__Revision.REVISIO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("DESCRIPTION")
   @ColumnSeq(2)

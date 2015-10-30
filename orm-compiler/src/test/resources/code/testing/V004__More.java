@@ -11,7 +11,7 @@ import br.com.objectos.schema.annotation.Table;
 import br.com.objectos.schema.type.IntColumn;
 import br.com.objectos.schema.type.VarcharColumn;
 
-@Migration(schema = OBJECTOS_SQL.class)
+@Migration(schema = OBJECTOS_ORM.class)
 @Testing
 class V004__More {
 

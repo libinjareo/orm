@@ -31,7 +31,7 @@ import javax.annotation.Generated;
 
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
-@SchemaName("OBJECTOS_SQL")
+@SchemaName("OBJECTOS_ORM")
 @TableName("REVISION")
 @ColumnAnnotationClassArray({ REVISION.SEQ.class, REVISION.DATE.class, REVISION.DESCRIPTION.class })
 @PrimaryKeyName("REVISION_PK")
@@ -41,7 +41,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   private static final REVISION INSTANCE = new REVISION();
 
   private REVISION() {
-    super("OBJECTOS_SQL", "REVISION");
+    super("OBJECTOS_ORM", "REVISION");
   }
 
   public static REVISION get() {
@@ -78,7 +78,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("SEQ")
   @ColumnSeq(0)
@@ -93,7 +93,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("DATE")
   @ColumnSeq(1)
@@ -107,7 +107,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("REVISION")
   @ColumnName("DESCRIPTION")
   @ColumnSeq(2)

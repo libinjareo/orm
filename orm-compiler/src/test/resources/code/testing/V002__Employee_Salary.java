@@ -13,7 +13,7 @@ import br.com.objectos.schema.type.DateColumn;
 import br.com.objectos.schema.type.IntColumn;
 import br.com.objectos.schema.type.VarcharColumn;
 
-@Migration(schema = OBJECTOS_SQL.class)
+@Migration(schema = OBJECTOS_ORM.class)
 @Testing
 class V002__Employee_Salary {
 

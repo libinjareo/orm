@@ -30,7 +30,7 @@ import br.com.objectos.schema.type.VarcharColumn;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Migration(schema = OBJECTOS_SQL.class)
+@Migration(schema = OBJECTOS_ORM.class)
 class V002__Employee_Salary {
 
   @Table

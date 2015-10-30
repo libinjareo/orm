@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
-@SchemaName("OBJECTOS_SQL")
+@SchemaName("OBJECTOS_ORM")
 @TableName("PAIR")
 @ColumnAnnotationClassArray({ PAIR.ID.class, PAIR.NAME.class })
 @MigrationPrefix("V001")
@@ -32,7 +32,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   private static final PAIR INSTANCE = new PAIR();
 
   private PAIR() {
-    super("OBJECTOS_SQL", "PAIR");
+    super("OBJECTOS_ORM", "PAIR");
   }
 
   public static PAIR get() {
@@ -60,7 +60,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("PAIR")
   @ColumnName("ID")
   @ColumnSeq(0)
@@ -74,7 +74,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("PAIR")
   @ColumnName("NAME")
   @ColumnSeq(1)

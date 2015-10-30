@@ -5,6 +5,6 @@ import br.com.objectos.schema.annotation.Schema;
 
 @Schema(migrations = { V001__First_Migration.class })
 @Testing
-public class OBJECTOS_SQL {
+public class OBJECTOS_ORM {
 
 }

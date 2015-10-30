@@ -30,7 +30,7 @@ import javax.annotation.Generated;
 
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
-@SchemaName("OBJECTOS_SQL")
+@SchemaName("OBJECTOS_ORM")
 @TableName("EMPLOYEE")
 @ColumnAnnotationClassArray({ EMPLOYEE.EMP_NO.class, EMPLOYEE.BIRTH_DATE.class, EMPLOYEE.FIRST_NAME.class, EMPLOYEE.LAST_NAME.class, EMPLOYEE.HIRE_DATE.class })
 @PrimaryKeyName("EMPLOYEE_PK")
@@ -41,7 +41,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   private static final EMPLOYEE INSTANCE = new EMPLOYEE();
 
   private EMPLOYEE() {
-    super("OBJECTOS_SQL", "EMPLOYEE");
+    super("OBJECTOS_ORM", "EMPLOYEE");
   }
 
   public static EMPLOYEE get() {
@@ -96,7 +96,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("EMP_NO")
   @ColumnSeq(0)
@@ -110,7 +110,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("BIRTH_DATE")
   @ColumnSeq(1)
@@ -124,7 +124,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("FIRST_NAME")
   @ColumnSeq(2)
@@ -138,7 +138,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("LAST_NAME")
   @ColumnSeq(3)
@@ -152,7 +152,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("HIRE_DATE")
   @ColumnSeq(4)
