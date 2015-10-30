@@ -8,6 +8,6 @@ import br.com.objectos.schema.annotation.Schema;
   V003__Revision.class,
   V004__More.class
 })
-public class OBJECTOS_SQL {
+public class OBJECTOS_ORM {
 
 }

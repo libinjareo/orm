@@ -27,7 +27,7 @@ class TypeInfoFake {
   public static final Map<String, TypeInfo> qualifiedNameMap = TestingProcessor.loadAll(
       TestingProcessor::new,
       "code/testing",
-      "OBJECTOS_SQL.java",
+      "OBJECTOS_ORM.java",
       "Pair.java",
       "PAIR.java",
       "V001__First_Migration.java",

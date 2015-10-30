@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 
 @Generated("br.com.objectos.schema.compiler.SchemaProcessor")
 @TableClass
-@SchemaName("OBJECTOS_SQL")
+@SchemaName("OBJECTOS_ORM")
 @TableName("SALARY")
 @ColumnAnnotationClassArray({ SALARY.EMP_NO.class, SALARY.SALARY_.class, SALARY.FROM_DATE.class, SALARY.TO_DATE.class })
 @PrimaryKeyName("SALARY_PK")
@@ -39,7 +39,7 @@ public final class SALARY extends Table implements V002__Employee_Salary.SALARY 
   private static final SALARY INSTANCE = new SALARY();
 
   private SALARY() {
-    super("OBJECTOS_SQL", "SALARY");
+    super("OBJECTOS_ORM", "SALARY");
   }
 
   public static SALARY get() {
@@ -85,7 +85,7 @@ public final class SALARY extends Table implements V002__Employee_Salary.SALARY 
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("SALARY")
   @ColumnName("EMP_NO")
   @ColumnSeq(0)
@@ -99,7 +99,7 @@ public final class SALARY extends Table implements V002__Employee_Salary.SALARY 
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("SALARY")
   @ColumnName("SALARY")
   @ColumnSeq(1)
@@ -113,7 +113,7 @@ public final class SALARY extends Table implements V002__Employee_Salary.SALARY 
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("SALARY")
   @ColumnName("FROM_DATE")
   @ColumnSeq(2)
@@ -127,7 +127,7 @@ public final class SALARY extends Table implements V002__Employee_Salary.SALARY 
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("SALARY")
   @ColumnName("TO_DATE")
   @ColumnSeq(3)

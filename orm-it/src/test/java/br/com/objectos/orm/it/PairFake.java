@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,19 +13,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.schema.it;
-
-import br.com.objectos.schema.annotation.Schema;
+package br.com.objectos.orm.it;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Schema(migrations = {
-  V001__First_Migration.class,
-  V002__Employee_Salary.class,
-  V003__Revision.class,
-  V004__More.class
-})
-public class OBJECTOS_SQL {
+class PairFake {
+
+  public static final Pair PAIR_004 = Pair.builder()
+      .id(4)
+      .name("Four")
+      .build();
+  public static final Pair PAIR_005 = Pair.builder()
+      .id(5)
+      .name("Five")
+      .build();
+
+  private PairFake() {
+  }
 
 }

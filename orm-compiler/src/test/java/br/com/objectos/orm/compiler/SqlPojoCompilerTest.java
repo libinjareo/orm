@@ -61,7 +61,7 @@ public class SqlPojoCompilerTest {
         .add("DUO")
         .add("EMPLOYEE_V002")
         .add("EMPLOYEE")
-        .add("OBJECTOS_SQL")
+        .add("OBJECTOS_ORM")
         .add("PAIR")
         .add("REVISION_V003")
         .add("SALARY")

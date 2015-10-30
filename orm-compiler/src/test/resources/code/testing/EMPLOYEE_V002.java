@@ -29,7 +29,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   private static final EMPLOYEE_V002 INSTANCE = new EMPLOYEE_V002();
 
   private EMPLOYEE_V002() {
-    super("OBJECTOS_SQL", "EMPLOYEE");
+    super("OBJECTOS_ORM", "EMPLOYEE");
   }
 
   public static EMPLOYEE_V002 get() {
@@ -84,7 +84,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("EMP_NO")
   @ColumnSeq(0)
@@ -95,7 +95,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("BIRTH_DATE")
   @ColumnSeq(1)
@@ -106,7 +106,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("FIRST_NAME")
   @ColumnSeq(2)
@@ -117,7 +117,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("LAST_NAME")
   @ColumnSeq(3)
@@ -128,7 +128,7 @@ public final class EMPLOYEE_V002 extends Table implements V002__Employee_Salary.
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
-  @SchemaName("OBJECTOS_SQL")
+  @SchemaName("OBJECTOS_ORM")
   @TableName("EMPLOYEE")
   @ColumnName("HIRE_DATE")
   @ColumnSeq(4)
