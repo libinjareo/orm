@@ -38,7 +38,8 @@ public class OrmInsertableTest {
 
   @Test(dataProvider = "ofProvider")
   public void of(PojoInfo pojoInfo, OrmInsertable expected) {
-    List<OrmProperty> propertyList = OrmPojoInfo.of(pojoInfo).propertyList();
+    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
+    List<OrmProperty> propertyList = orm.propertyList();
     OrmInsertable res = OrmInsertable.of(propertyList);
     assertThat(res).isEqualTo(expected);
   }
