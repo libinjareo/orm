@@ -72,10 +72,11 @@ public class SqlPojoCompilerTest {
         .build();
     PluginAssertion.assertThat(
         new ColumnPropertyPlugin(),
+        new CompanionTypePlugin(),
         new InsertablePlugin(),
         new OptionalPlugin())
         .with(with.toArray(new String[] {}))
-        .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo"));
+        .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo", "Orm"));
   }
 
   private String[] generates(String pojo, String... suffixes) {

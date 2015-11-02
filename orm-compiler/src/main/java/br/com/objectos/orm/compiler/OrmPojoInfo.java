@@ -78,4 +78,8 @@ abstract class OrmPojoInfo implements Testable {
     return pojoInfo().naming().superClassSuffix(suffix);
   }
 
+  public CompanionType companionType() {
+    return CompanionType.of(this);
+  }
+
 }

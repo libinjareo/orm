@@ -15,16 +15,27 @@
  */
 package br.com.objectos.orm.compiler;
 
+import javax.annotation.Generated;
+import javax.lang.model.element.Modifier;
+
+import br.com.objectos.code.Artifact;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.testable.Testable;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
 abstract class CompanionType implements Testable {
+
+  private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
+      .addMember("value", "$S", CompanionTypePlugin.class.getName())
+      .build();
 
   abstract ClassName className();
   abstract OrmInsertable insertable();
@@ -41,6 +52,23 @@ abstract class CompanionType implements Testable {
 
   static CompanionTypeBuilder builder() {
     return new CompanionTypeBuilderPojo();
+  }
+
+  public Artifact execute() {
+    return Artifact.of(javaFile());
+  }
+
+  private JavaFile javaFile() {
+    return JavaFile.builder(className().packageName(), type())
+        .skipJavaLangImports(true)
+        .build();
+  }
+
+  private TypeSpec type() {
+    return TypeSpec.classBuilder(className().simpleName())
+        .addAnnotation(GENERATED)
+        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+        .build();
   }
 
 }
