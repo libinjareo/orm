@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Objects;
+
 import javax.annotation.Generated;
 import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
@@ -82,6 +84,17 @@ abstract class CompanionType implements Testable {
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
         .addField(FIELD_ORM)
         .addMethod(CONSTRUCTOR)
+        .addMethod(typeStaticFactory())
+        .build();
+  }
+
+  private MethodSpec typeStaticFactory() {
+    return MethodSpec.methodBuilder("get")
+        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+        .addParameter(Orm.class, "orm")
+        .returns(className())
+        .addStatement("$T.requireNonNull(orm)", Objects.class)
+        .addStatement("return new $T(orm)", className())
         .build();
   }
 
