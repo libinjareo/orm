@@ -15,27 +15,27 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.metainf.Services;
-import br.com.objectos.pojo.plugin.AbstractPlugin;
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.pojo.plugin.Plugin;
-import br.com.objectos.pojo.plugin.PojoAction;
-import br.com.objectos.pojo.plugin.PojoInfo;
+import static br.com.objectos.assertion.TestableAssertion.assertThat;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Services(Plugin.class)
-public class CompanionTypePlugin extends AbstractPlugin implements PojoAction {
+public class CompanionTypeTest {
 
-  @Override
-  protected void configure() {
-    execute(this);
+  @DataProvider
+  public Object[][] ofProvider() {
+    return new Object[][] {
+      { OrmPojoInfoFake.Pair, CompanionTypeFake.Pair }
+    };
   }
 
-  @Override
-  public Contribution execute(PojoInfo pojoInfo) {
-    return Contribution.empty();
+  @Test(dataProvider = "ofProvider")
+  public void of(OrmPojoInfo pojoInfo, CompanionType expected) {
+    CompanionType res = CompanionType.of(pojoInfo);
+    assertThat(res).isEqualTo(expected);
   }
 
 }

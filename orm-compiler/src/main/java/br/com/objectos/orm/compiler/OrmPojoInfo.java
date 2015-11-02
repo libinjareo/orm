@@ -25,6 +25,8 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
 
+import com.squareup.javapoet.ClassName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -70,6 +72,10 @@ abstract class OrmPojoInfo implements Testable {
         .propertyList(propertyList)
         .insertable(OrmInsertable.of(propertyList))
         .build();
+  }
+
+  public ClassName classNameSuffix(String suffix) {
+    return pojoInfo().naming().superClassSuffix(suffix);
   }
 
 }

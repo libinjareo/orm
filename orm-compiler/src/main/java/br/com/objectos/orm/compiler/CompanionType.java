@@ -15,27 +15,32 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.metainf.Services;
-import br.com.objectos.pojo.plugin.AbstractPlugin;
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.pojo.plugin.Plugin;
-import br.com.objectos.pojo.plugin.PojoAction;
-import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.pojo.Pojo;
+import br.com.objectos.testable.Testable;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Services(Plugin.class)
-public class CompanionTypePlugin extends AbstractPlugin implements PojoAction {
+@Pojo
+abstract class CompanionType implements Testable {
 
-  @Override
-  protected void configure() {
-    execute(this);
+  abstract ClassName className();
+  abstract OrmInsertable insertable();
+
+  CompanionType() {
   }
 
-  @Override
-  public Contribution execute(PojoInfo pojoInfo) {
-    return Contribution.empty();
+  public static CompanionType of(OrmPojoInfo pojoInfo) {
+    return CompanionType.builder()
+        .className(pojoInfo.classNameSuffix("Orm"))
+        .insertable(pojoInfo.insertable())
+        .build();
+  }
+
+  static CompanionTypeBuilder builder() {
+    return new CompanionTypeBuilderPojo();
   }
 
 }
