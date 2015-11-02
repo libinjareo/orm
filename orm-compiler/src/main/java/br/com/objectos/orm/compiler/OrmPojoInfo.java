@@ -22,10 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
-
-import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -70,16 +69,16 @@ abstract class OrmPojoInfo implements Testable {
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
         .propertyList(propertyList)
-        .insertable(OrmInsertable.of(propertyList))
+        .insertable(OrmInsertable.of(pojoInfo, propertyList))
         .build();
-  }
-
-  public ClassName classNameSuffix(String suffix) {
-    return pojoInfo().naming().superClassSuffix(suffix);
   }
 
   public CompanionType companionType() {
     return CompanionType.of(this);
+  }
+
+  Naming naming() {
+    return pojoInfo().naming();
   }
 
 }

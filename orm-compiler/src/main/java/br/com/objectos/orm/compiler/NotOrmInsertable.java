@@ -19,12 +19,23 @@ import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Equality;
 import br.com.objectos.testable.Tester;
 
+import com.squareup.javapoet.MethodSpec.Builder;
+import com.squareup.javapoet.TypeSpec;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 enum NotOrmInsertable implements OrmInsertable {
 
   INSTANCE;
+
+  @Override
+  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
+  }
+
+  @Override
+  public void acceptInsertAll(Builder insertAll) {
+  }
 
   @Override
   public Contribution execute() {

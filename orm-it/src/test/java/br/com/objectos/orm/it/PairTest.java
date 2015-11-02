@@ -41,7 +41,7 @@ public class PairTest extends AbstractOrmTest {
   @Test
   public void insertAll() {
     List<Pair> pairList = ImmutableList.of(PairFake.PAIR_004, PairFake.PAIR_005);
-    PairOrm2.get(orm()).insertAll(pairList);
+    PairOrm.get(orm()).insertAll(pairList);
     List<Row1<PAIR_NAME>> res = Sql.select(PAIR.NAME())
         .from(PAIR)
         .compile(trx().dialect())

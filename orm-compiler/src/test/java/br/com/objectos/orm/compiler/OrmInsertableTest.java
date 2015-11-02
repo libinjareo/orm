@@ -40,7 +40,7 @@ public class OrmInsertableTest {
   public void of(PojoInfo pojoInfo, OrmInsertable expected) {
     OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
     List<OrmProperty> propertyList = orm.propertyList();
-    OrmInsertable res = OrmInsertable.of(propertyList);
+    OrmInsertable res = OrmInsertable.of(pojoInfo, propertyList);
     assertThat(res).isEqualTo(expected);
   }
 

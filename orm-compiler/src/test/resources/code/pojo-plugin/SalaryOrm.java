@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 @Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
 public final class SalaryOrm {
-  private final Orm orm;
+  final Orm orm;
 
   @Inject
   SalaryOrm(Orm orm) {

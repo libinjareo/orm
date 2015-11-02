@@ -25,11 +25,13 @@ import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.sql.query.Sql;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -37,6 +39,7 @@ import com.squareup.javapoet.TypeName;
 @Pojo
 abstract class IsOrmInsertable implements OrmInsertable {
 
+  abstract TableClassInfo tableClassInfo();
   abstract ParameterizedTypeName insertableRowTypeName();
   abstract ParameterizedTypeName insertableRowValuesTypeName();
   abstract List<String> valueNameList();
@@ -44,7 +47,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
   IsOrmInsertable() {
   }
 
-  public static IsOrmInsertable of(List<OrmProperty> propertyList) {
+  public static IsOrmInsertable of(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
     List<ClassName> columnClassNameList = new ArrayList<>();
     ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
 
@@ -56,14 +59,33 @@ abstract class IsOrmInsertable implements OrmInsertable {
     ClassName[] columnClassNameArray = columnClassNameList.toArray(new ClassName[] {});
 
     return IsOrmInsertable.builder()
-        .insertableRowTypeName(Naming.insertableRowTypeName(columnClassNameArray))
-        .insertableRowValuesTypeName(Naming.insertableRowValuesTypeName(columnClassNameArray))
+        .tableClassInfo(tableClassInfo)
+        .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
+        .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
         .valueNameList(valueNameList.build())
         .build();
   }
 
   static IsOrmInsertableBuilder builder() {
     return new IsOrmInsertableBuilderPojo();
+  }
+
+  @Override
+  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
+    type.addMethod(companion.insertAll());
+  }
+
+  @Override
+  public void acceptInsertAll(MethodSpec.Builder insertAll) {
+    ClassName tableClassName = tableClassInfo().className();
+    String tableVarName = tableClassName.simpleName();
+
+    insertAll
+        .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
+        .addStatement("$T insert", insertableRowValuesTypeName())
+        .addCode("insert = pojo.bindInsertableRow($T\n", Sql.class)
+        .addCode("    .insertInto($L)\n", tableVarName)
+        .addCode("    .$$($L));\n", tableClassInfo().columnMethodList(tableVarName));
   }
 
   @Override

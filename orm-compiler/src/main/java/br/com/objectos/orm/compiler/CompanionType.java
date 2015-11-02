@@ -24,13 +24,16 @@ import javax.lang.model.element.Modifier;
 import br.com.objectos.code.Artifact;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 /**
@@ -45,21 +48,31 @@ abstract class CompanionType implements Testable {
       .addStatement("this.orm = orm")
       .build();
   private static final FieldSpec FIELD_ORM = FieldSpec.builder(Orm.class, "orm")
-      .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+      .addModifiers(Modifier.FINAL)
       .build();
   private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
       .addMember("value", "$S", CompanionTypePlugin.class.getName())
       .build();
 
-  abstract ClassName className();
+  abstract ClassName companionTypeClassName();
+
+  abstract TypeName superClassTypeName();
+  abstract TypeName pojoTypeName();
+
   abstract OrmInsertable insertable();
 
   CompanionType() {
   }
 
   public static CompanionType of(OrmPojoInfo pojoInfo) {
+    Naming naming = pojoInfo.naming();
+    ClassName companionTypeClassName = naming.superClassSuffix("Orm");
+    ClassName superClassName = naming.superClass();
+    ClassName pojoClassName = naming.pojo();
     return CompanionType.builder()
-        .className(pojoInfo.classNameSuffix("Orm"))
+        .companionTypeClassName(companionTypeClassName)
+        .superClassTypeName(naming.typeVariableNameRawListTo(superClassName))
+        .pojoTypeName(naming.typeVariableNameRawListTo(pojoClassName))
         .insertable(pojoInfo.insertable())
         .build();
   }
@@ -72,29 +85,65 @@ abstract class CompanionType implements Testable {
     return Artifact.of(javaFile());
   }
 
+  public MethodSpec insertAll() {
+    MethodSpec.Builder insertAll = MethodSpec.methodBuilder("insertAll")
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(OrmNaming.iterableOf(superClassTypeName()), "entities")
+        .addStatement("$T iterator = entities.iterator()", OrmNaming.iteratorOf(superClassTypeName()))
+        .addCode(CodeBlock.builder()
+            .beginControlFlow("if (!iterator.hasNext())")
+            .addStatement("return")
+            .endControlFlow()
+            .build())
+        .addStatement("$1T pojo = ($1T) iterator.next()", pojoTypeName());
+
+    insertable().acceptInsertAll(insertAll);
+
+    return insertAll
+        .addCode(CodeBlock.builder()
+            .beginControlFlow("while(iterator.hasNext())")
+            .addStatement("pojo = ($T) iterator.next()", pojoTypeName())
+            .addStatement("insert = pojo.bindInsertableRow(insert)")
+            .endControlFlow()
+            .build())
+        .addStatement("orm.executeUnchecked(insert)")
+        .build();
+  }
+
   private JavaFile javaFile() {
-    return JavaFile.builder(className().packageName(), type())
+    return JavaFile.builder(packageName(), type())
         .skipJavaLangImports(true)
         .build();
   }
 
+  private String packageName() {
+    return companionTypeClassName().packageName();
+  }
+
+  private String simpleName() {
+    return companionTypeClassName().simpleName();
+  }
+
   private TypeSpec type() {
-    return TypeSpec.classBuilder(className().simpleName())
+    TypeSpec.Builder type = TypeSpec.classBuilder(simpleName())
         .addAnnotation(GENERATED)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
         .addField(FIELD_ORM)
         .addMethod(CONSTRUCTOR)
-        .addMethod(typeStaticFactory())
-        .build();
+        .addMethod(typeStaticFactory());
+
+    insertable().acceptCompanionType(this, type);
+
+    return type.build();
   }
 
   private MethodSpec typeStaticFactory() {
     return MethodSpec.methodBuilder("get")
         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
         .addParameter(Orm.class, "orm")
-        .returns(className())
+        .returns(companionTypeClassName())
         .addStatement("$T.requireNonNull(orm)", Objects.class)
-        .addStatement("return new $T(orm)", className())
+        .addStatement("return new $T(orm)", companionTypeClassName())
         .build();
   }
 

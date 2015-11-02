@@ -21,7 +21,9 @@ package br.com.objectos.orm.compiler;
 class CompanionTypeFake {
 
   public static final CompanionType Pair = CompanionType.builder()
-      .className(NamingFake.schemaIt("PairOrm"))
+      .companionTypeClassName(NamingFake.schemaIt("PairOrm"))
+      .superClassTypeName(NamingFake.schemaIt("Pair"))
+      .pojoTypeName(NamingFake.schemaIt("PairPojo"))
       .insertable(OrmInsertableFake.Pair)
       .build();
 

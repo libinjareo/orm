@@ -15,15 +15,21 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Iterator;
+
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Naming {
+class OrmNaming {
 
-  private Naming() {
+  private static final ClassName ITERABLE = ClassName.get(Iterable.class);
+  private static final ClassName ITERATOR = ClassName.get(Iterator.class);
+
+  private OrmNaming() {
   }
 
   public static ParameterizedTypeName insertableRowTypeName(ClassName... columnClassNameArray) {
@@ -35,6 +41,14 @@ class Naming {
     int size = columnClassNameArray.length;
     ClassName insertableRow = insertableRow(size);
     return ParameterizedTypeName.get(insertableRow.nestedClass("Values"), columnClassNameArray);
+  }
+
+  public static ParameterizedTypeName iterableOf(TypeName typeName) {
+    return ParameterizedTypeName.get(ITERABLE, typeName);
+  }
+
+  public static ParameterizedTypeName iteratorOf(TypeName typeName) {
+    return ParameterizedTypeName.get(ITERATOR, typeName);
   }
 
   private static ClassName insertableRow(int size) {

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 @Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
 public final class EnumeratedDuoOrm {
-  private final Orm orm;
+  final Orm orm;
 
   @Inject
   EnumeratedDuoOrm(Orm orm) {
