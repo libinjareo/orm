@@ -21,15 +21,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
+
+import com.squareup.javapoet.MethodSpec.Builder;
+import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 interface OrmInsertable extends Testable {
 
-  static OrmInsertable of(List<OrmProperty> propertyList) {
+  static OrmInsertable of(PojoInfo pojoInfo, List<OrmProperty> propertyList) {
+    if (!pojoInfo.instanceOf(Insertable.class)) {
+      return NotOrmInsertable.INSTANCE;
+    }
+
     Set<Entry<TableClassInfo, List<OrmProperty>>> entrySet = propertyList.stream()
         .collect(Collectors.groupingBy(OrmProperty::tableClassInfo))
         .entrySet();
@@ -47,9 +56,13 @@ interface OrmInsertable extends Testable {
         .flatMap(m -> m.columnAnnotationClassList().stream())
         .collect(Collectors.toList());
     return tableClassInfo.containsAll(columnAnnotationClassList)
-        ? IsOrmInsertable.of(propertyList)
+        ? IsOrmInsertable.of(tableClassInfo, propertyList)
         : NotOrmInsertable.INSTANCE;
   }
+
+  void acceptCompanionType(CompanionType companion, TypeSpec.Builder type);
+
+  void acceptInsertAll(Builder insertAll);
 
   Contribution execute();
 

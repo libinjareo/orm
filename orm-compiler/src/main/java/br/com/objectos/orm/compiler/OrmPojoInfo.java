@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
 
@@ -31,7 +32,7 @@ import br.com.objectos.testable.Testable;
 @Pojo
 abstract class OrmPojoInfo implements Testable {
 
-  private static final Map<PojoInfo, OrmPojoInfo> CACHE = new ConcurrentHashMap<>();
+  private static final Map<PojoInfo, Optional<OrmPojoInfo>> CACHE = new ConcurrentHashMap<>();
 
   abstract PojoInfo pojoInfo();
   abstract List<OrmProperty> propertyList();
@@ -44,7 +45,7 @@ abstract class OrmPojoInfo implements Testable {
     CACHE.clear();
   }
 
-  public static OrmPojoInfo of(PojoInfo pojoInfo) {
+  public static Optional<OrmPojoInfo> of(PojoInfo pojoInfo) {
     return CACHE.computeIfAbsent(pojoInfo, OrmPojoInfo::of0);
   }
 
@@ -52,18 +53,32 @@ abstract class OrmPojoInfo implements Testable {
     return new OrmPojoInfoBuilderPojo();
   }
 
-  private static OrmPojoInfo of0(PojoInfo pojoInfo) {
+  private static Optional<OrmPojoInfo> of0(PojoInfo pojoInfo) {
     List<OrmProperty> propertyList = pojoInfo.propertyStream()
         .map(OrmProperty::of)
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(MoreCollectors.toImmutableList());
 
+    return propertyList.isEmpty()
+        ? Optional.empty()
+        : Optional.of(of1(pojoInfo, propertyList));
+  }
+
+  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList) {
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
         .propertyList(propertyList)
-        .insertable(OrmInsertable.of(propertyList))
+        .insertable(OrmInsertable.of(pojoInfo, propertyList))
         .build();
+  }
+
+  public CompanionType companionType() {
+    return CompanionType.of(this);
+  }
+
+  Naming naming() {
+    return pojoInfo().naming();
   }
 
 }

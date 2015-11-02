@@ -18,6 +18,7 @@ package br.com.objectos.orm.compiler;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
@@ -26,14 +27,17 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 import br.com.objectos.testable.Testable;
 
+import com.squareup.javapoet.ClassName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
 abstract class TableClassInfo implements Testable {
 
-  private static final Map<String, TableClassInfo> CACHE = new ConcurrentHashMap<>();
+  private static final Map<ClassName, TableClassInfo> CACHE = new ConcurrentHashMap<>();
 
+  abstract ClassName className();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
 
   TableClassInfo() {
@@ -47,16 +51,17 @@ abstract class TableClassInfo implements Testable {
     TypeInfo tableTypeInfo = columnAnnotationInfo
         .enclosingTypeInfo()
         .get();
-    String qualifiedName = tableTypeInfo.qualifiedName();
-    return CACHE.computeIfAbsent(qualifiedName, qname -> of0(tableTypeInfo));
+    ClassName className = tableTypeInfo.className();
+    return CACHE.computeIfAbsent(className, cname -> of0(cname, tableTypeInfo));
   }
 
   static TableClassInfoBuilder builder() {
     return new TableClassInfoBuilderPojo();
   }
 
-  private static TableClassInfo of0(TypeInfo tableTypeInfo) {
+  private static TableClassInfo of0(ClassName className, TypeInfo tableTypeInfo) {
     return TableClassInfo.builder()
+        .className(className)
         .columnAnnotationClassList(tableTypeInfo.annotationInfo(ColumnAnnotationClassArray.class)
             .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
             .get())
@@ -65,6 +70,12 @@ abstract class TableClassInfo implements Testable {
 
   public boolean containsAll(List<SimpleTypeInfo> columnAnnotationClassList) {
     return columnAnnotationClassList().containsAll(columnAnnotationClassList);
+  }
+
+  public String columnMethodList(String varName) {
+    return columnAnnotationClassList().stream()
+        .map(ann -> String.format("%s.%s()", varName, ann.simpleName()))
+        .collect(Collectors.joining(", "));
   }
 
 }

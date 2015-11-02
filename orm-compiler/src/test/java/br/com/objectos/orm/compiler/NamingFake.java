@@ -16,29 +16,17 @@
 package br.com.objectos.orm.compiler;
 
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Naming {
+class NamingFake {
 
-  private Naming() {
+  private NamingFake() {
   }
 
-  public static ParameterizedTypeName insertableRowTypeName(ClassName... columnClassNameArray) {
-    int size = columnClassNameArray.length;
-    return ParameterizedTypeName.get(insertableRow(size), columnClassNameArray);
-  }
-
-  public static ParameterizedTypeName insertableRowValuesTypeName(ClassName... columnClassNameArray) {
-    int size = columnClassNameArray.length;
-    ClassName insertableRow = insertableRow(size);
-    return ParameterizedTypeName.get(insertableRow.nestedClass("Values"), columnClassNameArray);
-  }
-
-  private static ClassName insertableRow(int size) {
-    return ClassName.get("br.com.objectos.sql.query", "InsertableRow" + size);
+  public static ClassName schemaIt(String simpleName, String... simpleNames) {
+    return ClassName.get("br.com.objectos.schema.it", simpleName, simpleNames);
   }
 
 }

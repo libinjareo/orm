@@ -36,7 +36,7 @@ public class OrmPojoInfoTest {
 
   @Test(dataProvider = "ofProvider")
   public void of(PojoInfo pojoInfo, OrmPojoInfo expected) {
-    OrmPojoInfo res = OrmPojoInfo.of(pojoInfo);
+    OrmPojoInfo res = OrmPojoInfo.of(pojoInfo).get();
     assertThat(res).isEqualTo(expected);
   }
 

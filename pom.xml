@@ -58,7 +58,7 @@
 
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
-		<objectos.assertion.version>0.1.1</objectos.assertion.version>
+		<objectos.assertion.version>0.1.2-SNAPSHOT</objectos.assertion.version>
 		<objectos.code.version>0.8.2-SNAPSHOT</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.db.version>0.1.1-SNAPSHOT</objectos.db.version>

@@ -24,11 +24,13 @@ import br.com.objectos.code.TypeInfo;
 class TableClassInfoFake {
 
   public static final TableClassInfo PAIR = TableClassInfo.builder()
+      .className(NamingFake.schemaIt("PAIR"))
       .columnAnnotationClassList(
           simple(TypeInfoFake.PAIR_ID),
           simple(TypeInfoFake.PAIR_NAME))
       .build();
   public static final TableClassInfo SALARY = TableClassInfo.builder()
+      .className(NamingFake.schemaIt("SALARY"))
       .columnAnnotationClassList(
           simple(TypeInfoFake.SALARY_EMP_NO),
           simple(TypeInfoFake.SALARY_SALARY_),

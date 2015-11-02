@@ -25,12 +25,13 @@ import com.squareup.javapoet.ClassName;
 class OrmInsertableFake {
 
   public static final OrmInsertable Pair = IsOrmInsertable.builder()
+      .tableClassInfo(TableClassInfoFake.PAIR)
       .insertableRowTypeName(
-          Naming.insertableRowTypeName(
+          OrmNaming.insertableRowTypeName(
               cn(TypeInfoFake.PAIR_PAIR_ID),
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
       .insertableRowValuesTypeName(
-          Naming.insertableRowValuesTypeName(
+          OrmNaming.insertableRowValuesTypeName(
               cn(TypeInfoFake.PAIR_PAIR_ID),
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
       .valueNameList("id", "name")

@@ -36,9 +36,10 @@ public class InsertablePlugin extends AbstractPlugin implements PojoAction {
 
   @Override
   public Contribution execute(PojoInfo pojoInfo) {
-    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo);
-    OrmInsertable insertable = orm.insertable();
-    return insertable.execute();
+    return OrmPojoInfo.of(pojoInfo)
+        .map(OrmPojoInfo::insertable)
+        .map(OrmInsertable::execute)
+        .orElse(Contribution.empty());
   }
 
 }

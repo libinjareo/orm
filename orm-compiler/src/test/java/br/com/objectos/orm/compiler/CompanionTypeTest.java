@@ -17,30 +17,24 @@ package br.com.objectos.orm.compiler;
 
 import static br.com.objectos.assertion.TestableAssertion.assertThat;
 
-import java.util.List;
-
-import br.com.objectos.pojo.plugin.PojoInfo;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class OrmInsertableTest {
+public class CompanionTypeTest {
 
   @DataProvider
   public Object[][] ofProvider() {
     return new Object[][] {
-      { PojoInfoFake.Pair, OrmInsertableFake.Pair }
+      { OrmPojoInfoFake.Pair, CompanionTypeFake.Pair }
     };
   }
 
   @Test(dataProvider = "ofProvider")
-  public void of(PojoInfo pojoInfo, OrmInsertable expected) {
-    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
-    List<OrmProperty> propertyList = orm.propertyList();
-    OrmInsertable res = OrmInsertable.of(pojoInfo, propertyList);
+  public void of(OrmPojoInfo pojoInfo, CompanionType expected) {
+    CompanionType res = CompanionType.of(pojoInfo);
     assertThat(res).isEqualTo(expected);
   }
 

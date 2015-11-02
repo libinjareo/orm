@@ -15,33 +15,30 @@
  */
 package br.com.objectos.orm.compiler;
 
-import static br.com.objectos.assertion.TestableAssertion.assertThat;
-
-import java.util.List;
-
+import br.com.objectos.code.Artifact;
+import br.com.objectos.metainf.Services;
+import br.com.objectos.pojo.plugin.AbstractPlugin;
+import br.com.objectos.pojo.plugin.ArtifactAction;
+import br.com.objectos.pojo.plugin.Plugin;
 import br.com.objectos.pojo.plugin.PojoInfo;
-
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class OrmInsertableTest {
+@Services(Plugin.class)
+public class CompanionTypePlugin extends AbstractPlugin implements ArtifactAction {
 
-  @DataProvider
-  public Object[][] ofProvider() {
-    return new Object[][] {
-      { PojoInfoFake.Pair, OrmInsertableFake.Pair }
-    };
+  @Override
+  protected void configure() {
+    execute(this);
   }
 
-  @Test(dataProvider = "ofProvider")
-  public void of(PojoInfo pojoInfo, OrmInsertable expected) {
-    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
-    List<OrmProperty> propertyList = orm.propertyList();
-    OrmInsertable res = OrmInsertable.of(pojoInfo, propertyList);
-    assertThat(res).isEqualTo(expected);
+  @Override
+  public Artifact execute(PojoInfo pojoInfo) {
+    return OrmPojoInfo.of(pojoInfo)
+        .map(OrmPojoInfo::companionType)
+        .map(CompanionType::execute)
+        .orElse(Artifact.empty());
   }
 
 }
