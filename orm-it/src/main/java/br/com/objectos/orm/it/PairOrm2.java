@@ -30,18 +30,18 @@ import br.com.objectos.sql.query.Sql;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class PairOrm {
+public class PairOrm2 {
 
   private final Orm orm;
 
   @Inject
-  PairOrm(Orm orm) {
+  PairOrm2(Orm orm) {
     this.orm = orm;
   }
 
-  public static PairOrm get(Orm orm) {
+  public static PairOrm2 get(Orm orm) {
     Objects.requireNonNull(orm);
-    return new PairOrm(orm);
+    return new PairOrm2(orm);
   }
 
   public void insertAll(Iterable<Pair> entities) {

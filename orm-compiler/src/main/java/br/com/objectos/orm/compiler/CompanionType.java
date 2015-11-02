@@ -16,15 +16,19 @@
 package br.com.objectos.orm.compiler;
 
 import javax.annotation.Generated;
+import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 /**
@@ -33,6 +37,14 @@ import com.squareup.javapoet.TypeSpec;
 @Pojo
 abstract class CompanionType implements Testable {
 
+  private static final MethodSpec CONSTRUCTOR = MethodSpec.constructorBuilder()
+      .addAnnotation(Inject.class)
+      .addParameter(Orm.class, "orm")
+      .addStatement("this.orm = orm")
+      .build();
+  private static final FieldSpec FIELD_ORM = FieldSpec.builder(Orm.class, "orm")
+      .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+      .build();
   private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
       .addMember("value", "$S", CompanionTypePlugin.class.getName())
       .build();
@@ -68,6 +80,8 @@ abstract class CompanionType implements Testable {
     return TypeSpec.classBuilder(className().simpleName())
         .addAnnotation(GENERATED)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+        .addField(FIELD_ORM)
+        .addMethod(CONSTRUCTOR)
         .build();
   }
 
