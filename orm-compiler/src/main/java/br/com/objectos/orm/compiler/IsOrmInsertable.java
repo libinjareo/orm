@@ -15,13 +15,11 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.lang.model.element.Modifier;
 
-import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
@@ -48,22 +46,13 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   public static IsOrmInsertable of(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
-    List<ClassName> columnClassNameList = new ArrayList<>();
-    ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
+    IsOrmInsertableHelper helper = IsOrmInsertableHelper.get();
 
     for (OrmProperty property : propertyList) {
-      property.columnClassNameStream().forEach(columnClassNameList::add);
-      valueNameList.add(property.name());
+      property.acceptIsOrmInsertableHelper(helper);
     }
 
-    ClassName[] columnClassNameArray = columnClassNameList.toArray(new ClassName[] {});
-
-    return IsOrmInsertable.builder()
-        .tableClassInfo(tableClassInfo)
-        .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
-        .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
-        .valueNameList(valueNameList.build())
-        .build();
+    return helper.build(tableClassInfo);
   }
 
   static IsOrmInsertableBuilder builder() {

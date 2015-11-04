@@ -57,7 +57,12 @@ abstract class OrmProperty implements Testable {
     return Optional.empty();
   }
 
-  public Stream<ClassName> columnClassNameStream() {
+  public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
+    helper.addColumnClassNameStream(columnClassNameStream());
+    helper.addValueName(property().name());
+  }
+
+  private Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()
         .map(SimpleTypeInfo::typeInfo)
         .filter(Optional::isPresent)
@@ -65,10 +70,6 @@ abstract class OrmProperty implements Testable {
         .map(typeInfo -> typeInfo.annotationInfo(ColumnClass.class).get())
         .map(ann -> ann.simpleTypeInfoValue("value").get())
         .map(SimpleTypeInfo::className);
-  }
-
-  public String name() {
-    return property().name();
   }
 
 }
