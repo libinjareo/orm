@@ -38,6 +38,8 @@ class TypeInfoFake {
       "Employee.java",
       "EMPLOYEE.java",
       "REVISION_V003.java",
+      "Revision.java",
+      "REVISION.java",
       "Salary.java",
       "SALARY.java");
 
@@ -47,6 +49,7 @@ class TypeInfoFake {
   public static final TypeInfo PAIR_NAME = get("PAIR.NAME");
   public static final TypeInfo PAIR_PAIR_ID = get("PAIR.PAIR_ID");
   public static final TypeInfo PAIR_PAIR_NAME = get("PAIR.PAIR_NAME");
+  public static final TypeInfo Revision = get("Revision");
   public static final TypeInfo Salary = get("Salary");
   public static final TypeInfo SALARY = get("SALARY");
   public static final TypeInfo SALARY_EMP_NO = get("SALARY.EMP_NO");

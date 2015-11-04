@@ -27,6 +27,7 @@ import br.com.objectos.pojo.plugin.Property;
 abstract class ColumnOrmProperty extends OrmProperty {
 
   abstract AnnotationInfo columnAnnotationInfo();
+  abstract GenerationType generationType();
 
   ColumnOrmProperty() {
   }
@@ -37,6 +38,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
         .tableClassInfo(TableClassInfo.of(columnAnnotationInfo))
         .columnAnnotationClassList(ImmutableList.of(columnAnnotationInfo.simpleTypeInfo()))
         .columnAnnotationInfo(columnAnnotationInfo)
+        .generationType(GenerationType.of(columnAnnotationInfo))
         .build();
   }
 

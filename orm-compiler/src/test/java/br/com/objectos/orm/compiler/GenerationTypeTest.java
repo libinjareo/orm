@@ -15,28 +15,31 @@
  */
 package br.com.objectos.orm.compiler;
 
+import static br.com.objectos.testing.MoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import br.com.objectos.code.AnnotationInfo;
-import br.com.objectos.code.TypeInfo;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class AnnotationInfoFake {
+public class GenerationTypeTest {
 
-  public static final AnnotationInfo PAIR_ID = methodFirst(TypeInfoFake.Pair, "id");
-  public static final AnnotationInfo PAIR_NAME = methodFirst(TypeInfoFake.Pair, "name");
-  public static final AnnotationInfo REVISION_SEQ = methodFirst(TypeInfoFake.Revision, "seq");
-  public static final AnnotationInfo SALARY_EMP_NO_FK = methodFirst(TypeInfoFake.Salary, "employee");
-
-  private AnnotationInfoFake() {
+  @DataProvider
+  public Object[][] ofProvider() {
+    return new Object[][] {
+      { AnnotationInfoFake.PAIR_ID, GenerationType.NONE },
+      { AnnotationInfoFake.REVISION_SEQ, GenerationType.AUTO_INCREMENT }
+    };
   }
 
-  private static AnnotationInfo methodFirst(TypeInfo typeInfo, String methodName) {
-    return typeInfo.methodInfoStream()
-        .filter(info -> info.name().equals(methodName))
-        .flatMap(method -> method.annotationInfoStream())
-        .findFirst()
-        .get();
+  @Test(dataProvider = "ofProvider")
+  public void of(AnnotationInfo annotationInfo, GenerationType expected) {
+    GenerationType res = GenerationType.of(annotationInfo);
+    assertThat(res, equalTo(expected));
   }
 
 }

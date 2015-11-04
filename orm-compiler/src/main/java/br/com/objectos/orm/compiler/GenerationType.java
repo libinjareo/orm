@@ -16,27 +16,24 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.AnnotationInfo;
-import br.com.objectos.code.TypeInfo;
+import br.com.objectos.schema.meta.GeneratedValue;
+import br.com.objectos.schema.meta.GenerationKind;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class AnnotationInfoFake {
+enum GenerationType {
 
-  public static final AnnotationInfo PAIR_ID = methodFirst(TypeInfoFake.Pair, "id");
-  public static final AnnotationInfo PAIR_NAME = methodFirst(TypeInfoFake.Pair, "name");
-  public static final AnnotationInfo REVISION_SEQ = methodFirst(TypeInfoFake.Revision, "seq");
-  public static final AnnotationInfo SALARY_EMP_NO_FK = methodFirst(TypeInfoFake.Salary, "employee");
+  NONE,
 
-  private AnnotationInfoFake() {
-  }
+  AUTO_INCREMENT;
 
-  private static AnnotationInfo methodFirst(TypeInfo typeInfo, String methodName) {
-    return typeInfo.methodInfoStream()
-        .filter(info -> info.name().equals(methodName))
-        .flatMap(method -> method.annotationInfoStream())
-        .findFirst()
-        .get();
+  public static GenerationType of(AnnotationInfo columnAnnotationInfo) {
+    return columnAnnotationInfo.annotationInfo(GeneratedValue.class)
+        .flatMap(ann -> ann.enumConstantInfoValue("value"))
+        .map(value -> value.getEnumValue(GenerationKind.class))
+        .map(kind -> GenerationType.valueOf(kind.name()))
+        .orElse(GenerationType.NONE);
   }
 
 }
