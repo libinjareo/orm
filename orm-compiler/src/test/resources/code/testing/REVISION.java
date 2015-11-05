@@ -86,6 +86,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @ColumnSeq(0)
   @ColumnClass(REVISION_SEQ.class)
   @GeneratedValue(GenerationKind.AUTO_INCREMENT)
+  @Testing
   public @interface SEQ {
     NumericComparison comparison() default NumericComparison.EQ;
 
@@ -100,6 +101,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @ColumnName("DATE")
   @ColumnSeq(1)
   @ColumnClass(REVISION_DATE.class)
+  @Testing
   public @interface DATE {
     DateComparison comparison() default DateComparison.EQ;
 
@@ -114,12 +116,14 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
   @ColumnName("DESCRIPTION")
   @ColumnSeq(2)
   @ColumnClass(REVISION_DESCRIPTION.class)
+  @Testing
   public @interface DESCRIPTION {
     StringComparison comparison() default StringComparison.EQ;
 
     SortOrder orderBy() default SortOrder.ASC;
   }
 
+  @Testing
   public static final class REVISION_SEQ extends IntColumn implements ColumnOf<REVISION> {
     private REVISION_SEQ() {
       super(INSTANCE, "SEQ");
@@ -140,6 +144,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
     }
   }
 
+  @Testing
   public static final class REVISION_DATE extends DateColumn implements ColumnOf<REVISION> {
     private REVISION_DATE() {
       super(INSTANCE, "DATE");
@@ -155,6 +160,7 @@ public final class REVISION extends Table implements V003__Revision.REVISION {
     }
   }
 
+  @Testing
   public static final class REVISION_DESCRIPTION extends VarcharColumn implements ColumnOf<REVISION> {
     private REVISION_DESCRIPTION() {
       super(INSTANCE, "DESCRIPTION");

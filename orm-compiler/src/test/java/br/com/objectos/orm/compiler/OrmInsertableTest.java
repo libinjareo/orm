@@ -32,7 +32,8 @@ public class OrmInsertableTest {
   @DataProvider
   public Object[][] ofProvider() {
     return new Object[][] {
-      { PojoInfoFake.Pair, OrmInsertableFake.Pair }
+      { PojoInfoFake.Pair, OrmInsertableFake.Pair },
+      { PojoInfoFake.Revision, OrmInsertableFake.Revision }
     };
   }
 

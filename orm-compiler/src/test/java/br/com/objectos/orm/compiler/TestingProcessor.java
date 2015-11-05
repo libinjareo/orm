@@ -49,6 +49,7 @@ class TestingProcessor extends AbstractTestingProcessor {
 
     private final Multimap<Class<?>, String> subTypeMap = ImmutableMultimap.<Class<?>, String> builder()
         .put(Insertable.class, "br.com.objectos.schema.it.Pair")
+        .put(Insertable.class, "br.com.objectos.schema.it.Revision")
         .build();
 
     public ProcessingEnvironmentWrapper(ProcessingEnvironment environment) {

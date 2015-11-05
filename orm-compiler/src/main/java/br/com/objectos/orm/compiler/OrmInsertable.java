@@ -53,6 +53,7 @@ interface OrmInsertable extends Testable {
 
   static OrmInsertable ofEntry(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
     List<SimpleTypeInfo> columnAnnotationClassList = propertyList.stream()
+        .filter(property -> !property.isGenerated())
         .flatMap(m -> m.columnAnnotationClassList().stream())
         .collect(Collectors.toList());
     return tableClassInfo.containsAll(columnAnnotationClassList)

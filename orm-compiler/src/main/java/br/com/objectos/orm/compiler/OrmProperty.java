@@ -58,11 +58,17 @@ abstract class OrmProperty implements Testable {
   }
 
   public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
-    helper.addColumnClassNameStream(columnClassNameStream());
-    helper.addValueName(property().name());
+    if (!isGenerated()) {
+      helper.addColumnClassNameStream(columnClassNameStream());
+      helper.addValueName(property().name());
+    }
   }
 
-  private Stream<ClassName> columnClassNameStream() {
+  public boolean isGenerated() {
+    return false;
+  }
+
+  Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()
         .map(SimpleTypeInfo::typeInfo)
         .filter(Optional::isPresent)

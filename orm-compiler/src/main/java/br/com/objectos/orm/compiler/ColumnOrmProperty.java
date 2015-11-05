@@ -42,6 +42,11 @@ abstract class ColumnOrmProperty extends OrmProperty {
         .build();
   }
 
+  @Override
+  public boolean isGenerated() {
+    return generationType().isGenerated();
+  }
+
   static ColumnOrmPropertyBuilder builder() {
     return new ColumnOrmPropertyBuilderPojo();
   }

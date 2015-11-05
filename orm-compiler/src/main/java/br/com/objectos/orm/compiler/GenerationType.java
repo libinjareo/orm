@@ -24,7 +24,12 @@ import br.com.objectos.schema.meta.GenerationKind;
  */
 enum GenerationType {
 
-  NONE,
+  NONE {
+    @Override
+    public boolean isGenerated() {
+      return false;
+    }
+  },
 
   AUTO_INCREMENT;
 
@@ -34,6 +39,10 @@ enum GenerationType {
         .map(value -> value.getEnumValue(GenerationKind.class))
         .map(kind -> GenerationType.valueOf(kind.name()))
         .orElse(GenerationType.NONE);
+  }
+
+  public boolean isGenerated() {
+    return true;
   }
 
 }

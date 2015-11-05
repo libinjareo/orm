@@ -36,6 +36,18 @@ class OrmInsertableFake {
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
       .valueNameList("id", "name")
       .build();
+  public static final OrmInsertable Revision = IsOrmInsertable.builder()
+      .tableClassInfo(TableClassInfoFake.REVISION)
+      .insertableRowTypeName(
+          OrmNaming.insertableRowTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_DATE),
+              cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
+      .insertableRowValuesTypeName(
+          OrmNaming.insertableRowValuesTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_DATE),
+              cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
+      .valueNameList("date", "description")
+      .build();
 
   private OrmInsertableFake() {
   }

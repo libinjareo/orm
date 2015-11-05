@@ -29,6 +29,13 @@ class TableClassInfoFake {
           simple(TypeInfoFake.PAIR_ID),
           simple(TypeInfoFake.PAIR_NAME))
       .build();
+  public static final TableClassInfo REVISION = TableClassInfo.builder()
+      .className(NamingFake.schemaIt("REVISION"))
+      .columnAnnotationClassList(
+          simple(TypeInfoFake.REVISION_SEQ),
+          simple(TypeInfoFake.REVISION_DATE),
+          simple(TypeInfoFake.REVISION_DESCRIPTION))
+      .build();
   public static final TableClassInfo SALARY = TableClassInfo.builder()
       .className(NamingFake.schemaIt("SALARY"))
       .columnAnnotationClassList(
