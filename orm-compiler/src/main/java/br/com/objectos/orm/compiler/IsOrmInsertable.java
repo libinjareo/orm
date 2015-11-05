@@ -41,6 +41,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
   abstract ParameterizedTypeName insertableRowTypeName();
   abstract ParameterizedTypeName insertableRowValuesTypeName();
   abstract List<String> valueNameList();
+  abstract List<String> generatedKeyListenerNameList();
 
   IsOrmInsertable() {
   }

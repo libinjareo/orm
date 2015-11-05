@@ -61,6 +61,8 @@ abstract class OrmProperty implements Testable {
     if (!isGenerated()) {
       helper.addColumnClassNameStream(columnClassNameStream());
       helper.addValueName(property().name());
+    } else {
+      helper.addGeneratedKeyListenerName(property().name());
     }
   }
 

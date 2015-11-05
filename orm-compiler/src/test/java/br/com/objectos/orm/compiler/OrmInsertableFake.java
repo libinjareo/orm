@@ -35,6 +35,7 @@ class OrmInsertableFake {
               cn(TypeInfoFake.PAIR_PAIR_ID),
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
       .valueNameList("id", "name")
+      .generatedKeyListenerNameList()
       .build();
   public static final OrmInsertable Revision = IsOrmInsertable.builder()
       .tableClassInfo(TableClassInfoFake.REVISION)
@@ -47,6 +48,7 @@ class OrmInsertableFake {
               cn(TypeInfoFake.REVISION_REVISION_DATE),
               cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
       .valueNameList("date", "description")
+      .generatedKeyListenerNameList("seq")
       .build();
 
   private OrmInsertableFake() {

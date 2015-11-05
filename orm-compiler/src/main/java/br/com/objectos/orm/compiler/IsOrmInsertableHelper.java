@@ -28,6 +28,7 @@ class IsOrmInsertableHelper {
 
   private final ImmutableList.Builder<ClassName> columnClassNameList = ImmutableList.builder();
   private final ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
+  private final ImmutableList.Builder<String> generatedKeyListenerNameList = ImmutableList.builder();
 
   private IsOrmInsertableHelper() {
   }
@@ -38,6 +39,11 @@ class IsOrmInsertableHelper {
 
   public IsOrmInsertableHelper addColumnClassNameStream(Stream<ClassName> stream) {
     stream.forEach(columnClassNameList::add);
+    return this;
+  }
+
+  public IsOrmInsertableHelper addGeneratedKeyListenerName(String valueName) {
+    generatedKeyListenerNameList.add(valueName);
     return this;
   }
 
@@ -53,6 +59,7 @@ class IsOrmInsertableHelper {
         .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
         .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
         .valueNameList(valueNameList.build())
+        .generatedKeyListenerNameList(generatedKeyListenerNameList.build())
         .build();
   }
 
