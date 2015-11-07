@@ -20,7 +20,7 @@ import com.squareup.javapoet.ClassName;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class NamingFake {
+public class NamingFake {
 
   private NamingFake() {
   }

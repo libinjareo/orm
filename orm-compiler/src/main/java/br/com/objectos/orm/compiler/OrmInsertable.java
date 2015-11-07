@@ -24,6 +24,7 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.MethodSpec.Builder;
@@ -39,7 +40,7 @@ interface OrmInsertable extends Testable {
       return NotOrmInsertable.INSTANCE;
     }
 
-    Set<Entry<TableClassInfo, List<OrmProperty>>> entrySet = propertyList.stream()
+    Set<Entry<TableInfoAnnotationInfo, List<OrmProperty>>> entrySet = propertyList.stream()
         .collect(Collectors.groupingBy(OrmProperty::tableClassInfo))
         .entrySet();
 
@@ -47,11 +48,11 @@ interface OrmInsertable extends Testable {
       return NotOrmInsertable.INSTANCE;
     }
 
-    Entry<TableClassInfo, List<OrmProperty>> entry = entrySet.iterator().next();
+    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = entrySet.iterator().next();
     return ofEntry(entry.getKey(), entry.getValue());
   }
 
-  static OrmInsertable ofEntry(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
+  static OrmInsertable ofEntry(TableInfoAnnotationInfo tableClassInfo, List<OrmProperty> propertyList) {
     List<SimpleTypeInfo> columnAnnotationClassList = propertyList.stream()
         .filter(property -> !property.isGenerated())
         .flatMap(m -> m.columnAnnotationClassList().stream())

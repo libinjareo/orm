@@ -18,6 +18,7 @@ package br.com.objectos.orm.compiler;
 import java.util.stream.Stream;
 
 import br.com.objectos.collections.ImmutableList;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 import com.squareup.javapoet.ClassName;
 
@@ -52,10 +53,10 @@ class IsOrmInsertableHelper {
     return this;
   }
 
-  public IsOrmInsertable build(TableClassInfo tableClassInfo) {
+  public IsOrmInsertable build(TableInfoAnnotationInfo tableInfo) {
     ClassName[] columnClassNameArray = columnClassNameList.build().toArray(new ClassName[] {});
     return IsOrmInsertable.builder()
-        .tableClassInfo(tableClassInfo)
+        .tableInfo(tableInfo)
         .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
         .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
         .valueNameList(valueNameList.build())

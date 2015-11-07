@@ -23,7 +23,7 @@ import javax.lang.model.element.Modifier;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -37,7 +37,7 @@ import com.squareup.javapoet.TypeSpec;
 @Pojo
 abstract class IsOrmInsertable implements OrmInsertable {
 
-  abstract TableClassInfo tableClassInfo();
+  abstract TableInfoAnnotationInfo tableInfo();
   abstract ParameterizedTypeName insertableRowTypeName();
   abstract ParameterizedTypeName insertableRowValuesTypeName();
   abstract List<String> valueNameList();
@@ -46,7 +46,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
   IsOrmInsertable() {
   }
 
-  public static IsOrmInsertable of(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
+  public static IsOrmInsertable of(TableInfoAnnotationInfo tableClassInfo, List<OrmProperty> propertyList) {
     IsOrmInsertableHelper helper = IsOrmInsertableHelper.get();
 
     for (OrmProperty property : propertyList) {
@@ -67,15 +67,12 @@ abstract class IsOrmInsertable implements OrmInsertable {
 
   @Override
   public void acceptInsertAll(MethodSpec.Builder insertAll) {
-    ClassName tableClassName = tableClassInfo().className();
-    String tableVarName = tableClassName.simpleName();
-
     insertAll
-        .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
+        .addCode(tableInfo().tableGetCode())
         .addStatement("$T insert", insertableRowValuesTypeName())
-        .addCode("insert = pojo.bindInsertableRow($T\n", Sql.class)
-        .addCode("    .insertInto($L)\n", tableVarName)
-        .addCode("    .$$($L));\n", tableClassInfo().columnMethodList(tableVarName));
+        .addCode("insert = pojo.bindInsertableRow(")
+        .addCode(tableInfo().insertIntoCode())
+        .addCode(");\n");
   }
 
   @Override

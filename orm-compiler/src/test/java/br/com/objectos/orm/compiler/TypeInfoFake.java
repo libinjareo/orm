@@ -22,7 +22,7 @@ import br.com.objectos.code.TypeInfo;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class TypeInfoFake {
+public class TypeInfoFake {
 
   public static final Map<String, TypeInfo> qualifiedNameMap = TestingProcessor.loadAll(
       TestingProcessor::new,

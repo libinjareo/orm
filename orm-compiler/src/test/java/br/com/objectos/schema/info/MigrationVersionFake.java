@@ -13,21 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
-
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+package br.com.objectos.schema.info;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+class MigrationVersionFake {
 
-  private Compiler() {
-  }
+  public static final MigrationVersion V001 = MigrationVersion.builder()
+      .prefix("V001")
+      .build();
+  public static final MigrationVersion V002 = MigrationVersion.builder()
+      .prefix("V002")
+      .build();
+  public static final MigrationVersion V003 = MigrationVersion.builder()
+      .prefix("V003")
+      .build();
 
-  public static void invalidate() {
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
+  private MigrationVersionFake() {
   }
 
 }

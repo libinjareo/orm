@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,21 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
-
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+package br.com.objectos.schema.info;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+class OrmNoGenerationInfo extends OrmGenerationInfo implements NoGenerationInfo {
 
-  private Compiler() {
+  private static final OrmNoGenerationInfo INSTANCE = new OrmNoGenerationInfo();
+
+  private OrmNoGenerationInfo() {
   }
 
-  public static void invalidate() {
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
+  public static OrmNoGenerationInfo get() {
+    return INSTANCE;
   }
 
 }

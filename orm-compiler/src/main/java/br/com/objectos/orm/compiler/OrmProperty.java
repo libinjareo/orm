@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotation;
 import br.com.objectos.schema.meta.ColumnClass;
 import br.com.objectos.schema.meta.ForeignKeyAnnotation;
@@ -35,7 +36,7 @@ import com.squareup.javapoet.ClassName;
 abstract class OrmProperty implements Testable {
 
   abstract Property property();
-  abstract TableClassInfo tableClassInfo();
+  abstract TableInfoAnnotationInfo tableClassInfo();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
 
   OrmProperty() {

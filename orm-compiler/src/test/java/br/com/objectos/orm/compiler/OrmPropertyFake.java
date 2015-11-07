@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
+import br.com.objectos.schema.info.TableInfoAnnotationInfoFake;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -25,14 +26,14 @@ class OrmPropertyFake {
 
   public static final OrmProperty Pair_id = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_id)
-      .tableClassInfo(TableClassInfoFake.PAIR)
+      .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_ID))
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_ID)
       .generationType(GenerationType.NONE)
       .build();
   public static final OrmProperty Pair_name = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_name)
-      .tableClassInfo(TableClassInfoFake.PAIR)
+      .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_NAME))
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_NAME)
       .generationType(GenerationType.NONE)
@@ -40,7 +41,7 @@ class OrmPropertyFake {
 
   public static final OrmProperty Salary_employee = ForeignKeyOrmProperty.builder()
       .property(PropertyFake.Salary_employee)
-      .tableClassInfo(TableClassInfoFake.SALARY)
+      .tableClassInfo(TableInfoAnnotationInfoFake.SALARY)
       .columnAnnotationClassList(simple(TypeInfoFake.SALARY_EMP_NO))
       .foreignKeyAnnotationInfo(AnnotationInfoFake.SALARY_EMP_NO_FK)
       .build();

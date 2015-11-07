@@ -19,6 +19,7 @@ import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -35,7 +36,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
   public static ColumnOrmProperty of(Property property, AnnotationInfo columnAnnotationInfo) {
     return ColumnOrmProperty.builder()
         .property(property)
-        .tableClassInfo(TableClassInfo.of(columnAnnotationInfo))
+        .tableClassInfo(TableInfoAnnotationInfo.of(columnAnnotationInfo))
         .columnAnnotationClassList(ImmutableList.of(columnAnnotationInfo.simpleTypeInfo()))
         .columnAnnotationInfo(columnAnnotationInfo)
         .generationType(GenerationType.of(columnAnnotationInfo))
