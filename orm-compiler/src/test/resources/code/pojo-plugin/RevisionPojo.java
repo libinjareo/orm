@@ -1,14 +1,17 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.schema.it.REVISION;
+import br.com.objectos.sql.query.InsertableRow2;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
-final class RevisionPojo extends Revision {
+final class RevisionPojo extends Revision implements InsertableRowBinder<InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>, InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>> {
   private final REVISION.REVISION_SEQ seq;
 
   private final REVISION.REVISION_DATE date;
@@ -36,3 +39,9 @@ final class RevisionPojo extends Revision {
   String description() {
     return description.get();
   }
+
+  @Override
+  public InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> bindInsertableRow(InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
+    return row.values(date, description).onGeneratedKey(seq);
+  }
+}

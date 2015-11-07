@@ -84,12 +84,18 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   private MethodSpec bindInsertableRow() {
+    String generated = generatedKeyListenerNameList().stream().collect(Collectors.joining(", "));
+    if (!generated.isEmpty()) {
+      generated = ".onGeneratedKey(" + generated + ")";
+    }
     return MethodSpec.methodBuilder("bindInsertableRow")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
         .addParameter(insertableRowTypeName(), "row")
         .returns(insertableRowValuesTypeName())
-        .addStatement("return row.values($L)", valueNameList().stream().collect(Collectors.joining(", ")))
+        .addStatement("return row.values($L)$L",
+            valueNameList().stream().collect(Collectors.joining(", ")),
+            generated)
         .build();
   }
 
