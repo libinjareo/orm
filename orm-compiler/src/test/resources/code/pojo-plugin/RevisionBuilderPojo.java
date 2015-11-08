@@ -4,12 +4,11 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+  "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
+  "br.com.objectos.pojo.compiler.PojoCompiler",
+  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
-final class RevisionBuilderPojo implements RevisionBuilder, RevisionBuilder.RevisionBuilderSeq, RevisionBuilder.RevisionBuilderDate, RevisionBuilder.RevisionBuilderDescription {
-  private int seq;
-
+final class RevisionBuilderPojo implements RevisionBuilder, RevisionBuilder.RevisionBuilderDate, RevisionBuilder.RevisionBuilderDescription {
   private LocalDate date;
 
   private String description;
@@ -20,16 +19,6 @@ final class RevisionBuilderPojo implements RevisionBuilder, RevisionBuilder.Revi
   @Override
   public Revision build() {
     return new RevisionPojo(this);
-  }
-
-  @Override
-  public RevisionBuilder.RevisionBuilderSeq seq(int seq) {
-    this.seq = seq;
-    return this;
-  }
-
-  int ___get___seq() {
-    return seq;
   }
 
   @Override

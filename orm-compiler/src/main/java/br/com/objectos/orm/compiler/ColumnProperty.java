@@ -28,6 +28,7 @@ import br.com.objectos.pojo.plugin.PojoPropertyConstructorStatementBuilder.Add;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
 import br.com.objectos.schema.meta.ColumnClass;
+import br.com.objectos.schema.meta.GeneratedValue;
 
 import com.squareup.javapoet.ClassName;
 
@@ -85,6 +86,10 @@ abstract class ColumnProperty {
   public ConstructorStatementWriter constructorStatementWriter(String statement) {
     Add builder = PojoProperty.constructorStatementBuilder(property).add(statement);
     return new ConstructorStatementWriter(builder);
+  }
+
+  public boolean isGenerated() {
+    return property.annotationInfoAnnotatedWith(GeneratedValue.class).isPresent();
   }
 
   public MethodWriter methodWriter(String statement) {

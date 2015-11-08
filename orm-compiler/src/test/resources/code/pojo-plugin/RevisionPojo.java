@@ -20,7 +20,7 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
 
   public RevisionPojo(RevisionBuilderPojo builder) {
     super();
-    seq = REVISION.get().SEQ(builder.___get___seq());
+    seq = REVISION.get().SEQ();
     date = REVISION.get().DATE(builder.___get___date());
     description = REVISION.get().DESCRIPTION(builder.___get___description());
   }

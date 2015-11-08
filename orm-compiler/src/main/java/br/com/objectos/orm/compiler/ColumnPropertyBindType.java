@@ -19,6 +19,7 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.SimpleTypePrimitives;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.orm.EnumSql;
+import br.com.objectos.orm.compiler.ColumnProperty.ConstructorStatementWriter;
 import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.schema.meta.EnumColumn;
 import br.com.objectos.schema.meta.EnumType;
@@ -190,12 +191,16 @@ enum ColumnPropertyBindType {
   public abstract PojoProperty optionalMethod(OptionalColumnProperty property);
 
   public PojoProperty standardConstructorStatement(StandardColumnProperty property) {
-    return property.constructorStatementWriter(standardConstructorCode())
+    ConstructorStatementWriter writer = property.constructorStatementWriter(standardConstructorCode(property))
         .setPropertyName()
         .setTableClassName()
-        .setColumnAnnotationSimpleName()
-        .setBuilderGet()
-        .build();
+        .setColumnAnnotationSimpleName();
+
+    if (!property.isGenerated()) {
+      writer = writer.setBuilderGet();
+    }
+
+    return writer.build();
   }
 
   public abstract PojoProperty standardMethod(StandardColumnProperty property);
@@ -210,8 +215,10 @@ enum ColumnPropertyBindType {
         accessor());
   }
 
-  private String standardConstructorCode() {
-    return String.format("$L = $T.get().$L($L%s)", accessor());
+  private String standardConstructorCode(StandardColumnProperty property) {
+    return property.isGenerated()
+        ? "$L = $T.get().$L()"
+        : String.format("$L = $T.get().$L($L%s)", accessor());
   }
 
 }
