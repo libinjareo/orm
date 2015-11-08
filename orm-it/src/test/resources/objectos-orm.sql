@@ -11,3 +11,13 @@ create table PAIR (
 
 insert into PAIR (ID, NAME)
 values (1, "One"), (2, "Two"), (3, "Three");
+
+create table REVISION (
+
+  SEQ int not null auto_increment,
+  `DATE` date not null,
+  DESCRIPTION varchar(140) not null,
+  
+  primary key (SEQ)
+  
+) engine=InnoDB default charset=utf8;

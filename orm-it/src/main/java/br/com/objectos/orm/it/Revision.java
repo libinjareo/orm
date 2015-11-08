@@ -17,6 +17,7 @@ package br.com.objectos.orm.it;
 
 import java.time.LocalDate;
 
+import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.REVISION;
 
@@ -24,7 +25,7 @@ import br.com.objectos.schema.it.REVISION;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Revision {
+abstract class Revision implements Insertable {
 
   @REVISION.SEQ
   abstract int seq();
@@ -36,6 +37,10 @@ abstract class Revision {
   abstract String description();
 
   Revision() {
+  }
+
+  public static RevisionBuilder builder() {
+    return new RevisionBuilderPojo();
   }
 
 }
