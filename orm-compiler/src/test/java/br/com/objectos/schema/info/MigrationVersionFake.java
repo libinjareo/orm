@@ -13,20 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
-
-import br.com.objectos.pojo.plugin.PojoInfo;
+package br.com.objectos.schema.info;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PojoInfoFake {
+class MigrationVersionFake {
 
-  public static final PojoInfo Pair = PojoInfo.of(TypeInfoFake.Pair);
-  public static final PojoInfo Revision = PojoInfo.of(TypeInfoFake.Revision);
-  public static final PojoInfo Salary = PojoInfo.of(TypeInfoFake.Salary);
+  public static final MigrationVersion V001 = MigrationVersion.builder()
+      .prefix("V001")
+      .build();
+  public static final MigrationVersion V002 = MigrationVersion.builder()
+      .prefix("V002")
+      .build();
+  public static final MigrationVersion V003 = MigrationVersion.builder()
+      .prefix("V003")
+      .build();
 
-  private PojoInfoFake() {
+  private MigrationVersionFake() {
   }
 
 }

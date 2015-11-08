@@ -50,6 +50,11 @@ public class SqlPojoCompilerTest {
   }
 
   @Test
+  public void revision() {
+    test("Revision");
+  }
+
+  @Test
   public void salary() {
     test("Salary", "Employee");
   }
@@ -64,6 +69,7 @@ public class SqlPojoCompilerTest {
         .add("OBJECTOS_ORM")
         .add("PAIR")
         .add("REVISION_V003")
+        .add("REVISION")
         .add("SALARY")
         .add("V001__First_Migration")
         .add("V002__Employee_Salary")

@@ -15,18 +15,20 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.pojo.plugin.BuilderProperty;
+import br.com.objectos.pojo.plugin.BuilderPropertyAction;
+import br.com.objectos.pojo.plugin.Property;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PojoInfoFake {
+enum ColumnPropertyBuilderPropertyAction implements BuilderPropertyAction {
 
-  public static final PojoInfo Pair = PojoInfo.of(TypeInfoFake.Pair);
-  public static final PojoInfo Revision = PojoInfo.of(TypeInfoFake.Revision);
-  public static final PojoInfo Salary = PojoInfo.of(TypeInfoFake.Salary);
+  INSTANCE;
 
-  private PojoInfoFake() {
+  @Override
+  public BuilderProperty execute(Property property) {
+    return BuilderProperty.ignore();
   }
 
 }

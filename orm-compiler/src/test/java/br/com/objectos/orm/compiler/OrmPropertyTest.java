@@ -15,12 +15,10 @@
  */
 package br.com.objectos.orm.compiler;
 
-import static br.com.objectos.testing.MoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static br.com.objectos.assertion.OptionalAssertion.assertThat;
 
 import java.util.Optional;
 
-import br.com.objectos.assertion.TestableAssertion;
 import br.com.objectos.pojo.plugin.Property;
 
 import org.testng.annotations.DataProvider;
@@ -42,11 +40,8 @@ public class OrmPropertyTest {
 
   @Test(dataProvider = "ofProvider")
   public void of(Property property, OrmProperty expected) {
-    Optional<OrmProperty> maybe = OrmProperty.of(property);
-    assertThat(maybe.isPresent(), is(expected != null));
-    if (expected != null) {
-      TestableAssertion.assertThat(maybe.get()).isEqualTo(expected);
-    }
+    Optional<OrmProperty> res = OrmProperty.of(property);
+    assertThat(res).isPresent().isEqualTo(expected);
   }
 
 }

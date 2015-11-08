@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.TypeInfo;
+import br.com.objectos.schema.info.TableInfoAnnotationInfoFake;
 
 import com.squareup.javapoet.ClassName;
 
@@ -25,7 +26,7 @@ import com.squareup.javapoet.ClassName;
 class OrmInsertableFake {
 
   public static final OrmInsertable Pair = IsOrmInsertable.builder()
-      .tableClassInfo(TableClassInfoFake.PAIR)
+      .tableInfo(TableInfoAnnotationInfoFake.PAIR)
       .insertableRowTypeName(
           OrmNaming.insertableRowTypeName(
               cn(TypeInfoFake.PAIR_PAIR_ID),
@@ -35,6 +36,20 @@ class OrmInsertableFake {
               cn(TypeInfoFake.PAIR_PAIR_ID),
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
       .valueNameList("id", "name")
+      .generatedKeyListenerNameList()
+      .build();
+  public static final OrmInsertable Revision = IsOrmInsertable.builder()
+      .tableInfo(TableInfoAnnotationInfoFake.REVISION)
+      .insertableRowTypeName(
+          OrmNaming.insertableRowTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_DATE),
+              cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
+      .insertableRowValuesTypeName(
+          OrmNaming.insertableRowValuesTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_DATE),
+              cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
+      .valueNameList("date", "description")
+      .generatedKeyListenerNameList("seq")
       .build();
 
   private OrmInsertableFake() {

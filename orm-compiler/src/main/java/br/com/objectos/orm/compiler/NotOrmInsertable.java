@@ -17,7 +17,6 @@ package br.com.objectos.orm.compiler;
 
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Equality;
-import br.com.objectos.testable.Tester;
 
 import com.squareup.javapoet.MethodSpec.Builder;
 import com.squareup.javapoet.TypeSpec;
@@ -44,7 +43,7 @@ enum NotOrmInsertable implements OrmInsertable {
 
   @Override
   public Equality isEqualTo(Object that) {
-    return Tester.of(NotOrmInsertable.class).test(this, that);
+    return Equality.instanceOf(that, NotOrmInsertable.class);
   }
 
 }

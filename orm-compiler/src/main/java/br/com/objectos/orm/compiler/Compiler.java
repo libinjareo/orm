@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -25,7 +27,7 @@ class Compiler {
 
   public static void invalidate() {
     OrmPojoInfo.invalidate();
-    TableClassInfo.invalidate();
+    TableInfoAnnotationInfo.invalidate();
   }
 
 }

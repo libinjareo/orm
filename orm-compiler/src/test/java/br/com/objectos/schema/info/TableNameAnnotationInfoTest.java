@@ -13,13 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
+package br.com.objectos.schema.info;
 
-import static br.com.objectos.assertion.TestableAssertion.assertThat;
-
-import java.util.List;
-
-import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.assertion.TestableAssertion;
+import br.com.objectos.code.TypeInfo;
+import br.com.objectos.orm.compiler.TypeInfoFake;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -27,22 +25,20 @@ import org.testng.annotations.Test;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class OrmInsertableTest {
+public class TableNameAnnotationInfoTest {
 
   @DataProvider
   public Object[][] ofProvider() {
     return new Object[][] {
-      { PojoInfoFake.Pair, OrmInsertableFake.Pair },
-      { PojoInfoFake.Revision, OrmInsertableFake.Revision }
+      { TypeInfoFake.PAIR, TableNameAnnotationInfoFake.PAIR },
+      { TypeInfoFake.SALARY, TableNameAnnotationInfoFake.SALARY }
     };
   }
 
   @Test(dataProvider = "ofProvider")
-  public void of(PojoInfo pojoInfo, OrmInsertable expected) {
-    OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
-    List<OrmProperty> propertyList = orm.propertyList();
-    OrmInsertable res = OrmInsertable.of(pojoInfo, propertyList);
-    assertThat(res).isEqualTo(expected);
+  public void of(TypeInfo annotation, TableName expected) {
+    TableName res = TableNameAnnotationInfo.of(annotation);
+    TestableAssertion.assertThat(res).isEqualTo(expected);
   }
 
 }

@@ -15,17 +15,15 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.lang.model.element.Modifier;
 
-import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -39,31 +37,23 @@ import com.squareup.javapoet.TypeSpec;
 @Pojo
 abstract class IsOrmInsertable implements OrmInsertable {
 
-  abstract TableClassInfo tableClassInfo();
+  abstract TableInfoAnnotationInfo tableInfo();
   abstract ParameterizedTypeName insertableRowTypeName();
   abstract ParameterizedTypeName insertableRowValuesTypeName();
   abstract List<String> valueNameList();
+  abstract List<String> generatedKeyListenerNameList();
 
   IsOrmInsertable() {
   }
 
-  public static IsOrmInsertable of(TableClassInfo tableClassInfo, List<OrmProperty> propertyList) {
-    List<ClassName> columnClassNameList = new ArrayList<>();
-    ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
+  public static IsOrmInsertable of(TableInfoAnnotationInfo tableClassInfo, List<OrmProperty> propertyList) {
+    IsOrmInsertableHelper helper = IsOrmInsertableHelper.get();
 
     for (OrmProperty property : propertyList) {
-      property.columnClassNameStream().forEach(columnClassNameList::add);
-      valueNameList.add(property.name());
+      property.acceptIsOrmInsertableHelper(helper);
     }
 
-    ClassName[] columnClassNameArray = columnClassNameList.toArray(new ClassName[] {});
-
-    return IsOrmInsertable.builder()
-        .tableClassInfo(tableClassInfo)
-        .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
-        .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
-        .valueNameList(valueNameList.build())
-        .build();
+    return helper.build(tableClassInfo);
   }
 
   static IsOrmInsertableBuilder builder() {
@@ -77,15 +67,12 @@ abstract class IsOrmInsertable implements OrmInsertable {
 
   @Override
   public void acceptInsertAll(MethodSpec.Builder insertAll) {
-    ClassName tableClassName = tableClassInfo().className();
-    String tableVarName = tableClassName.simpleName();
-
     insertAll
-        .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
+        .addCode(tableInfo().tableGetCode())
         .addStatement("$T insert", insertableRowValuesTypeName())
-        .addCode("insert = pojo.bindInsertableRow($T\n", Sql.class)
-        .addCode("    .insertInto($L)\n", tableVarName)
-        .addCode("    .$$($L));\n", tableClassInfo().columnMethodList(tableVarName));
+        .addCode("insert = pojo.bindInsertableRow(")
+        .addCode(tableInfo().insertIntoCode())
+        .addCode(");\n");
   }
 
   @Override
@@ -97,12 +84,18 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   private MethodSpec bindInsertableRow() {
+    String generated = generatedKeyListenerNameList().stream().collect(Collectors.joining(", "));
+    if (!generated.isEmpty()) {
+      generated = ".onGeneratedKey(" + generated + ")";
+    }
     return MethodSpec.methodBuilder("bindInsertableRow")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
         .addParameter(insertableRowTypeName(), "row")
         .returns(insertableRowValuesTypeName())
-        .addStatement("return row.values($L)", valueNameList().stream().collect(Collectors.joining(", ")))
+        .addStatement("return row.values($L)$L",
+            valueNameList().stream().collect(Collectors.joining(", ")),
+            generated)
         .build();
   }
 

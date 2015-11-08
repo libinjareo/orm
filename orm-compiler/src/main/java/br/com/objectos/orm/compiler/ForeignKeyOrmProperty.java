@@ -18,6 +18,7 @@ package br.com.objectos.orm.compiler;
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 
 /**
@@ -34,7 +35,7 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   public static ForeignKeyOrmProperty of(Property property, AnnotationInfo foreignKeyAnnotationInfo) {
     return ForeignKeyOrmProperty.builder()
         .property(property)
-        .tableClassInfo(TableClassInfo.of(foreignKeyAnnotationInfo))
+        .tableClassInfo(TableInfoAnnotationInfo.of(foreignKeyAnnotationInfo))
         .columnAnnotationClassList(foreignKeyAnnotationInfo
             .annotationInfo(ColumnAnnotationClassArray.class)
             .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))

@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotation;
 import br.com.objectos.schema.meta.ColumnClass;
 import br.com.objectos.schema.meta.ForeignKeyAnnotation;
@@ -35,7 +36,7 @@ import com.squareup.javapoet.ClassName;
 abstract class OrmProperty implements Testable {
 
   abstract Property property();
-  abstract TableClassInfo tableClassInfo();
+  abstract TableInfoAnnotationInfo tableClassInfo();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
 
   OrmProperty() {
@@ -57,7 +58,20 @@ abstract class OrmProperty implements Testable {
     return Optional.empty();
   }
 
-  public Stream<ClassName> columnClassNameStream() {
+  public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
+    if (!isGenerated()) {
+      helper.addColumnClassNameStream(columnClassNameStream());
+      helper.addValueName(property().name());
+    } else {
+      helper.addGeneratedKeyListenerName(property().name());
+    }
+  }
+
+  public boolean isGenerated() {
+    return false;
+  }
+
+  Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()
         .map(SimpleTypeInfo::typeInfo)
         .filter(Optional::isPresent)
@@ -65,10 +79,6 @@ abstract class OrmProperty implements Testable {
         .map(typeInfo -> typeInfo.annotationInfo(ColumnClass.class).get())
         .map(ann -> ann.simpleTypeInfoValue("value").get())
         .map(SimpleTypeInfo::className);
-  }
-
-  public String name() {
-    return property().name();
   }
 
 }

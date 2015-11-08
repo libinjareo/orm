@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,20 +13,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
-
-import br.com.objectos.pojo.plugin.PojoInfo;
+package br.com.objectos.schema.info;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PojoInfoFake {
+class OrmAutoIncrementGenerationInfo extends OrmGenerationInfo implements AutoIncrementGenerationInfo {
 
-  public static final PojoInfo Pair = PojoInfo.of(TypeInfoFake.Pair);
-  public static final PojoInfo Revision = PojoInfo.of(TypeInfoFake.Revision);
-  public static final PojoInfo Salary = PojoInfo.of(TypeInfoFake.Salary);
+  private static final OrmAutoIncrementGenerationInfo INSTANCE = new OrmAutoIncrementGenerationInfo();
 
-  private PojoInfoFake() {
+  private OrmAutoIncrementGenerationInfo() {
+  }
+
+  public static OrmGenerationInfo get() {
+    return INSTANCE;
+  }
+
+  @Override
+  public boolean insertable() {
+    return false;
   }
 
 }

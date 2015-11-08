@@ -29,7 +29,11 @@ import br.com.objectos.schema.annotation.Schema;
 public class OBJECTOS_ORM {
 
   public static br.com.objectos.schema.it.PAIR PAIR() {
-    return br.com.objectos.schema.it.PAIR.get();
+    return PAIR.get();
+  }
+
+  public static br.com.objectos.schema.it.REVISION REVISION() {
+    return REVISION.get();
   }
 
 }

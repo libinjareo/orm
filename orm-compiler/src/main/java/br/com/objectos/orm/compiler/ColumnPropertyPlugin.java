@@ -24,6 +24,7 @@ import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.pojo.plugin.PojoPropertyAction;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.meta.ColumnAnnotation;
+import br.com.objectos.schema.meta.GeneratedValue;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -39,6 +40,9 @@ public class ColumnPropertyPlugin extends AbstractPlugin {
 
     when(property(hasAnnotationAnnotatedWith(ColumnAnnotation.class)))
         .execute(StandardAction.INSTANCE);
+
+    when(property(hasAnnotationAnnotatedWith(GeneratedValue.class)))
+        .execute(ColumnPropertyBuilderPropertyAction.INSTANCE);
   }
 
   @Override
