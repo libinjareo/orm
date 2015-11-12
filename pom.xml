@@ -58,16 +58,16 @@
 
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
-		<objectos.assertion.version>0.1.2-SNAPSHOT</objectos.assertion.version>
-		<objectos.code.version>0.8.2-SNAPSHOT</objectos.code.version>
+		<objectos.assertion.version>0.1.2</objectos.assertion.version>
+		<objectos.code.version>0.8.2</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
-		<objectos.db.version>0.1.1-SNAPSHOT</objectos.db.version>
+		<objectos.db.version>0.1.1</objectos.db.version>
 		<objectos.db9.version>0.1.0</objectos.db9.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
-		<objectos.pojo.version>0.5.4-SNAPSHOT</objectos.pojo.version>
-		<objectos.schema.version>0.1.1-SNAPSHOT</objectos.schema.version>
-		<objectos.sql.version>0.11.1-SNAPSHOT</objectos.sql.version>
-		<objectos.testable.version>0.4.3-SNAPSHOT</objectos.testable.version>
+		<objectos.pojo.version>0.5.4</objectos.pojo.version>
+		<objectos.schema.version>0.1.1</objectos.schema.version>
+		<objectos.sql.version>0.11.1</objectos.sql.version>
+		<objectos.testable.version>0.4.3</objectos.testable.version>
 	</properties>
 
 	<build>
