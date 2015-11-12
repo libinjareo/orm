@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>objectos :: orm :: parent</name>
@@ -28,7 +28,7 @@
 		<url>https://github.com/objectos/orm</url>
 		<connection>scm:git:git://objectos/orm.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/orm.git</developerConnection>
-		<tag>orm-parent-0.1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
@@ -139,12 +139,12 @@
 			<dependency>
 				<groupId>br.com.objectos</groupId>
 				<artifactId>orm</artifactId>
-				<version>0.1.0</version>
+				<version>0.1.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
 				<artifactId>orm-compiler</artifactId>
-				<version>0.1.0</version>
+				<version>0.1.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
