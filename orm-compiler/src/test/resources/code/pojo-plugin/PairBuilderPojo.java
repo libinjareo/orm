@@ -1,22 +1,27 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.Orm;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class PairBuilderPojo implements PairBuilder, PairBuilder.PairBuilderId, PairBuilder.PairBuilderName {
+  private final Orm orm;
+
   private int id;
 
   private String name;
 
-  public PairBuilderPojo() {
+  public PairBuilderPojo(Orm orm) {
+    this.orm = orm;
   }
 
   @Override
   public Pair build() {
-    return new PairPojo(this);
+    return new PairPojo(this, orm);
   }
 
   @Override

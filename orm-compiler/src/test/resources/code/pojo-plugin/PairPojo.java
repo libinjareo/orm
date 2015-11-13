@@ -1,12 +1,14 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.orm.InsertableRowBinder;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.query.InsertableRow2;
 import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
@@ -15,10 +17,13 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
 
   private final PAIR.PAIR_NAME name;
 
-  public PairPojo(PairBuilderPojo builder) {
+  final Orm orm;
+
+  public PairPojo(PairBuilderPojo builder, Orm orm) {
     super();
     id = PAIR.get().ID(builder.___get___id());
     name = PAIR.get().NAME(builder.___get___name());
+    this.orm = orm;
   }
 
   @Override

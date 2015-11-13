@@ -26,6 +26,8 @@ import br.com.objectos.schema.it.EMPLOYEE;
 @Pojo
 abstract class Employee {
 
+  abstract Model model();
+
   @EMPLOYEE.EMP_NO
   abstract int empNo();
 

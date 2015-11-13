@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>parent</artifactId>
-		<version>39</version>
+		<version>40</version>
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
@@ -57,13 +58,14 @@
 
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
+		<jdbc.db>OBJECTOS_ORM</jdbc.db>
 		<objectos.assertion.version>0.1.2</objectos.assertion.version>
 		<objectos.code.version>0.8.2</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.db.version>0.1.1</objectos.db.version>
 		<objectos.db9.version>0.1.0</objectos.db9.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
-		<objectos.pojo.version>0.5.4</objectos.pojo.version>
+		<objectos.pojo.version>0.5.7</objectos.pojo.version>
 		<objectos.schema.version>0.1.1</objectos.schema.version>
 		<objectos.sql.version>0.11.1</objectos.sql.version>
 		<objectos.testable.version>0.4.3</objectos.testable.version>
@@ -123,21 +125,6 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
-				<artifactId>collections</artifactId>
-				<version>${objectos.collections.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>db</artifactId>
-				<version>${objectos.db.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>db-mysql</artifactId>
-				<version>${objectos.db.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
 				<artifactId>orm</artifactId>
 				<version>0.1.1-SNAPSHOT</version>
 			</dependency>
@@ -153,29 +140,9 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
-				<artifactId>pojo-compiler</artifactId>
-				<version>${objectos.pojo.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>pojo-plugin</artifactId>
-				<version>${objectos.pojo.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
 				<artifactId>pojo-testing</artifactId>
 				<version>${objectos.pojo.version}</version>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>schema</artifactId>
-				<version>${objectos.schema.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>schema-info</artifactId>
-				<version>${objectos.schema.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
@@ -188,17 +155,7 @@
 				<artifactId>sql</artifactId>
 				<version>${objectos.sql.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>testable</artifactId>
-				<version>${objectos.testable.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>testable-pojo-plugin</artifactId>
-				<version>${objectos.testable.version}</version>
-			</dependency>
-			
+
 			<dependency>
 				<groupId>javax.inject</groupId>
 				<artifactId>javax.inject</artifactId>

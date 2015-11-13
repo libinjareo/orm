@@ -15,33 +15,37 @@
  */
 package br.com.objectos.orm.it;
 
-import java.time.LocalDate;
-
-import br.com.objectos.orm.Insertable;
+import br.com.objectos.db.core.Database;
+import br.com.objectos.db.core.DatabaseConfig;
+import br.com.objectos.db.core.SqlException;
+import br.com.objectos.db.core.Transaction;
+import br.com.objectos.db.mysql.Mysql;
 import br.com.objectos.orm.Orm;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.REVISION;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Revision implements Insertable {
+public enum OrmFake implements Orm {
 
-  @REVISION.SEQ
-  abstract int seq();
+  INSTANCE(DatabaseConfig.builder()
+      .dialect(Mysql.dialect())
+      .server(System.getProperty("jdbc.server", "localhost"))
+      .port(9000)
+      .db("OBJECTOS_ORM")
+      .user("tatu")
+      .password("tatu")
+      .build()
+      .connect());
 
-  @REVISION.DATE
-  abstract LocalDate date();
+  private final Database db;
 
-  @REVISION.DESCRIPTION
-  abstract String description();
-
-  Revision() {
+  private OrmFake(Database db) {
+    this.db = db;
   }
 
-  public static RevisionBuilder builder(Orm orm) {
-    return new RevisionBuilderPojo(orm);
+  @Override
+  public Transaction startTransaction() throws SqlException {
+    return db.startTransaction();
   }
 
 }

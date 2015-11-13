@@ -26,6 +26,8 @@ import br.com.objectos.schema.it.SALARY;
 @Pojo
 abstract class Salary {
 
+  abstract Model model();
+
   @SALARY.SALARY_EMP_NO_FK
   abstract Employee employee();
 

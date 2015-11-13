@@ -1,13 +1,17 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.compiler.SuperOrm;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.pojo.compiler.PojoCompiler",
-  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuilderEmployee, SalaryBuilder.SalaryBuilderSalary, SalaryBuilder.SalaryBuilderFromDate, SalaryBuilder.SalaryBuilderToDate {
+  private final SuperOrm orm;
+
   private Employee employee;
 
   private int salary;
@@ -16,12 +20,13 @@ final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuil
 
   private LocalDate toDate;
 
-  public SalaryBuilderPojo() {
+  public SalaryBuilderPojo(SuperOrm orm) {
+    this.orm = orm;
   }
 
   @Override
   public Salary build() {
-    return new SalaryPojo(this);
+    return new SalaryPojo(this, orm);
   }
 
   @Override

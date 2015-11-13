@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
-  "br.com.objectos.pojo.compiler.PojoCompiler",
-  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 interface RevisionBuilder {
   RevisionBuilderDate date(LocalDate date);

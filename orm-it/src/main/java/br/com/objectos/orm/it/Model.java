@@ -15,29 +15,11 @@
  */
 package br.com.objectos.orm.it;
 
-import br.com.objectos.orm.Insertable;
 import br.com.objectos.orm.Orm;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Pair implements Insertable, Testable {
-
-  @PAIR.ID
-  abstract int id();
-
-  @PAIR.NAME
-  abstract String name();
-
-  Pair() {
-  }
-
-  public static PairBuilder builder(Orm orm) {
-    return new PairBuilderPojo(orm);
-  }
+public interface Model extends Orm {
 
 }

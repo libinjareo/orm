@@ -13,31 +13,36 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.it;
+package br.com.objectos.orm.compiler;
 
-import br.com.objectos.orm.Insertable;
 import br.com.objectos.orm.Orm;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.testable.Testable;
+import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.testable.Equality;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Pair implements Insertable, Testable {
+class StandardOrmInject extends OrmInject {
 
-  @PAIR.ID
-  abstract int id();
+  public static final OrmInject INSTANCE = new StandardOrmInject();
 
-  @PAIR.NAME
-  abstract String name();
+  private static final ClassName className = ClassName.get(Orm.class);
 
-  Pair() {
+  private StandardOrmInject() {
   }
 
-  public static PairBuilder builder(Orm orm) {
-    return new PairBuilderPojo(orm);
+  @Override
+  public Equality isEqualTo(Object that) {
+    return Equality.instanceOf(that, StandardOrmInject.class);
+  }
+
+  @Override
+  Contribution get() {
+    return Contribution.builder()
+        .addCustomField(className, "orm")
+        .build();
   }
 
 }
