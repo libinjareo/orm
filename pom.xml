@@ -26,9 +26,9 @@
 	</licenses>
 
 	<scm>
+		<connection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</connection>
+		<developerConnection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</developerConnection>
 		<url>https://github.com/objectos/orm</url>
-		<connection>scm:git:git://objectos/orm.git</connection>
-		<developerConnection>scm:git:git@github.com:objectos/orm.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
