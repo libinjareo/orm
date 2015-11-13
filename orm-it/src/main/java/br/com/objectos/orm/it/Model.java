@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,35 +15,11 @@
  */
 package br.com.objectos.orm.it;
 
-import java.time.LocalDate;
-
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.EMPLOYEE;
+import br.com.objectos.orm.Orm;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class Employee {
-
-  abstract Model model();
-
-  @EMPLOYEE.EMP_NO
-  abstract int empNo();
-
-  @EMPLOYEE.BIRTH_DATE
-  abstract LocalDate birthDate();
-
-  @EMPLOYEE.FIRST_NAME
-  abstract String firstName();
-
-  @EMPLOYEE.LAST_NAME
-  abstract String lastName();
-
-  @EMPLOYEE.HIRE_DATE
-  abstract LocalDate hireDate();
-
-  Employee() {
-  }
+public interface Model extends Orm {
 
 }
