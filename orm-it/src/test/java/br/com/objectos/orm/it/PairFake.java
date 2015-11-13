@@ -20,11 +20,11 @@ package br.com.objectos.orm.it;
  */
 class PairFake {
 
-  public static final Pair PAIR_004 = Pair.builder()
+  public static final Pair PAIR_004 = Pair.builder(OrmFake.INSTANCE)
       .id(4)
       .name("Four")
       .build();
-  public static final Pair PAIR_005 = Pair.builder()
+  public static final Pair PAIR_005 = Pair.builder(OrmFake.INSTANCE)
       .id(5)
       .name("Five")
       .build();

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -57,13 +58,14 @@
 
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
+		<jdbc.db>OBJECTOS_ORM</jdbc.db>
 		<objectos.assertion.version>0.1.2</objectos.assertion.version>
 		<objectos.code.version>0.8.2</objectos.code.version>
 		<objectos.collections.version>0.1.1</objectos.collections.version>
 		<objectos.db.version>0.1.1</objectos.db.version>
 		<objectos.db9.version>0.1.0</objectos.db9.version>
 		<objectos.metainf.version>0.1.0</objectos.metainf.version>
-		<objectos.pojo.version>0.5.4</objectos.pojo.version>
+		<objectos.pojo.version>0.5.6</objectos.pojo.version>
 		<objectos.schema.version>0.1.1</objectos.schema.version>
 		<objectos.sql.version>0.11.1</objectos.sql.version>
 		<objectos.testable.version>0.4.3</objectos.testable.version>
@@ -93,6 +95,19 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<systemPropertyVariables>
+							<jdbc.db>${jdbc.db}</jdbc.db>
+							<jdbc.server>${jdbc.server}</jdbc.server>
+							<jdbc.port>${jdbc.port}</jdbc.port>
+							<jdbc.user>${jdbc.user}</jdbc.user>
+							<jdbc.password>${jdbc.password}</jdbc.password>
+						</systemPropertyVariables>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -198,7 +213,7 @@
 				<artifactId>testable-pojo-plugin</artifactId>
 				<version>${objectos.testable.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>javax.inject</groupId>
 				<artifactId>javax.inject</artifactId>

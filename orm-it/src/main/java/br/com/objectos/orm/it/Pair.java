@@ -16,6 +16,7 @@
 package br.com.objectos.orm.it;
 
 import br.com.objectos.orm.Insertable;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.testable.Testable;
@@ -35,8 +36,8 @@ abstract class Pair implements Insertable, Testable {
   Pair() {
   }
 
-  public static PairBuilder builder() {
-    return new PairBuilderPojo();
+  public static PairBuilder builder(Orm orm) {
+    return new PairBuilderPojo(orm);
   }
 
 }

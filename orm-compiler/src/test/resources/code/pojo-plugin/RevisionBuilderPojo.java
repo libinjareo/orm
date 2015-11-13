@@ -1,24 +1,29 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.Orm;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
-  "br.com.objectos.pojo.compiler.PojoCompiler",
-  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class RevisionBuilderPojo implements RevisionBuilder, RevisionBuilder.RevisionBuilderDate, RevisionBuilder.RevisionBuilderDescription {
+  private final Orm orm;
+
   private LocalDate date;
 
   private String description;
 
-  public RevisionBuilderPojo() {
+  public RevisionBuilderPojo(Orm orm) {
+    this.orm = orm;
   }
 
   @Override
   public Revision build() {
-    return new RevisionPojo(this);
+    return new RevisionPojo(this, orm);
   }
 
   @Override

@@ -72,7 +72,7 @@ public class RevisionTest extends AbstractOrmTest {
   }
 
   private Revision rev(LocalDate date, String description) {
-    return Revision.builder()
+    return Revision.builder(orm())
         .date(date)
         .description(description)
         .build();

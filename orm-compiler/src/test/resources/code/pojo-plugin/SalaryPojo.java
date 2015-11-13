@@ -1,13 +1,15 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.SALARY;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
-  "br.com.objectos.pojo.compiler.PojoCompiler",
-  "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
+    "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
+    "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
 final class SalaryPojo extends Salary {
   private final Employee employee;
@@ -18,12 +20,15 @@ final class SalaryPojo extends Salary {
 
   private final SALARY.SALARY_TO_DATE toDate;
 
-  public SalaryPojo(SalaryBuilderPojo builder) {
+  final Orm orm;
+
+  public SalaryPojo(SalaryBuilderPojo builder, Orm orm) {
     super();
     employee = builder.___get___employee();
     salary = SALARY.get().SALARY_(builder.___get___salary());
     fromDate = SALARY.get().FROM_DATE(builder.___get___fromDate());
     toDate = SALARY.get().TO_DATE(builder.___get___toDate());
+    this.orm = orm;
   }
 
   @Override

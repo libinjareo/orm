@@ -1,6 +1,7 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.orm.InsertableRowBinder;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.query.InsertableRow2;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
@@ -18,11 +20,14 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
 
   private final REVISION.REVISION_DESCRIPTION description;
 
-  public RevisionPojo(RevisionBuilderPojo builder) {
+  final Orm orm;
+
+  public RevisionPojo(RevisionBuilderPojo builder, Orm orm) {
     super();
     seq = REVISION.get().SEQ();
     date = REVISION.get().DATE(builder.___get___date());
     description = REVISION.get().DESCRIPTION(builder.___get___description());
+    this.orm = orm;
   }
 
   @Override

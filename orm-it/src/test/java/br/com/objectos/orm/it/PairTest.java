@@ -65,7 +65,7 @@ public class PairTest extends AbstractOrmTest {
   }
 
   private Pair p(int id, String name) {
-    return Pair.builder()
+    return Pair.builder(orm())
         .id(id)
         .name(name)
         .build();
