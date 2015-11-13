@@ -15,27 +15,34 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.PojoInfo;
-import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.orm.Orm;
+import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.testable.Equality;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PropertyFake {
+class StandardOrmInject extends OrmInject {
 
-  public static final Property Pair_id = get(PojoInfoFake.Pair, "id");
-  public static final Property Pair_name = get(PojoInfoFake.Pair, "name");
-  public static final Property Salary_employee = get(PojoInfoFake.Salary, "employee");
-  public static final Property Salary_orm = get(PojoInfoFake.Salary, "orm");
+  public static final OrmInject INSTANCE = new StandardOrmInject();
 
-  private PropertyFake() {
+  private static final ClassName className = ClassName.get(Orm.class);
+
+  private StandardOrmInject() {
   }
 
-  private static Property get(PojoInfo pojoInfo, String name) {
-    return pojoInfo.propertyStream()
-        .filter(p -> p.name().equals(name))
-        .findFirst()
-        .get();
+  @Override
+  public Equality isEqualTo(Object that) {
+    return Equality.instanceOf(that, StandardOrmInject.class);
+  }
+
+  @Override
+  Contribution get() {
+    return Contribution.builder()
+        .addCustomField(className, "orm")
+        .build();
   }
 
 }

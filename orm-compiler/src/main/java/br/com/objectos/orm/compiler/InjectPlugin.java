@@ -23,8 +23,6 @@ import br.com.objectos.pojo.plugin.Plugin;
 import br.com.objectos.pojo.plugin.PojoAction;
 import br.com.objectos.pojo.plugin.PojoInfo;
 
-import com.squareup.javapoet.ClassName;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -33,19 +31,15 @@ public class InjectPlugin extends AbstractPlugin implements PojoAction {
 
   @Override
   protected void configure() {
-    when(pojo((info) -> OrmPojoInfo.of(info).isPresent())).execute(this);
+    executeWhen(pojo((info) -> OrmPojoInfo.of(info).isPresent()));
+
+    when(property(instanceOf(Orm.class))).ignore();
+    execute(this);
   }
 
   @Override
   public Contribution execute(PojoInfo pojoInfo) {
-    OrmPojoInfo ormPojoInfo = OrmPojoInfo.of(pojoInfo).get();
-    return execute0(ormPojoInfo);
-  }
-
-  private Contribution execute0(OrmPojoInfo pojoInfo) {
-    return Contribution.builder()
-        .addCustomField(ClassName.get(Orm.class), "orm")
-        .build();
+    return OrmInject.of(pojoInfo).get();
   }
 
 }

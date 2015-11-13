@@ -1,6 +1,6 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
+import br.com.objectos.orm.compiler.SuperOrm;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
@@ -10,7 +10,7 @@ import javax.annotation.Generated;
     "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuilderEmployee, SalaryBuilder.SalaryBuilderSalary, SalaryBuilder.SalaryBuilderFromDate, SalaryBuilder.SalaryBuilderToDate {
-  private final Orm orm;
+  private final SuperOrm orm;
 
   private Employee employee;
 
@@ -20,7 +20,7 @@ final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuil
 
   private LocalDate toDate;
 
-  public SalaryBuilderPojo(Orm orm) {
+  public SalaryBuilderPojo(SuperOrm orm) {
     this.orm = orm;
   }
 

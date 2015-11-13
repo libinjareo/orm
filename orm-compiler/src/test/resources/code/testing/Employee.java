@@ -3,6 +3,7 @@ package br.com.objectos.schema.it;
 import java.time.LocalDate;
 
 import br.com.objectos.code.Testing;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.EMPLOYEE;
 
@@ -10,6 +11,8 @@ import br.com.objectos.schema.it.EMPLOYEE;
 @Testing
 abstract class Employee {
 
+  abstract SuperOrm orm();
+  
   @EMPLOYEE.EMP_NO
   abstract int empNo();
 

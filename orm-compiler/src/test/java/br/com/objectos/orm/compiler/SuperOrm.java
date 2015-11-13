@@ -15,27 +15,11 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.PojoInfo;
-import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.orm.Orm;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PropertyFake {
-
-  public static final Property Pair_id = get(PojoInfoFake.Pair, "id");
-  public static final Property Pair_name = get(PojoInfoFake.Pair, "name");
-  public static final Property Salary_employee = get(PojoInfoFake.Salary, "employee");
-  public static final Property Salary_orm = get(PojoInfoFake.Salary, "orm");
-
-  private PropertyFake() {
-  }
-
-  private static Property get(PojoInfo pojoInfo, String name) {
-    return pojoInfo.propertyStream()
-        .filter(p -> p.name().equals(name))
-        .findFirst()
-        .get();
-  }
+public interface SuperOrm extends Orm {
 
 }

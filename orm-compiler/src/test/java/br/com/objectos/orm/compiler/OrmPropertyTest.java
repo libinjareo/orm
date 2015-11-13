@@ -38,10 +38,23 @@ public class OrmPropertyTest {
     };
   }
 
+  @DataProvider
+  public Object[][] notPropertyProvider() {
+    return new Object[][] {
+      { PropertyFake.Salary_orm }
+    };
+  }
+
   @Test(dataProvider = "ofProvider")
   public void of(Property property, OrmProperty expected) {
     Optional<OrmProperty> res = OrmProperty.of(property);
     assertThat(res).isPresent().isEqualTo(expected);
+  }
+
+  @Test(dataProvider = "notPropertyProvider")
+  public void notProperty(Property property) {
+    Optional<OrmProperty> res = OrmProperty.of(property);
+    assertThat(res).isEmpty();
   }
 
 }

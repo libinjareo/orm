@@ -1,16 +1,16 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
+import br.com.objectos.orm.compiler.SuperOrm;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.InjectPlugin",
-  "br.com.objectos.pojo.compiler.PojoCompiler",
-  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler",
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class EmployeeBuilderPojo implements EmployeeBuilder, EmployeeBuilder.EmployeeBuilderEmpNo, EmployeeBuilder.EmployeeBuilderBirthDate, EmployeeBuilder.EmployeeBuilderFirstName, EmployeeBuilder.EmployeeBuilderLastName, EmployeeBuilder.EmployeeBuilderHireDate {
-  private final Orm orm;
+  private final SuperOrm orm;
 
   private int empNo;
 
@@ -22,7 +22,7 @@ final class EmployeeBuilderPojo implements EmployeeBuilder, EmployeeBuilder.Empl
 
   private LocalDate hireDate;
 
-  public EmployeeBuilderPojo(Orm orm) {
+  public EmployeeBuilderPojo(SuperOrm orm) {
     this.orm = orm;
   }
 

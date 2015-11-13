@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,27 +15,31 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.orm.Orm;
+import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.pojo.plugin.PojoInfo;
-import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.testable.Testable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PropertyFake {
+abstract class OrmInject implements Testable {
 
-  public static final Property Pair_id = get(PojoInfoFake.Pair, "id");
-  public static final Property Pair_name = get(PojoInfoFake.Pair, "name");
-  public static final Property Salary_employee = get(PojoInfoFake.Salary, "employee");
-  public static final Property Salary_orm = get(PojoInfoFake.Salary, "orm");
-
-  private PropertyFake() {
+  OrmInject() {
   }
 
-  private static Property get(PojoInfo pojoInfo, String name) {
-    return pojoInfo.propertyStream()
-        .filter(p -> p.name().equals(name))
+  public static OrmInject of(PojoInfo pojoInfo) {
+    return pojoInfo.ignoredPropertyStream()
+        .filter(property -> {
+          SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
+          return returnTypeInfo.isSubType(Orm.class);
+        })
+        .map(PropertyOrmInject::of)
         .findFirst()
-        .get();
+        .orElse(StandardOrmInject.INSTANCE);
   }
+
+  abstract Contribution get();
 
 }

@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.plugin.PojoInfo;
 
 /**
@@ -22,11 +23,15 @@ import br.com.objectos.pojo.plugin.PojoInfo;
  */
 class PojoInfoFake {
 
-  public static final PojoInfo Pair = PojoInfo.of(TypeInfoFake.Pair);
-  public static final PojoInfo Revision = PojoInfo.of(TypeInfoFake.Revision);
-  public static final PojoInfo Salary = PojoInfo.of(TypeInfoFake.Salary);
+  public static final PojoInfo Pair = of(TypeInfoFake.Pair);
+  public static final PojoInfo Revision = of(TypeInfoFake.Revision);
+  public static final PojoInfo Salary = of(TypeInfoFake.Salary);
 
   private PojoInfoFake() {
+  }
+
+  private static PojoInfo of(TypeInfo typeInfo) {
+    return PojoInfo.of(typeInfo);
   }
 
 }

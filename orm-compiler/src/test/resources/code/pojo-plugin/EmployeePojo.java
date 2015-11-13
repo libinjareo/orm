@@ -1,14 +1,14 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.EMPLOYEE;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-  "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
-  "br.com.objectos.orm.compiler.InjectPlugin",
-  "br.com.objectos.pojo.compiler.PojoCompiler"
+    "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EmployeePojo extends Employee {
   private final EMPLOYEE.EMPLOYEE_EMP_NO empNo;
@@ -21,9 +21,9 @@ final class EmployeePojo extends Employee {
 
   private final EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate;
 
-  final Orm orm;
+  final SuperOrm orm;
 
-  public EmployeePojo(EmployeeBuilderPojo builder, Orm orm) {
+  public EmployeePojo(EmployeeBuilderPojo builder, SuperOrm orm) {
     super();
     empNo = EMPLOYEE.get().EMP_NO(builder.___get___empNo());
     birthDate = EMPLOYEE.get().BIRTH_DATE(builder.___get___birthDate());
@@ -56,5 +56,10 @@ final class EmployeePojo extends Employee {
   @Override
   LocalDate hireDate() {
     return hireDate.get();
+  }
+
+  @Override
+  SuperOrm orm() {
+    return orm;
   }
 }
