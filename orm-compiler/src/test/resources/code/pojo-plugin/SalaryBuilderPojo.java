@@ -26,7 +26,7 @@ final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuil
 
   @Override
   public Salary build() {
-    return new SalaryPojo(this, orm);
+    return new SalaryPojo(orm, this);
   }
 
   @Override

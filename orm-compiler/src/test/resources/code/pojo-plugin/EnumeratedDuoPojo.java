@@ -13,19 +13,19 @@ import javax.annotation.Generated;
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EnumeratedDuoPojo extends EnumeratedDuo {
+  final Orm orm;
+
   private final DUO.DUO_ID id;
 
   private final DUO.DUO_NAME name;
 
-  final Orm orm;
-
-  public EnumeratedDuoPojo(EnumeratedDuoBuilderPojo builder, Orm orm) {
+  public EnumeratedDuoPojo(Orm orm, EnumeratedDuoBuilderPojo builder) {
     super();
+    this.orm = orm;
     id = DUO.get().ID(builder.___get___id());
     name = builder.___get___name()
             .map(o -> DUO.get().NAME(o.name()))
             .orElse(DUO.get().NAME());
-    this.orm = orm;
   }
 
   @Override

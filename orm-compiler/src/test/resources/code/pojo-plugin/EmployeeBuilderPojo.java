@@ -28,7 +28,7 @@ final class EmployeeBuilderPojo implements EmployeeBuilder, EmployeeBuilder.Empl
 
   @Override
   public Employee build() {
-    return new EmployeePojo(this, orm);
+    return new EmployeePojo(orm, this);
   }
 
   @Override

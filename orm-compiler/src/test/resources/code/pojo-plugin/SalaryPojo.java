@@ -12,6 +12,8 @@ import javax.annotation.Generated;
     "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
 final class SalaryPojo extends Salary {
+  final SuperOrm orm;
+
   private final Employee employee;
 
   private final SALARY.SALARY_SALARY salary;
@@ -20,15 +22,17 @@ final class SalaryPojo extends Salary {
 
   private final SALARY.SALARY_TO_DATE toDate;
 
-  final SuperOrm orm;
-
-  public SalaryPojo(SalaryBuilderPojo builder, SuperOrm orm) {
+  public SalaryPojo(SuperOrm orm, SalaryBuilderPojo builder) {
     super();
+    this.orm = orm;
     employee = builder.___get___employee();
     salary = SALARY.get().SALARY_(builder.___get___salary());
     fromDate = SALARY.get().FROM_DATE(builder.___get___fromDate());
     toDate = SALARY.get().TO_DATE(builder.___get___toDate());
-    this.orm = orm;
+  }
+  @Override
+  SuperOrm orm() {
+    return orm;
   }
 
   @Override
@@ -49,10 +53,5 @@ final class SalaryPojo extends Salary {
   @Override
   LocalDate toDate() {
     return toDate.get();
-  }
-
-  @Override
-  SuperOrm orm() {
-    return orm;
   }
 }

@@ -11,17 +11,17 @@ import javax.annotation.Generated;
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EnumeratedPojo extends Enumerated {
+  final Orm orm;
+
   private final PAIR.PAIR_ID ordinalEnum;
 
   private final PAIR.PAIR_NAME stringEnum;
 
-  final Orm orm;
-
-  public EnumeratedPojo(EnumeratedBuilderPojo builder, Orm orm) {
+  public EnumeratedPojo(Orm orm, EnumeratedBuilderPojo builder) {
     super();
+    this.orm = orm;
     ordinalEnum = PAIR.get().ID(builder.___get___ordinalEnum().ordinal());
     stringEnum = PAIR.get().NAME(builder.___get___stringEnum().name());
-    this.orm = orm;
   }
 
   @Override

@@ -22,7 +22,7 @@ final class EnumeratedBuilderPojo implements EnumeratedBuilder, EnumeratedBuilde
 
   @Override
   public Enumerated build() {
-    return new EnumeratedPojo(this, orm);
+    return new EnumeratedPojo(orm, this);
   }
 
   @Override

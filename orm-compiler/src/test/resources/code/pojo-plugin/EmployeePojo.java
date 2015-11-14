@@ -11,6 +11,8 @@ import javax.annotation.Generated;
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EmployeePojo extends Employee {
+  final SuperOrm orm;
+
   private final EMPLOYEE.EMPLOYEE_EMP_NO empNo;
 
   private final EMPLOYEE.EMPLOYEE_BIRTH_DATE birthDate;
@@ -21,16 +23,19 @@ final class EmployeePojo extends Employee {
 
   private final EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate;
 
-  final SuperOrm orm;
-
-  public EmployeePojo(EmployeeBuilderPojo builder, SuperOrm orm) {
+  public EmployeePojo(SuperOrm orm, EmployeeBuilderPojo builder) {
     super();
+    this.orm = orm;
     empNo = EMPLOYEE.get().EMP_NO(builder.___get___empNo());
     birthDate = EMPLOYEE.get().BIRTH_DATE(builder.___get___birthDate());
     firstName = EMPLOYEE.get().FIRST_NAME(builder.___get___firstName());
     lastName = EMPLOYEE.get().LAST_NAME(builder.___get___lastName());
     hireDate = EMPLOYEE.get().HIRE_DATE(builder.___get___hireDate());
-    this.orm = orm;
+  }
+
+  @Override
+  SuperOrm orm() {
+    return orm;
   }
 
   @Override
@@ -56,10 +61,5 @@ final class EmployeePojo extends Employee {
   @Override
   LocalDate hireDate() {
     return hireDate.get();
-  }
-
-  @Override
-  SuperOrm orm() {
-    return orm;
   }
 }

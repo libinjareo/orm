@@ -24,7 +24,7 @@ final class EnumeratedDuoBuilderPojo implements EnumeratedDuoBuilder, Enumerated
 
   @Override
   public EnumeratedDuo build() {
-    return new EnumeratedDuoPojo(this, orm);
+    return new EnumeratedDuoPojo(orm, this);
   }
 
   @Override
