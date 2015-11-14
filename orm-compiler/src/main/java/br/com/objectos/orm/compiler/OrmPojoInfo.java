@@ -77,6 +77,10 @@ abstract class OrmPojoInfo implements Testable {
     return CompanionType.of(this);
   }
 
+  public OrmInject inject() {
+    return OrmInject.of(pojoInfo());
+  }
+
   Naming naming() {
     return pojoInfo().naming();
   }

@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
@@ -22,6 +23,15 @@ final class SalaryPojo extends Salary {
 
   private final SALARY.SALARY_TO_DATE toDate;
 
+  public SalaryPojo(SuperOrm orm, Employee employee, SALARY.SALARY_SALARY salary, SALARY.SALARY_FROM_DATE fromDate, SALARY.SALARY_TO_DATE toDate) {
+    super();
+    this.orm = orm;
+    this.employee = employee;
+    this.salary = salary;
+    this.fromDate = fromDate;
+    this.toDate = toDate;
+  }
+
   public SalaryPojo(SuperOrm orm, SalaryBuilderPojo builder) {
     super();
     this.orm = orm;
@@ -30,6 +40,7 @@ final class SalaryPojo extends Salary {
     fromDate = SALARY.get().FROM_DATE(builder.___get___fromDate());
     toDate = SALARY.get().TO_DATE(builder.___get___toDate());
   }
+
   @Override
   SuperOrm orm() {
     return orm;

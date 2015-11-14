@@ -8,6 +8,7 @@ import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
@@ -18,6 +19,13 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
   private final PAIR.PAIR_ID id;
 
   private final PAIR.PAIR_NAME name;
+
+  public PairPojo(Orm orm, PAIR.PAIR_ID id, PAIR.PAIR_NAME name) {
+    super();
+    this.orm = orm;
+    this.id = id;
+    this.name = name;
+  }
 
   public PairPojo(Orm orm, PairBuilderPojo builder) {
     super();

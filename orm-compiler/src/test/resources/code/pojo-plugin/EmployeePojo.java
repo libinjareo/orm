@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
@@ -22,6 +23,16 @@ final class EmployeePojo extends Employee {
   private final EMPLOYEE.EMPLOYEE_LAST_NAME lastName;
 
   private final EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate;
+
+  public EmployeePojo(SuperOrm orm, EMPLOYEE.EMPLOYEE_EMP_NO empNo, EMPLOYEE.EMPLOYEE_BIRTH_DATE birthDate, EMPLOYEE.EMPLOYEE_FIRST_NAME firstName, EMPLOYEE.EMPLOYEE_LAST_NAME lastName, EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate) {
+    super();
+    this.orm = orm;
+    this.empNo = empNo;
+    this.birthDate = birthDate;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.hireDate = hireDate;
+  }
 
   public EmployeePojo(SuperOrm orm, EmployeeBuilderPojo builder) {
     super();

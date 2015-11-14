@@ -9,6 +9,7 @@ import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
@@ -21,6 +22,14 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
   private final REVISION.REVISION_DATE date;
 
   private final REVISION.REVISION_DESCRIPTION description;
+
+  public RevisionPojo(Orm orm, REVISION.REVISION_SEQ seq, REVISION.REVISION_DATE date, REVISION.REVISION_DESCRIPTION description) {
+    super();
+    this.orm = orm;
+    this.seq = seq;
+    this.date = date;
+    this.description = description;
+  }
 
   public RevisionPojo(Orm orm, RevisionBuilderPojo builder) {
     super();

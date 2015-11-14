@@ -29,15 +29,17 @@ import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-abstract class OrmProperty implements Testable {
+abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   abstract Property property();
   abstract TableInfoAnnotationInfo tableClassInfo();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
+  abstract int columnSeq();
 
   OrmProperty() {
   }
@@ -58,6 +60,9 @@ abstract class OrmProperty implements Testable {
     return Optional.empty();
   }
 
+  public void acceptConstructor1(MethodSpec.Builder constructor) {
+  }
+
   public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
     if (!isGenerated()) {
       helper.addColumnClassNameStream(columnClassNameStream());
@@ -65,6 +70,11 @@ abstract class OrmProperty implements Testable {
     } else {
       helper.addGeneratedKeyListenerName(property().name());
     }
+  }
+
+  @Override
+  public int compareTo(OrmProperty o) {
+    return Integer.compare(columnSeq(), o.columnSeq());
   }
 
   public boolean isGenerated() {

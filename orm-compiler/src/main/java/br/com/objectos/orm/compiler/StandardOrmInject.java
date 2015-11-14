@@ -20,6 +20,7 @@ import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Equality;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -34,15 +35,25 @@ class StandardOrmInject extends OrmInject {
   }
 
   @Override
+  public Contribution get() {
+    return Contribution.builder()
+        .addCustomField(typeName(), name())
+        .build();
+  }
+
+  @Override
   public Equality isEqualTo(Object that) {
     return Equality.instanceOf(that, StandardOrmInject.class);
   }
 
   @Override
-  Contribution get() {
-    return Contribution.builder()
-        .addCustomField(className, "orm")
-        .build();
+  String name() {
+    return "orm";
+  }
+
+  @Override
+  TypeName typeName() {
+    return className;
   }
 
 }

@@ -15,11 +15,17 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
 import br.com.objectos.code.AnnotationInfo;
+import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
+import br.com.objectos.schema.meta.ColumnSeq;
+
+import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -33,19 +39,34 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   }
 
   public static ForeignKeyOrmProperty of(Property property, AnnotationInfo foreignKeyAnnotationInfo) {
+    List<SimpleTypeInfo> columnAnnotationClassList = foreignKeyAnnotationInfo
+        .annotationInfo(ColumnAnnotationClassArray.class)
+        .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
+        .get();
     return ForeignKeyOrmProperty.builder()
         .property(property)
         .tableClassInfo(TableInfoAnnotationInfo.of(foreignKeyAnnotationInfo))
-        .columnAnnotationClassList(foreignKeyAnnotationInfo
-            .annotationInfo(ColumnAnnotationClassArray.class)
-            .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
-            .get())
+        .columnAnnotationClassList(columnAnnotationClassList)
+        .columnSeq(columnAnnotationClassList.get(0)
+            .typeInfo()
+            .flatMap(t -> t.annotationInfo(ColumnSeq.class))
+            .flatMap(ann -> ann.annotationValueInfo("value"))
+            .get()
+            .intValue())
         .foreignKeyAnnotationInfo(foreignKeyAnnotationInfo)
         .build();
   }
 
   static ForeignKeyOrmPropertyBuilder builder() {
     return new ForeignKeyOrmPropertyBuilderPojo();
+  }
+
+  @Override
+  public void acceptConstructor1(MethodSpec.Builder constructor) {
+    String name = property().name();
+    constructor
+        .addParameter(property().returnTypeInfo().typeName(), name)
+        .addStatement("this.$1L = $1L", name);
   }
 
 }

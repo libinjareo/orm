@@ -9,6 +9,7 @@ import javax.annotation.Generated;
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$OptionalAction",
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
@@ -18,6 +19,13 @@ final class EnumeratedDuoPojo extends EnumeratedDuo {
   private final DUO.DUO_ID id;
 
   private final DUO.DUO_NAME name;
+
+  public EnumeratedDuoPojo(Orm orm, DUO.DUO_ID id, DUO.DUO_NAME name) {
+    super();
+    this.orm = orm;
+    this.id = id;
+    this.name = name;
+  }
 
   public EnumeratedDuoPojo(Orm orm, EnumeratedDuoBuilderPojo builder) {
     super();

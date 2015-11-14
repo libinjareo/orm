@@ -26,6 +26,7 @@ class Compiler {
   }
 
   public static void invalidate() {
+    OrmInject.invalidate();
     OrmPojoInfo.invalidate();
     TableInfoAnnotationInfo.invalidate();
   }
