@@ -15,9 +15,6 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.plugin.Contribution;
@@ -33,20 +30,10 @@ import com.squareup.javapoet.TypeName;
  */
 abstract class OrmInject implements Testable {
 
-  private static final Map<PojoInfo, OrmInject> CACHE = new ConcurrentHashMap<>();
-
   OrmInject() {
   }
 
-  public static void invalidate() {
-    CACHE.clear();
-  }
-
   public static OrmInject of(PojoInfo pojoInfo) {
-    return CACHE.computeIfAbsent(pojoInfo, OrmInject::of0);
-  }
-
-  private static OrmInject of0(PojoInfo pojoInfo) {
     return pojoInfo.ignoredPropertyStream()
         .filter(property -> {
           SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
@@ -63,7 +50,7 @@ abstract class OrmInject implements Testable {
         .build();
   }
 
-  public abstract Contribution get();
+  public abstract Contribution execute();
 
   public final ParameterSpec parameterSpec() {
     return ParameterSpec.builder(typeName(), name()).build();

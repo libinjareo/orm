@@ -4,6 +4,7 @@ import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.query.InsertableRow2;
+import br.com.objectos.sql.query.Row2;
 import javax.annotation.Generated;
 
 @Generated({
@@ -19,6 +20,10 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
   private final PAIR.PAIR_ID id;
 
   private final PAIR.PAIR_NAME name;
+
+  public PairPojo(Orm orm, Row2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
+    this(orm, row.column1(), row.column2());
+  }
 
   public PairPojo(Orm orm, PAIR.PAIR_ID id, PAIR.PAIR_NAME name) {
     super();

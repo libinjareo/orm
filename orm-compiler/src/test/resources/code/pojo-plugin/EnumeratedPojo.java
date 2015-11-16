@@ -3,6 +3,7 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.schema.meta.EnumType;
+import br.com.objectos.sql.query.Row2;
 import javax.annotation.Generated;
 
 @Generated({
@@ -17,6 +18,10 @@ final class EnumeratedPojo extends Enumerated {
   private final PAIR.PAIR_ID ordinalEnum;
 
   private final PAIR.PAIR_NAME stringEnum;
+
+  public EnumeratedPojo(Orm orm, Row2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
+    this(orm, row.column1(), row.column2());
+  }
 
   public EnumeratedPojo(Orm orm, PAIR.PAIR_ID ordinalEnum, PAIR.PAIR_NAME stringEnum) {
     super();

@@ -4,6 +4,7 @@ import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.query.InsertableRow2;
+import br.com.objectos.sql.query.Row3;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
@@ -22,6 +23,10 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
   private final REVISION.REVISION_DATE date;
 
   private final REVISION.REVISION_DESCRIPTION description;
+
+  public RevisionPojo(Orm orm, Row3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
+    this(orm, row.column1(), row.column2(), row.column3());
+  }
 
   public RevisionPojo(Orm orm, REVISION.REVISION_SEQ seq, REVISION.REVISION_DATE date, REVISION.REVISION_DESCRIPTION description) {
     super();

@@ -39,9 +39,8 @@ public class ConstructorPlugin extends AbstractPlugin implements PojoAction {
     Builder builder = Contribution.builder();
 
     OrmPojoInfo ormPojoInfo = OrmPojoInfo.of(pojoInfo).get();
-    OrmInject inject = ormPojoInfo.inject();
     pojoInfo.constructorInfoStream()
-        .map(constructor -> Constructor.of(ormPojoInfo, inject, constructor))
+        .map(constructor -> ConstructorContext.of(ormPojoInfo, constructor))
         .forEach(constructor -> constructor.accept(builder));
 
     return builder.build();

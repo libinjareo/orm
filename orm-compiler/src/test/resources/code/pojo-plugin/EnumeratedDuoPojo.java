@@ -3,6 +3,7 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.db.type.ColumnType;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.DUO;
+import br.com.objectos.sql.query.Row2;
 import java.util.Optional;
 import javax.annotation.Generated;
 
@@ -19,6 +20,10 @@ final class EnumeratedDuoPojo extends EnumeratedDuo {
   private final DUO.DUO_ID id;
 
   private final DUO.DUO_NAME name;
+
+  public EnumeratedDuoPojo(Orm orm, Row2<DUO.DUO_ID, DUO.DUO_NAME> row) {
+    this(orm, row.column1(), row.column2());
+  }
 
   public EnumeratedDuoPojo(Orm orm, DUO.DUO_ID id, DUO.DUO_NAME name) {
     super();

@@ -2,6 +2,7 @@ package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.EMPLOYEE;
+import br.com.objectos.sql.query.Row5;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
@@ -23,6 +24,10 @@ final class EmployeePojo extends Employee {
   private final EMPLOYEE.EMPLOYEE_LAST_NAME lastName;
 
   private final EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate;
+
+  public EmployeePojo(SuperOrm orm, Row5<EMPLOYEE.EMPLOYEE_EMP_NO, EMPLOYEE.EMPLOYEE_BIRTH_DATE, EMPLOYEE.EMPLOYEE_FIRST_NAME, EMPLOYEE.EMPLOYEE_LAST_NAME, EMPLOYEE.EMPLOYEE_HIRE_DATE> row) {
+    this(orm, row.column1(), row.column2(), row.column3(), row.column4(), row.column5());
+  }
 
   public EmployeePojo(SuperOrm orm, EMPLOYEE.EMPLOYEE_EMP_NO empNo, EMPLOYEE.EMPLOYEE_BIRTH_DATE birthDate, EMPLOYEE.EMPLOYEE_FIRST_NAME firstName, EMPLOYEE.EMPLOYEE_LAST_NAME lastName, EMPLOYEE.EMPLOYEE_HIRE_DATE hireDate) {
     super();

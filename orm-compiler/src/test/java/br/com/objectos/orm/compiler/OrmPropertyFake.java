@@ -24,7 +24,7 @@ import br.com.objectos.schema.info.TableInfoAnnotationInfoFake;
  */
 class OrmPropertyFake {
 
-  public static final OrmProperty Pair_id = ColumnOrmProperty.builder()
+  public static final ColumnOrmProperty Pair_id = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_id)
       .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_ID))
@@ -33,7 +33,7 @@ class OrmPropertyFake {
       .columnClassName(NamingFake.schemaIt("PAIR", "PAIR_ID"))
       .generationType(GenerationType.NONE)
       .build();
-  public static final OrmProperty Pair_name = ColumnOrmProperty.builder()
+  public static final ColumnOrmProperty Pair_name = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_name)
       .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_NAME))
@@ -43,7 +43,7 @@ class OrmPropertyFake {
       .generationType(GenerationType.NONE)
       .build();
 
-  public static final OrmProperty Salary_employee = ForeignKeyOrmProperty.builder()
+  public static final ForeignKeyOrmProperty Salary_employee = ForeignKeyOrmProperty.builder()
       .property(PropertyFake.Salary_employee)
       .tableClassInfo(TableInfoAnnotationInfoFake.SALARY)
       .columnAnnotationClassList(simple(TypeInfoFake.SALARY_EMP_NO))

@@ -45,7 +45,7 @@ class PropertyOrmInject extends OrmInject {
   }
 
   @Override
-  public Contribution get() {
+  public Contribution execute() {
     return Contribution.builder()
         .addCustomField(typeName, name)
         .addPojoProperty(property.standardPojoMethod())

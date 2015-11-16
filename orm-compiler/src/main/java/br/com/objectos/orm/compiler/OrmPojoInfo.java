@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import br.com.objectos.collections.MoreCollectors;
+import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
@@ -36,6 +36,8 @@ abstract class OrmPojoInfo implements Testable {
 
   abstract PojoInfo pojoInfo();
   abstract List<OrmProperty> propertyList();
+  abstract List<ColumnOrmProperty> columnPropertyList();
+  abstract List<ForeignKeyOrmProperty> foreignKeyPropertyList();
   abstract OrmInsertable insertable();
 
   OrmPojoInfo() {
@@ -54,21 +56,27 @@ abstract class OrmPojoInfo implements Testable {
   }
 
   private static Optional<OrmPojoInfo> of0(PojoInfo pojoInfo) {
-    List<OrmProperty> propertyList = pojoInfo.propertyStream()
+    OrmPojoInfoHelper helper = OrmPojoInfoHelper.get();
+
+    pojoInfo.propertyStream()
         .map(OrmProperty::of)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .collect(MoreCollectors.toImmutableList());
+        .forEach(property -> property.acceptOrmPojoInfoHelper(helper));
+
+    List<OrmProperty> propertyList = helper.propertyList();
 
     return propertyList.isEmpty()
         ? Optional.empty()
-        : Optional.of(of1(pojoInfo, propertyList));
+        : Optional.of(of1(pojoInfo, propertyList, helper));
   }
 
-  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList) {
+  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList, OrmPojoInfoHelper helper) {
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
         .propertyList(propertyList)
+        .columnPropertyList(helper.columnPropertyList())
+        .foreignKeyPropertyList(helper.foreignKeyPropertyList())
         .insertable(OrmInsertable.of(pojoInfo, propertyList))
         .build();
   }
@@ -77,6 +85,7 @@ abstract class OrmPojoInfo implements Testable {
     return CompanionType.of(this);
   }
 
+  @Lazy
   public OrmInject inject() {
     return OrmInject.of(pojoInfo());
   }

@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.AnnotationValueInfo;
@@ -27,7 +28,6 @@ import br.com.objectos.schema.meta.ColumnClass;
 import br.com.objectos.schema.meta.ColumnSeq;
 
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -72,16 +72,23 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
-  public void acceptConstructor1(MethodSpec.Builder constructor) {
-    String name = property().name();
-    constructor
-        .addParameter(columnClassName(), name)
-        .addStatement("this.$1L = $1L", name);
+  public void acceptColumnsConstructor(ColumnsConstructor constructor) {
+    constructor.set(columnClassName(), property().name());
+  }
+
+  @Override
+  public void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper) {
+    helper.addColumnOrmProperty(this);
   }
 
   @Override
   public boolean isGenerated() {
     return generationType().isGenerated();
+  }
+
+  @Override
+  public String rowConstructorParameterName(AtomicInteger i) {
+    return "row.column" + i.getAndIncrement() + "()";
   }
 
 }

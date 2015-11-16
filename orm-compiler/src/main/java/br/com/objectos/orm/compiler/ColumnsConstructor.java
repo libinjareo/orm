@@ -15,62 +15,52 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.ConstructorInfo;
-import br.com.objectos.code.ParameterInfo;
-import br.com.objectos.pojo.plugin.Contribution;
 
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Constructor {
+class ColumnsConstructor extends AbstractConstructor {
 
-  private final OrmPojoInfo pojoInfo;
-  private final OrmInject inject;
-  private final ConstructorInfo constructorInfo;
-
-  private Constructor(OrmPojoInfo pojoInfo, OrmInject inject, ConstructorInfo constructorInfo) {
-    this.pojoInfo = pojoInfo;
-    this.inject = inject;
-    this.constructorInfo = constructorInfo;
+  private ColumnsConstructor(ConstructorContext context) {
+    super(context);
   }
 
-  public static Constructor of(OrmPojoInfo pojoInfo, OrmInject inject, ConstructorInfo constructorInfo) {
-    return new Constructor(pojoInfo, inject, constructorInfo);
+  public static ColumnsConstructor of(ConstructorContext context) {
+    return new ColumnsConstructor(context);
   }
 
-  public void accept(Contribution.Builder builder) {
-    builder.addMethod(constructor1());
-  }
+  @Override
+  public MethodSpec execute() {
+    OrmInject inject = context.inject();
+    ConstructorInfo constructorInfo = context.constructorInfo();
 
-  private MethodSpec constructor1() {
-    MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
+    constructor
         .addModifiers(Modifier.PUBLIC)
         .addParameter(inject.parameterSpec())
-        .addParameters(parameterSpecList())
+        .addParameters(context.parameterSpecList())
         .addCode(constructorInfo.statementWriter()
             .addStandardSuperStatement()
             .write())
         .addCode(inject.assignToFieldStatement());
 
+    OrmPojoInfo pojoInfo = context.pojoInfo();
     pojoInfo.propertyList().stream()
         .sorted()
-        .forEach(property -> property.acceptConstructor1(constructor));
+        .forEach(property -> property.acceptColumnsConstructor(this));
 
     return constructor.build();
   }
 
-  private List<ParameterSpec> parameterSpecList() {
-    return constructorInfo.parameterInfoStream()
-        .map(ParameterInfo::parameterSpec)
-        .collect(Collectors.toList());
+  public void set(TypeName typeName, String name) {
+    constructor
+        .addParameter(typeName, name)
+        .addStatement("this.$1L = $1L", name);
   }
 
 }

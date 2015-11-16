@@ -15,19 +15,20 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+abstract class AbstractConstructor {
 
-  private Compiler() {
+  final MethodSpec.Builder constructor = MethodSpec.constructorBuilder();
+  final ConstructorContext context;
+
+  public AbstractConstructor(ConstructorContext context) {
+    this.context = context;
   }
 
-  public static void invalidate() {
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
-  }
+  public abstract MethodSpec execute();
 
 }

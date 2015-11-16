@@ -39,7 +39,10 @@ public class InjectPlugin extends AbstractPlugin implements PojoAction {
 
   @Override
   public Contribution execute(PojoInfo pojoInfo) {
-    return OrmInject.of(pojoInfo).get();
+    return OrmPojoInfo.of(pojoInfo)
+        .get()
+        .inject()
+        .execute();
   }
 
 }

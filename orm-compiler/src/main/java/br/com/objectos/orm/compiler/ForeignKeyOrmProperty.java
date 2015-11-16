@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
@@ -24,8 +25,6 @@ import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 import br.com.objectos.schema.meta.ColumnSeq;
-
-import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -62,11 +61,18 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   }
 
   @Override
-  public void acceptConstructor1(MethodSpec.Builder constructor) {
-    String name = property().name();
-    constructor
-        .addParameter(property().returnTypeInfo().typeName(), name)
-        .addStatement("this.$1L = $1L", name);
+  public void acceptColumnsConstructor(ColumnsConstructor constructor) {
+    constructor.set(property().returnTypeInfo().typeName(), property().name());
+  }
+
+  @Override
+  public void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper) {
+    helper.addForeignKeyOrmProperty(this);
+  }
+
+  @Override
+  public String rowConstructorParameterName(AtomicInteger i) {
+    return property().name();
   }
 
 }
