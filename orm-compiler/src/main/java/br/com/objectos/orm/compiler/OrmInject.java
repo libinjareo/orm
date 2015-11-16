@@ -21,6 +21,10 @@ import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
 
+import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -40,6 +44,20 @@ abstract class OrmInject implements Testable {
         .orElse(StandardOrmInject.INSTANCE);
   }
 
-  abstract Contribution get();
+  public CodeBlock assignToFieldStatement() {
+    return CodeBlock.builder()
+        .addStatement("this.$1L = $1L", name())
+        .build();
+  }
+
+  public abstract Contribution execute();
+
+  public final ParameterSpec parameterSpec() {
+    return ParameterSpec.builder(typeName(), name()).build();
+  }
+
+  abstract String name();
+
+  abstract TypeName typeName();
 
 }

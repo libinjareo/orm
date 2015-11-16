@@ -23,7 +23,7 @@ final class RevisionBuilderPojo implements RevisionBuilder, RevisionBuilder.Revi
 
   @Override
   public Revision build() {
-    return new RevisionPojo(this, orm);
+    return new RevisionPojo(orm, this);
   }
 
   @Override

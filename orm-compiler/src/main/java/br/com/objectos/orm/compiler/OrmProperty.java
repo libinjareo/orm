@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import br.com.objectos.code.AnnotationInfo;
@@ -29,15 +30,18 @@ import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-abstract class OrmProperty implements Testable {
+abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   abstract Property property();
   abstract TableInfoAnnotationInfo tableClassInfo();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
+  abstract int columnSeq();
 
   OrmProperty() {
   }
@@ -58,6 +62,8 @@ abstract class OrmProperty implements Testable {
     return Optional.empty();
   }
 
+  public abstract void acceptColumnsConstructor(ColumnsConstructor constructor);
+
   public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
     if (!isGenerated()) {
       helper.addColumnClassNameStream(columnClassNameStream());
@@ -67,9 +73,25 @@ abstract class OrmProperty implements Testable {
     }
   }
 
+  public abstract void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper);
+
+  @Override
+  public int compareTo(OrmProperty o) {
+    return Integer.compare(columnSeq(), o.columnSeq());
+  }
+
   public boolean isGenerated() {
     return false;
   }
+
+  public ParameterSpec parameterSpec() {
+    SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
+    TypeName typeName = returnTypeInfo.typeName();
+    String name = property().name();
+    return ParameterSpec.builder(typeName, name).build();
+  }
+
+  public abstract String rowConstructorParameterName(AtomicInteger i);
 
   Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()

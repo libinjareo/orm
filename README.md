@@ -2,6 +2,20 @@
 
 A lightweight Java8 ORM library.
 
+## A simple O/RM
+
+__objectos::orm__ is __not__ meant to be a Hibernate replacement. 
+It is a simpler and lighter weight alternative.
+
+Also, it uses annotation processing to generate code, meaning that,
+when debugging, all code is visible.
+
+__objectos::orm__ is nothing more than a collection of 
+__objectos::pojo__ plugins leveraging two more projects:
+
+- __objectos::schema__ for Java based database schema definition
+- __objectos::sql__ for a Java based SQL query writing
+
 ## Maven
 
 __objectos::orm__ is at Maven central.
@@ -10,12 +24,12 @@ __objectos::orm__ is at Maven central.
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.3</version>
 </dependency>
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm-compiler</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.3</version>
 </dependency>
 ```
 

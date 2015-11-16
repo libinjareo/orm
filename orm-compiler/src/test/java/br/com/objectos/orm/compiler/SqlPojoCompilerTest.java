@@ -79,6 +79,7 @@ public class SqlPojoCompilerTest {
     PluginAssertion.assertThat(
         new ColumnPropertyPlugin(),
         new CompanionTypePlugin(),
+        new ConstructorPlugin(),
         new InjectPlugin(),
         new InsertablePlugin(),
         new OptionalPlugin())

@@ -63,6 +63,11 @@
 			<artifactId>testable-pojo-plugin</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>lazy-pojo-plugin</artifactId>
+			<optional>true</optional>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.google.guava</groupId>

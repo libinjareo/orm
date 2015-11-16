@@ -21,7 +21,7 @@ final class PairBuilderPojo implements PairBuilder, PairBuilder.PairBuilderId, P
 
   @Override
   public Pair build() {
-    return new PairPojo(this, orm);
+    return new PairPojo(orm, this);
   }
 
   @Override

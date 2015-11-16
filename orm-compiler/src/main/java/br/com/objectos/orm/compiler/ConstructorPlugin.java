@@ -16,9 +16,9 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.metainf.Services;
-import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.plugin.AbstractPlugin;
 import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.pojo.plugin.Contribution.Builder;
 import br.com.objectos.pojo.plugin.Plugin;
 import br.com.objectos.pojo.plugin.PojoAction;
 import br.com.objectos.pojo.plugin.PojoInfo;
@@ -27,22 +27,23 @@ import br.com.objectos.pojo.plugin.PojoInfo;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Services(Plugin.class)
-public class InjectPlugin extends AbstractPlugin implements PojoAction {
+public class ConstructorPlugin extends AbstractPlugin implements PojoAction {
 
   @Override
   protected void configure() {
-    executeWhen(pojo((info) -> OrmPojoInfo.of(info).isPresent()));
-
-    when(property(instanceOf(Orm.class))).ignore();
-    execute(this);
+    when(pojo((info) -> OrmPojoInfo.of(info).isPresent())).execute(this);
   }
 
   @Override
   public Contribution execute(PojoInfo pojoInfo) {
-    return OrmPojoInfo.of(pojoInfo)
-        .get()
-        .inject()
-        .execute();
+    Builder builder = Contribution.builder();
+
+    OrmPojoInfo ormPojoInfo = OrmPojoInfo.of(pojoInfo).get();
+    pojoInfo.constructorInfoStream()
+        .map(constructor -> ConstructorContext.of(ormPojoInfo, constructor))
+        .forEach(constructor -> constructor.accept(builder));
+
+    return builder.build();
   }
 
 }

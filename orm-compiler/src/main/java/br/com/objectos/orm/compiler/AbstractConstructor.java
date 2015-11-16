@@ -15,24 +15,20 @@
  */
 package br.com.objectos.orm.compiler;
 
+import com.squareup.javapoet.MethodSpec;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+abstract class AbstractConstructor {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .columnPropertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .foreignKeyPropertyList()
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  final MethodSpec.Builder constructor = MethodSpec.constructorBuilder();
+  final ConstructorContext context;
 
-  private OrmPojoInfoFake() {
+  public AbstractConstructor(ConstructorContext context) {
+    this.context = context;
   }
+
+  public abstract MethodSpec execute();
 
 }
