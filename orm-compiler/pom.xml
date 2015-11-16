@@ -14,10 +14,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
-			<artifactId>assertion</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
 			<artifactId>code-apt</artifactId>
 		</dependency>
 		<dependency>
@@ -44,15 +40,7 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
-			<artifactId>pojo-testing</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
 			<artifactId>schema-info</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
-			<artifactId>schema-info-testing</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>

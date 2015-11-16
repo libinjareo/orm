@@ -53,6 +53,8 @@
 		<module>orm</module>
 		<module>orm-compiler</module>
 		<module>orm-it</module>
+		<module>orm-relational-plugin</module>
+		<module>orm-testing</module>
 	</modules>
 
 	<properties>
@@ -68,7 +70,7 @@
 		<objectos.pojo.version>0.5.9</objectos.pojo.version>
 		<objectos.schema.version>0.1.1</objectos.schema.version>
 		<objectos.sql.version>0.11.1</objectos.sql.version>
-		<objectos.testable.version>0.4.3</objectos.testable.version>
+		<objectos.testable.version>0.4.4</objectos.testable.version>
 	</properties>
 
 	<build>
