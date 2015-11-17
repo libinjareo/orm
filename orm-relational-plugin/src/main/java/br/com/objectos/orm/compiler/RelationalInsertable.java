@@ -30,7 +30,13 @@ interface RelationalInsertable {
   }
 
   static RelationalInsertable of0(OrmPojoInfo pojoInfo) {
-    return pojoInfo.insertable().adapt(new RelationalInsertableAdapter(pojoInfo));
+    TableInfoMap tableInfoMap = pojoInfo.tableInfoMap();
+
+    if (tableInfoMap.size() != 1) {
+      return NotRelationalInsertable.INSTANCE;
+    }
+
+    return tableInfoMap.onFirstEntry(IsRelationInsertableAction.INSTANCE);
   }
 
   Contribution execute();

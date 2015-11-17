@@ -55,6 +55,15 @@ class TableInfoMap implements Testable {
         .test(this, that);
   }
 
+  public <T> T onFirstEntry(TableInfoMapAction<T> action) {
+    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = firstEntry();
+    return action.onEntry(entry.getKey(), entry.getValue());
+  }
+
+  public int size() {
+    return map.size();
+  }
+
   public OrmInsertable toOrmInsertable(PojoInfo pojoInfo) {
     if (!pojoInfo.instanceOf(Insertable.class)) {
       return NotOrmInsertable.INSTANCE;
@@ -64,9 +73,13 @@ class TableInfoMap implements Testable {
       return NotOrmInsertable.INSTANCE;
     }
 
-    Set<Entry<TableInfoAnnotationInfo, List<OrmProperty>>> entrySet = map.entrySet();
-    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = entrySet.iterator().next();
+    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = firstEntry();
     return toOrmInsertable0(entry.getKey(), entry.getValue());
+  }
+
+  private Entry<TableInfoAnnotationInfo, List<OrmProperty>> firstEntry() {
+    Set<Entry<TableInfoAnnotationInfo, List<OrmProperty>>> entrySet = map.entrySet();
+    return entrySet.iterator().next();
   }
 
   private OrmInsertable toOrmInsertable0(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {

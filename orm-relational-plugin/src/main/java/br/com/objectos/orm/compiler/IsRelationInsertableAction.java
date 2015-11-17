@@ -15,13 +15,22 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+import br.com.objectos.schema.info.TableName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-interface OrmInsertableAdapter<T> {
+enum IsRelationInsertableAction implements TableInfoMapAction<RelationalInsertable> {
 
-  T onIs(IsOrmInsertable insertable);
+  INSTANCE;
 
-  T onNot(NotOrmInsertable insertable);
+  @Override
+  public RelationalInsertable onEntry(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
+    TableName tableName = tableInfo.tableName();
+    return new IsRelationalInsertable(tableName, propertyList);
+  }
 
 }

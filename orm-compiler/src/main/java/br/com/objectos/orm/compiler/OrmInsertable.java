@@ -30,8 +30,6 @@ interface OrmInsertable extends Testable {
 
   void acceptInsertAll(Builder insertAll);
 
-  <T> T adapt(OrmInsertableAdapter<T> adapter);
-
   Contribution execute();
 
 }

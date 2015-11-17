@@ -4,6 +4,7 @@ import br.com.objectos.db.type.ColumnType;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.DUO;
 import br.com.objectos.sql.query.Row2;
+import br.com.objectos.way.relational.Insert;
 import java.util.Optional;
 import javax.annotation.Generated;
 
@@ -12,6 +13,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EnumeratedDuoPojo extends EnumeratedDuo {
@@ -39,6 +41,13 @@ final class EnumeratedDuoPojo extends EnumeratedDuo {
     name = builder.___get___name()
             .map(o -> DUO.get().NAME(o.name()))
             .orElse(DUO.get().NAME());
+  }
+
+  @Override
+  public Insert getInsert() {
+    return Insert.into("OBJECTOS_ORM.DUO")
+        .value("ID", id.getWrapped())
+        .value("NAME", name.getWrapped());
   }
 
   @Override

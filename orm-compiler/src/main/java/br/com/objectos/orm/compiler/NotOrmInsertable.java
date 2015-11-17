@@ -37,11 +37,6 @@ enum NotOrmInsertable implements OrmInsertable {
   }
 
   @Override
-  public <T> T adapt(OrmInsertableAdapter<T> adapter) {
-    return adapter.onNot(this);
-  }
-
-  @Override
   public Contribution execute() {
     return Contribution.empty();
   }

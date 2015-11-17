@@ -15,27 +15,16 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class RelationalInsertableAdapter implements OrmInsertableAdapter<RelationalInsertable> {
+@FunctionalInterface
+interface TableInfoMapAction<T> {
 
-  private final OrmPojoInfo pojoInfo;
-
-  public RelationalInsertableAdapter(OrmPojoInfo pojoInfo) {
-    this.pojoInfo = pojoInfo;
-  }
-
-  @Override
-  public RelationalInsertable onIs(IsOrmInsertable insertable) {
-    return new IsRelationalInsertable(
-        insertable.tableInfo().tableName(),
-        pojoInfo.propertyList());
-  }
-
-  @Override
-  public RelationalInsertable onNot(NotOrmInsertable insertable) {
-    return NotRelationalInsertable.INSTANCE;
-  }
+  T onEntry(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList);
 
 }

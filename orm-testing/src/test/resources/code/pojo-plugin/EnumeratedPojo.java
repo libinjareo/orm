@@ -4,12 +4,14 @@ import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.schema.meta.EnumType;
 import br.com.objectos.sql.query.Row2;
+import br.com.objectos.way.relational.Insert;
 import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EnumeratedPojo extends Enumerated {
@@ -35,6 +37,13 @@ final class EnumeratedPojo extends Enumerated {
     this.orm = orm;
     ordinalEnum = PAIR.get().ID(builder.___get___ordinalEnum().ordinal());
     stringEnum = PAIR.get().NAME(builder.___get___stringEnum().name());
+  }
+
+  @Override
+  public Insert getInsert() {
+    return Insert.into("OBJECTOS_ORM.PAIR")
+        .value("ID", ordinalEnum.getWrapped())
+        .value("NAME", stringEnum.getWrapped());
   }
 
   @Override
