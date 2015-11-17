@@ -17,8 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import static br.com.objectos.assertion.TestableAssertion.assertThat;
 
-import java.util.List;
-
+import br.com.objectos.orm.compiler.TableInfoMap.Builder;
 import br.com.objectos.pojo.plugin.PojoInfo;
 
 import org.testng.annotations.DataProvider;
@@ -40,8 +39,9 @@ public class OrmInsertableTest {
   @Test(dataProvider = "ofProvider")
   public void of(PojoInfo pojoInfo, OrmInsertable expected) {
     OrmPojoInfo orm = OrmPojoInfo.of(pojoInfo).get();
-    List<OrmProperty> propertyList = orm.propertyList();
-    OrmInsertable res = OrmInsertable.of(pojoInfo, propertyList);
+    Builder mapBuilder = TableInfoMap.builder();
+    orm.propertyList().forEach(mapBuilder::add);
+    OrmInsertable res = mapBuilder.build().toOrmInsertable(pojoInfo);
     assertThat(res).isEqualTo(expected);
   }
 

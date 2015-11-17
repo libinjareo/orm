@@ -44,7 +44,7 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
         .get();
     return ForeignKeyOrmProperty.builder()
         .property(property)
-        .tableClassInfo(TableInfoAnnotationInfo.of(foreignKeyAnnotationInfo))
+        .tableInfo(TableInfoAnnotationInfo.of(foreignKeyAnnotationInfo))
         .columnAnnotationClassList(columnAnnotationClassList)
         .columnSeq(columnAnnotationClassList.get(0)
             .typeInfo()
@@ -66,7 +66,7 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   }
 
   @Override
-  public void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper) {
+  public void acceptOrmPropertyHelper(OrmPropertyHelper helper) {
     helper.addForeignKeyOrmProperty(this);
   }
 

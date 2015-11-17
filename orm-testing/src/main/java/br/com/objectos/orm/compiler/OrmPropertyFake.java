@@ -26,7 +26,7 @@ class OrmPropertyFake {
 
   public static final ColumnOrmProperty Pair_id = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_id)
-      .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
+      .tableInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_ID))
       .columnSeq(0)
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_ID)
@@ -36,7 +36,7 @@ class OrmPropertyFake {
       .build();
   public static final ColumnOrmProperty Pair_name = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_name)
-      .tableClassInfo(TableInfoAnnotationInfoFake.PAIR)
+      .tableInfo(TableInfoAnnotationInfoFake.PAIR)
       .columnAnnotationClassList(simple(TypeInfoFake.PAIR_NAME))
       .columnSeq(1)
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_NAME)
@@ -47,7 +47,7 @@ class OrmPropertyFake {
 
   public static final ForeignKeyOrmProperty Salary_employee = ForeignKeyOrmProperty.builder()
       .property(PropertyFake.Salary_employee)
-      .tableClassInfo(TableInfoAnnotationInfoFake.SALARY)
+      .tableInfo(TableInfoAnnotationInfoFake.SALARY)
       .columnAnnotationClassList(simple(TypeInfoFake.SALARY_EMP_NO))
       .columnSeq(0)
       .foreignKeyAnnotationInfo(AnnotationInfoFake.SALARY_EMP_NO_FK)

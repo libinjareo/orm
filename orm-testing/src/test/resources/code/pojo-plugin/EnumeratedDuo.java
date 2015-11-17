@@ -7,7 +7,7 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.DUO;
 
 @Pojo
-abstract class EnumeratedDuo {
+abstract class EnumeratedDuo implements br.com.objectos.way.relational.Insertable {
 
   @DUO.ID
   abstract int id();

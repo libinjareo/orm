@@ -5,7 +5,7 @@ import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.schema.meta.EnumType;
 
 @Pojo
-abstract class Enumerated {
+abstract class Enumerated implements br.com.objectos.way.relational.Insertable {
 
   @PAIR.ID
   abstract EnumType ordinalEnum();

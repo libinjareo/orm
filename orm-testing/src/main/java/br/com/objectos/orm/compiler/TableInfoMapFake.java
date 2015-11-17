@@ -15,23 +15,17 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Testable;
-
-import com.squareup.javapoet.MethodSpec.Builder;
-import com.squareup.javapoet.TypeSpec;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-interface OrmInsertable extends Testable {
+class TableInfoMapFake {
 
-  void acceptCompanionType(CompanionType companion, TypeSpec.Builder type);
+  public static final TableInfoMap Pair = TableInfoMap.builder()
+      .add(OrmPropertyFake.Pair_id)
+      .add(OrmPropertyFake.Pair_name)
+      .build();
 
-  void acceptInsertAll(Builder insertAll);
-
-  <T> T adapt(OrmInsertableAdapter<T> adapter);
-
-  Contribution execute();
+  private TableInfoMapFake() {
+  }
 
 }

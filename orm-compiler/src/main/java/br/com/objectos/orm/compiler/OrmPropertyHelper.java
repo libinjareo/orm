@@ -22,26 +22,27 @@ import br.com.objectos.collections.ImmutableList;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoHelper {
+class OrmPropertyHelper {
 
   private final ImmutableList.Builder<OrmProperty> propertyList = ImmutableList.builder();
   private final ImmutableList.Builder<ColumnOrmProperty> columnPropertyList = ImmutableList.builder();
   private final ImmutableList.Builder<ForeignKeyOrmProperty> foreignKeyPropertyList = ImmutableList.builder();
+  private final TableInfoMap.Builder tableInfoMap = TableInfoMap.builder();
 
-  private OrmPojoInfoHelper() {
+  private OrmPropertyHelper() {
   }
 
-  public static OrmPojoInfoHelper get() {
-    return new OrmPojoInfoHelper();
+  public static OrmPropertyHelper get() {
+    return new OrmPropertyHelper();
   }
 
   public void addColumnOrmProperty(ColumnOrmProperty property) {
-    propertyList.add(property);
+    addOrmProperty(property);
     columnPropertyList.add(property);
   }
 
   public void addForeignKeyOrmProperty(ForeignKeyOrmProperty property) {
-    propertyList.add(property);
+    addOrmProperty(property);
     foreignKeyPropertyList.add(property);
   }
 
@@ -55,6 +56,15 @@ class OrmPojoInfoHelper {
 
   public List<OrmProperty> propertyList() {
     return propertyList.build();
+  }
+
+  public TableInfoMap tableInfoMap() {
+    return tableInfoMap.build();
+  }
+
+  private void addOrmProperty(OrmProperty property) {
+    propertyList.add(property);
+    tableInfoMap.add(property);
   }
 
 }

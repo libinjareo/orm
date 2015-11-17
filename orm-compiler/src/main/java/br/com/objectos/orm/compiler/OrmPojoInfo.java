@@ -38,6 +38,7 @@ abstract class OrmPojoInfo implements Testable {
   abstract List<OrmProperty> propertyList();
   abstract List<ColumnOrmProperty> columnPropertyList();
   abstract List<ForeignKeyOrmProperty> foreignKeyPropertyList();
+  abstract TableInfoMap tableInfoMap();
   abstract OrmInsertable insertable();
 
   OrmPojoInfo() {
@@ -56,13 +57,13 @@ abstract class OrmPojoInfo implements Testable {
   }
 
   private static Optional<OrmPojoInfo> of0(PojoInfo pojoInfo) {
-    OrmPojoInfoHelper helper = OrmPojoInfoHelper.get();
+    OrmPropertyHelper helper = OrmPropertyHelper.get();
 
     pojoInfo.propertyStream()
         .map(OrmProperty::of)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .forEach(property -> property.acceptOrmPojoInfoHelper(helper));
+        .forEach(property -> property.acceptOrmPropertyHelper(helper));
 
     List<OrmProperty> propertyList = helper.propertyList();
 
@@ -71,13 +72,15 @@ abstract class OrmPojoInfo implements Testable {
         : Optional.of(of1(pojoInfo, propertyList, helper));
   }
 
-  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList, OrmPojoInfoHelper helper) {
+  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList, OrmPropertyHelper helper) {
+    TableInfoMap tableInfoMap = helper.tableInfoMap();
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
         .propertyList(propertyList)
         .columnPropertyList(helper.columnPropertyList())
         .foreignKeyPropertyList(helper.foreignKeyPropertyList())
-        .insertable(OrmInsertable.of(pojoInfo, propertyList))
+        .tableInfoMap(tableInfoMap)
+        .insertable(tableInfoMap.toOrmInsertable(pojoInfo))
         .build();
   }
 

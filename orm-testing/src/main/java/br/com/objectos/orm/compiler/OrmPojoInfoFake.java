@@ -29,6 +29,7 @@ class OrmPojoInfoFake {
           OrmPropertyFake.Pair_id,
           OrmPropertyFake.Pair_name)
       .foreignKeyPropertyList()
+      .tableInfoMap(TableInfoMapFake.Pair)
       .insertable(OrmInsertableFake.Pair)
       .build();
 

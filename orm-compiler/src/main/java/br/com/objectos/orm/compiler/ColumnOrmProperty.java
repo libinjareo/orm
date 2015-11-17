@@ -55,7 +55,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
     return ColumnOrmProperty.builder()
         .property(property)
-        .tableClassInfo(TableInfoAnnotationInfo.of(columnAnnotationInfo))
+        .tableInfo(TableInfoAnnotationInfo.of(columnAnnotationInfo))
         .columnAnnotationClassList(ImmutableList.of(columnAnnotationInfo.simpleTypeInfo()))
         .columnSeq(columnSeq)
         .columnAnnotationInfo(columnAnnotationInfo)
@@ -83,7 +83,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
-  public void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper) {
+  public void acceptOrmPropertyHelper(OrmPropertyHelper helper) {
     helper.addColumnOrmProperty(this);
   }
 
