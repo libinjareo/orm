@@ -71,6 +71,11 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   }
 
   @Override
+  public <T> T adapt(OrmPropertyAdapter<T> adapter) {
+    return adapter.onForeignKey(this);
+  }
+
+  @Override
   public String rowConstructorParameterName(AtomicInteger i) {
     return property().name();
   }

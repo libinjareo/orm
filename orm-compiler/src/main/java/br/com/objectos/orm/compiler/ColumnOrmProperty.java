@@ -25,6 +25,7 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnClass;
+import br.com.objectos.schema.meta.ColumnName;
 import br.com.objectos.schema.meta.ColumnSeq;
 
 import com.squareup.javapoet.ClassName;
@@ -37,6 +38,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
   abstract AnnotationInfo columnAnnotationInfo();
   abstract ClassName columnClassName();
+  abstract String columnSimpleName();
   abstract GenerationType generationType();
 
   ColumnOrmProperty() {
@@ -63,6 +65,10 @@ abstract class ColumnOrmProperty extends OrmProperty {
             .flatMap(typeInfo -> typeInfo.typeInfo())
             .get()
             .className())
+        .columnSimpleName(columnAnnotationInfo
+            .annotationInfo(ColumnName.class)
+            .flatMap(ann -> ann.stringValue("value"))
+            .get())
         .generationType(GenerationType.of(columnAnnotationInfo))
         .build();
   }
@@ -79,6 +85,11 @@ abstract class ColumnOrmProperty extends OrmProperty {
   @Override
   public void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper) {
     helper.addColumnOrmProperty(this);
+  }
+
+  @Override
+  public <T> T adapt(OrmPropertyAdapter<T> adapter) {
+    return adapter.onColumn(this);
   }
 
   @Override

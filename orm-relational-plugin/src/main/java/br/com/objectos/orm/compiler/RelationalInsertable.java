@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,39 +16,23 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
-
-import com.squareup.javapoet.MethodSpec.Builder;
-import com.squareup.javapoet.TypeSpec;
+import br.com.objectos.pojo.plugin.PojoInfo;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
+interface RelationalInsertable {
 
-  INSTANCE;
-
-  @Override
-  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
+  static RelationalInsertable of(PojoInfo pojoInfo) {
+    return OrmPojoInfo.of(pojoInfo)
+        .map(RelationalInsertable::of0)
+        .orElse(NotRelationalInsertable.INSTANCE);
   }
 
-  @Override
-  public void acceptInsertAll(Builder insertAll) {
+  static RelationalInsertable of0(OrmPojoInfo pojoInfo) {
+    return pojoInfo.insertable().adapt(new RelationalInsertableAdapter(pojoInfo));
   }
 
-  @Override
-  public <T> T adapt(OrmInsertableAdapter<T> adapter) {
-    return adapter.onNot(this);
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
-  }
+  Contribution execute();
 
 }

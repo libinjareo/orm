@@ -76,6 +76,11 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   @Override
+  public <T> T adapt(OrmInsertableAdapter<T> adapter) {
+    return adapter.onIs(this);
+  }
+
+  @Override
   public Contribution execute() {
     return Contribution.builder()
         .addSuperinterface(superinterface())

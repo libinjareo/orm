@@ -48,6 +48,10 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
+			<artifactId>orm-relational-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
 			<artifactId>pojo-testing</artifactId>
 			<scope>compile</scope>
 		</dependency>

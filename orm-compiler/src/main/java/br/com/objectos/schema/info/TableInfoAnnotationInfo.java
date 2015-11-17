@@ -43,7 +43,7 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
 
   abstract ClassName className();
   @Override
-  abstract TableName tableName();
+  public abstract TableName tableName();
   @Override
   abstract List<ColumnInfoTypeInfo> columnInfoList();
 

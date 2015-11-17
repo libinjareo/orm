@@ -5,7 +5,10 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.PAIR;
 
 @Pojo
-abstract class Pair implements Insertable {
+abstract class Pair 
+    implements 
+    Insertable, 
+    br.com.objectos.way.relational.Insertable {
 
   @PAIR.ID
   abstract int id();

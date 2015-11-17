@@ -75,6 +75,8 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   public abstract void acceptOrmPojoInfoHelper(OrmPojoInfoHelper helper);
 
+  public abstract <T> T adapt(OrmPropertyAdapter<T> adapter);
+
   @Override
   public int compareTo(OrmProperty o) {
     return Integer.compare(columnSeq(), o.columnSeq());

@@ -5,6 +5,7 @@ import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.query.InsertableRow2;
 import br.com.objectos.sql.query.Row2;
+import br.com.objectos.way.relational.Insert;
 import javax.annotation.Generated;
 
 @Generated({
@@ -12,6 +13,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME>, InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME>> {
@@ -42,6 +44,13 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
   @Override
   public InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME> bindInsertableRow(InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
     return row.values(id, name);
+  }
+
+  @Override
+  public Insert getInsert() {
+    return Insert.into("OBJECTOS_ORM.PAIR")
+        .value("ID", id.getWrapped())
+        .value("NAME", name.getWrapped());
   }
 
   @Override

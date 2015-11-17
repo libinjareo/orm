@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class SqlPojoCompilerTest {
+public class CompilerTest {
 
   @Test
   public void employee() {
@@ -82,7 +82,8 @@ public class SqlPojoCompilerTest {
         new ConstructorPlugin(),
         new InjectPlugin(),
         new InsertablePlugin(),
-        new OptionalPlugin())
+        new OptionalPlugin(),
+        new RelationalInsertablePlugin())
         .with(with.toArray(new String[] {}))
         .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo", "Orm"));
   }

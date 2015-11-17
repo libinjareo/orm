@@ -15,40 +15,27 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
-
-import com.squareup.javapoet.MethodSpec.Builder;
-import com.squareup.javapoet.TypeSpec;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
+class RelationalInsertableAdapter implements OrmInsertableAdapter<RelationalInsertable> {
 
-  INSTANCE;
+  private final OrmPojoInfo pojoInfo;
 
-  @Override
-  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
+  public RelationalInsertableAdapter(OrmPojoInfo pojoInfo) {
+    this.pojoInfo = pojoInfo;
   }
 
   @Override
-  public void acceptInsertAll(Builder insertAll) {
+  public RelationalInsertable onIs(IsOrmInsertable insertable) {
+    return new IsRelationalInsertable(
+        insertable.tableInfo().tableName(),
+        pojoInfo.propertyList());
   }
 
   @Override
-  public <T> T adapt(OrmInsertableAdapter<T> adapter) {
-    return adapter.onNot(this);
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
+  public RelationalInsertable onNot(NotOrmInsertable insertable) {
+    return NotRelationalInsertable.INSTANCE;
   }
 
 }

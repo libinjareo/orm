@@ -15,40 +15,28 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.metainf.Services;
+import br.com.objectos.pojo.plugin.AbstractPlugin;
 import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
-
-import com.squareup.javapoet.MethodSpec.Builder;
-import com.squareup.javapoet.TypeSpec;
+import br.com.objectos.pojo.plugin.Plugin;
+import br.com.objectos.pojo.plugin.PojoAction;
+import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.way.relational.Insertable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
-
-  INSTANCE;
+@Services(Plugin.class)
+public class RelationalInsertablePlugin extends AbstractPlugin implements PojoAction {
 
   @Override
-  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
+  protected void configure() {
+    when(pojo(instanceOf(Insertable.class))).execute(this);
   }
 
   @Override
-  public void acceptInsertAll(Builder insertAll) {
-  }
-
-  @Override
-  public <T> T adapt(OrmInsertableAdapter<T> adapter) {
-    return adapter.onNot(this);
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
+  public Contribution execute(PojoInfo pojoInfo) {
+    return RelationalInsertable.of(pojoInfo).execute();
   }
 
 }
