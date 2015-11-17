@@ -1,10 +1,12 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.db.query.Result;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.query.InsertableRow2;
 import br.com.objectos.sql.query.Row3;
+import br.com.objectos.way.relational.Insert;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
@@ -13,6 +15,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class RevisionPojo extends Revision implements InsertableRowBinder<InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>, InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>> {
@@ -47,6 +50,14 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
   @Override
   public InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> bindInsertableRow(InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
     return row.values(date, description).onGeneratedKey(seq);
+  }
+
+  @Override
+  public Insert getInsert() {
+    return Insert.into("OBJECTOS_ORM.REVISION")
+        .on(rs -> seq.onGeneratedKey(Result.of(rs)))
+        .value("DATE", date.getWrapped())
+        .value("DESCRIPTION", description.getWrapped());
   }
 
   @Override

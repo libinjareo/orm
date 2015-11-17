@@ -26,7 +26,10 @@ import br.com.objectos.schema.it.REVISION;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Revision implements Insertable {
+abstract class Revision
+    implements
+    Insertable,
+    br.com.objectos.way.relational.Insertable {
 
   @REVISION.SEQ
   abstract int seq();

@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.lang.model.element.Modifier;
 
+import br.com.objectos.db.query.Result;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.schema.info.TableName;
 
@@ -52,10 +53,8 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
 
   @Override
   public CodeBlock onColumn(ColumnOrmProperty property) {
-    return build(CodeBlock.builder()
-        .add("    .value($S, $L.getWrapped())",
-            property.columnSimpleName(),
-            property.property().name()));
+    GenerationType generationType = property.generationType();
+    return generationType.adapt(new GenerationTypeAdapterPojo(property));
   }
 
   @Override
@@ -85,6 +84,32 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
     }
 
     return builder.build();
+  }
+
+  private class GenerationTypeAdapterPojo implements GenerationTypeAdapter<CodeBlock> {
+
+    private final ColumnOrmProperty property;
+
+    public GenerationTypeAdapterPojo(ColumnOrmProperty property) {
+      this.property = property;
+    }
+
+    @Override
+    public CodeBlock onAutoIncrement() {
+      return build(CodeBlock.builder()
+          .add("    .on(rs -> $L.onGeneratedKey($T.of(rs)))",
+              property.property().name(),
+              Result.class));
+    }
+
+    @Override
+    public CodeBlock onNone() {
+      return build(CodeBlock.builder()
+          .add("    .value($S, $L.getWrapped())",
+              property.columnSimpleName(),
+              property.property().name()));
+    }
+
   }
 
 }

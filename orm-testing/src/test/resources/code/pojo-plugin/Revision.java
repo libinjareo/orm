@@ -7,7 +7,10 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.REVISION;
 
 @Pojo
-abstract class Revision implements Insertable {
+abstract class Revision
+    implements
+    Insertable,
+    br.com.objectos.way.relational.Insertable {
 
   @REVISION.SEQ
   abstract int seq();

@@ -25,7 +25,7 @@ import br.com.objectos.schema.it.DUO;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class EnumeratedDuo {
+abstract class EnumeratedDuo implements br.com.objectos.way.relational.Insertable {
 
   @DUO.ID
   abstract int id();
