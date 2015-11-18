@@ -32,7 +32,7 @@ class OptionalColumnProperty extends ColumnProperty {
                                 AnnotationInfo columnAnnotationInfo,
                                 ClassName columnClassName,
                                 SimpleTypeInfo returnTypeInfo,
-                                ColumnPropertyBindType bindType) {
+                                BindType bindType) {
     super(property, columnAnnotationInfo, columnClassName, returnTypeInfo, bindType);
   }
 
@@ -42,7 +42,7 @@ class OptionalColumnProperty extends ColumnProperty {
           .findFirst()
           .map(TypeParameterInfo::simpleTypeInfo)
           .get();
-      ColumnPropertyBindType bindType = ColumnPropertyBindType.of(enclosedTypeInfo, columnClassTypeInfo);
+      BindType bindType = BindType.of(enclosedTypeInfo, columnClassTypeInfo);
       return new OptionalColumnProperty(p, ann, cName, enclosedTypeInfo, bindType);
     });
   }

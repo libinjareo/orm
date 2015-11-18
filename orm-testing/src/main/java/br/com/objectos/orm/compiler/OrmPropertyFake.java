@@ -32,6 +32,7 @@ class OrmPropertyFake {
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_ID)
       .columnClassName(NamingFake.schemaIt("PAIR", "PAIR_ID"))
       .columnSimpleName("ID")
+      .returnType(ReturnTypeFake.INT)
       .generationType(GenerationType.NONE)
       .build();
   public static final ColumnOrmProperty Pair_name = ColumnOrmProperty.builder()
@@ -42,6 +43,7 @@ class OrmPropertyFake {
       .columnAnnotationInfo(AnnotationInfoFake.PAIR_NAME)
       .columnClassName(NamingFake.schemaIt("PAIR", "PAIR_NAME"))
       .columnSimpleName("NAME")
+      .returnType(ReturnTypeFake.STRING)
       .generationType(GenerationType.NONE)
       .build();
 

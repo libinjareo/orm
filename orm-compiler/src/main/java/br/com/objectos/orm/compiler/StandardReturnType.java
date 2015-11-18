@@ -15,20 +15,28 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.code.TypeInfo;
+import br.com.objectos.pojo.Pojo;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+@Pojo
+abstract class StandardReturnType extends ReturnType {
 
-  private Compiler() {
+  StandardReturnType() {
   }
 
-  public static void invalidate() {
-    ColumnOrmProperty.invalidate();
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
+  public static StandardReturnType get(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+    return StandardReturnType.builder()
+        .typeName(returnTypeInfo.typeName())
+        .bindType(BindType.of(returnTypeInfo, columnClassTypeInfo))
+        .build();
+  }
+
+  static StandardReturnTypeBuilder builder() {
+    return new StandardReturnTypeBuilderPojo();
   }
 
 }

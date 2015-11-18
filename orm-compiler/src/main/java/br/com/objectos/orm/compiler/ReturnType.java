@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,20 +15,29 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+import java.util.Optional;
+
+import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.code.TypeInfo;
+import br.com.objectos.testable.Testable;
+
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+abstract class ReturnType implements Testable {
 
-  private Compiler() {
+  abstract TypeName typeName();
+  abstract BindType bindType();
+
+  ReturnType() {
   }
 
-  public static void invalidate() {
-    ColumnOrmProperty.invalidate();
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
+  public static ReturnType of(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+    return returnTypeInfo.isInfoOf(Optional.class)
+        ? OptionalReturnType.get(returnTypeInfo, columnClassTypeInfo)
+        : StandardReturnType.get(returnTypeInfo, columnClassTypeInfo);
   }
 
 }

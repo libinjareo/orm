@@ -15,20 +15,23 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.schema.info.TableInfoAnnotationInfo;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class Compiler {
+class ReturnTypeFake {
 
-  private Compiler() {
-  }
+  public static final StandardReturnType INT = StandardReturnType.builder()
+      .typeName(TypeName.INT)
+      .bindType(BindType.STANDARD)
+      .build();
+  public static final StandardReturnType STRING = StandardReturnType.builder()
+      .typeName(TypeName.get(String.class))
+      .bindType(BindType.STANDARD)
+      .build();
 
-  public static void invalidate() {
-    ColumnOrmProperty.invalidate();
-    OrmPojoInfo.invalidate();
-    TableInfoAnnotationInfo.invalidate();
+  private ReturnTypeFake() {
   }
 
 }

@@ -31,13 +31,13 @@ class StandardColumnProperty extends ColumnProperty {
                                 AnnotationInfo columnAnnotationInfo,
                                 ClassName columnClassName,
                                 SimpleTypeInfo returnTypeInfo,
-                                ColumnPropertyBindType bindType) {
+                                BindType bindType) {
     super(property, columnAnnotationInfo, columnClassName, returnTypeInfo, bindType);
   }
 
   public static ColumnProperty of(Property property) {
     return of0(property, (p, ann, cName, returnTypeInfo, columnClassTypeInfo) -> {
-      ColumnPropertyBindType bindType = ColumnPropertyBindType.of(returnTypeInfo, columnClassTypeInfo);
+      BindType bindType = BindType.of(returnTypeInfo, columnClassTypeInfo);
       return new StandardColumnProperty(p, ann, cName, returnTypeInfo, bindType);
     });
   }

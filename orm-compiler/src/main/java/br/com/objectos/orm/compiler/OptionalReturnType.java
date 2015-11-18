@@ -15,13 +15,9 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.List;
-import java.util.Optional;
-
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.code.TypeParameterInfo;
-import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.Pojo;
 
 import com.squareup.javapoet.TypeName;
@@ -30,48 +26,28 @@ import com.squareup.javapoet.TypeName;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class OptionalSqlPojoReturnType extends SqlPojoReturnType {
+abstract class OptionalReturnType extends ReturnType {
 
-  @Override
   abstract TypeName enclosedTypeName();
 
-  OptionalSqlPojoReturnType() {
+  OptionalReturnType() {
   }
 
-  public static OptionalSqlPojoReturnTypeBuilder builder() {
-    return new OptionalSqlPojoReturnTypeBuilderPojo();
-  }
-
-  @Override
-  public ColumnPropertyBindType bindType(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     SimpleTypeInfo enclosedTypeInfo = returnTypeInfo.getTypeParameterInfoStream()
         .findFirst()
         .map(TypeParameterInfo::simpleTypeInfo)
         .get();
-    return ColumnPropertyBindType.of(enclosedTypeInfo, columnClassTypeInfo);
-  }
-
-  @Override
-  public String constructorCode(String code) {
-    return String.format("$T.ofNullable(%s)", super.constructorCode(code));
-  }
-
-  @Override
-  public List<Object> constructorArgs(List<Object> list) {
-    return ImmutableList.<Object> builder()
-        .add(Optional.class)
-        .addAll(list)
+    TypeName enclosedTypeName = enclosedTypeInfo.typeName();
+    return OptionalReturnType.builder()
+        .typeName(returnTypeInfo.typeName())
+        .bindType(BindType.of(enclosedTypeInfo, columnClassTypeInfo))
+        .enclosedTypeName(enclosedTypeName)
         .build();
   }
 
-  @Override
-  public String findByPrimaryKeyMethodName() {
-    return "maybe";
-  }
-
-  @Override
-  public boolean isOptional() {
-    return true;
+  private static OptionalReturnTypeBuilder builder() {
+    return new OptionalReturnTypeBuilderPojo();
   }
 
 }

@@ -28,7 +28,7 @@ import br.com.objectos.schema.meta.ValueType;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum ColumnPropertyBindType {
+enum BindType {
 
   BOOLEAN_INT {
     @Override
@@ -139,13 +139,13 @@ enum ColumnPropertyBindType {
     }
   };
 
-  public static ColumnPropertyBindType of(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  public static BindType of(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     return returnTypeInfo.isEnum()
         ? ofEnum(returnTypeInfo, columnClassTypeInfo)
         : ofStandard(returnTypeInfo, columnClassTypeInfo);
   }
 
-  private static ColumnPropertyBindType ofBoolean(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static BindType ofBoolean(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     String simpleName = columnClassTypeInfo.annotationInfo(ValueType.class)
         .flatMap(ann -> ann.simpleTypeInfoValue("value"))
         .map(SimpleTypeInfo::simpleName)
@@ -155,7 +155,7 @@ enum ColumnPropertyBindType {
         : STANDARD;
   }
 
-  private static ColumnPropertyBindType ofEnum(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static BindType ofEnum(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     EnumType enumType = columnClassTypeInfo.annotationInfo(EnumColumn.class)
         .flatMap(ann -> ann.enumConstantInfoValue("value"))
         .map(info -> info.getEnumValue(EnumType.class))
@@ -173,7 +173,7 @@ enum ColumnPropertyBindType {
     }
   }
 
-  private static ColumnPropertyBindType ofStandard(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  private static BindType ofStandard(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
     return returnTypeInfo.equals(SimpleTypePrimitives.BOOLEAN)
         ? ofBoolean(returnTypeInfo, columnClassTypeInfo)
         : STANDARD;
@@ -209,7 +209,7 @@ enum ColumnPropertyBindType {
 
   private String optionalConstructorCode() {
     return String.format(""
-        + "$L = $L\n"
+        + "$1L = $2L\n"
         + "    .map(o -> $3T.get().$4L(o%s))\n"
         + "    .orElse($3T.get().$4L())",
         accessor());

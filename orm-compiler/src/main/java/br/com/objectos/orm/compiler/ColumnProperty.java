@@ -41,13 +41,13 @@ abstract class ColumnProperty {
   private final AnnotationInfo columnAnnotationInfo;
   private final ClassName columnClassName;
   private final SimpleTypeInfo returnTypeInfo;
-  final ColumnPropertyBindType bindType;
+  final BindType bindType;
 
   public ColumnProperty(Property property,
                         AnnotationInfo columnAnnotationInfo,
                         ClassName columnClassName,
                         SimpleTypeInfo returnTypeInfo,
-                        ColumnPropertyBindType bindType) {
+                        BindType bindType) {
     this.property = property;
     this.columnAnnotationInfo = columnAnnotationInfo;
     this.columnClassName = columnClassName;
