@@ -16,6 +16,42 @@ __objectos::pojo__ plugins leveraging two more projects:
 - __objectos::schema__ for Java based database schema definition
 - __objectos::sql__ for a Java based SQL query writing
 
+## A simple mapping
+
+In its simplest form, you just need to annotate your entity class
+with a `@Pojo` annotation and its properties with the corresponding
+column annotations:
+
+```java
+@Pojo
+abstract class Employee {
+
+  @EMPLOYEE.EMP_NO
+  abstract int emp_no();
+
+  @EMPLOYEE.BIRTH_DATE
+  abstract LocalDate birthDate();
+
+  @EMPLOYEE.FIRST_NAME
+  abstract String firstName();
+
+  @EMPLOYEE.LAST_NAME
+  abstract String lastName();
+
+  @EMPLOYEE.HIRE_DATE
+  abstract LocalDate hireDate();
+
+  Employee() {
+  }
+
+  // the EmployeeBuilder/Pojo is generated for you 
+  public static EmployeeBuilder builder() {
+    return new EmployeeBuilderPojo();
+  }
+
+}
+```
+
 ## Maven
 
 __objectos::orm__ is at Maven central.
