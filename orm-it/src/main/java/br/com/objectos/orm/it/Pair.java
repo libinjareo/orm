@@ -25,7 +25,11 @@ import br.com.objectos.testable.Testable;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Pair implements Insertable, Testable {
+abstract class Pair
+    implements
+    Insertable,
+    br.com.objectos.way.relational.Insertable,
+    Testable {
 
   @PAIR.ID
   abstract int id();

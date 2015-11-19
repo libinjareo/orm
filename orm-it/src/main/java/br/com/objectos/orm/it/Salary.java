@@ -24,7 +24,7 @@ import br.com.objectos.schema.it.SALARY;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Salary {
+abstract class Salary implements br.com.objectos.way.relational.Insertable {
 
   abstract Model model();
 

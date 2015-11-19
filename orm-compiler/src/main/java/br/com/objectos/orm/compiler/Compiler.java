@@ -26,6 +26,7 @@ class Compiler {
   }
 
   public static void invalidate() {
+    ColumnOrmProperty.invalidate();
     OrmPojoInfo.invalidate();
     TableInfoAnnotationInfo.invalidate();
   }

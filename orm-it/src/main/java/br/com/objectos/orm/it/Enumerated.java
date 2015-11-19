@@ -23,7 +23,7 @@ import br.com.objectos.schema.meta.EnumType;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Enumerated {
+abstract class Enumerated implements br.com.objectos.way.relational.Insertable {
 
   @PAIR.ID
   abstract EnumType ordinalEnum();

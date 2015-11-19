@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.code.TypeInfo;
+import br.com.objectos.code.TypeParameterInfo;
 import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
@@ -38,6 +41,7 @@ abstract class OrmPojoInfo implements Testable {
   abstract List<OrmProperty> propertyList();
   abstract List<ColumnOrmProperty> columnPropertyList();
   abstract List<ForeignKeyOrmProperty> foreignKeyPropertyList();
+  abstract TableInfoMap tableInfoMap();
   abstract OrmInsertable insertable();
 
   OrmPojoInfo() {
@@ -51,18 +55,29 @@ abstract class OrmPojoInfo implements Testable {
     return CACHE.computeIfAbsent(pojoInfo, OrmPojoInfo::of0);
   }
 
+  public static Optional<OrmPojoInfo> of(SimpleTypeInfo returnTypeInfo) {
+    TypeInfo typeInfo = returnTypeInfo.isInfoOf(Optional.class)
+        ? returnTypeInfo.getTypeParameterInfoStream()
+            .findFirst()
+            .flatMap(TypeParameterInfo::typeInfo)
+            .get()
+        : returnTypeInfo.typeInfo().get();
+    PojoInfo pojoInfo = PojoInfo.of(typeInfo);
+    return of(pojoInfo);
+  }
+
   static OrmPojoInfoBuilder builder() {
     return new OrmPojoInfoBuilderPojo();
   }
 
   private static Optional<OrmPojoInfo> of0(PojoInfo pojoInfo) {
-    OrmPojoInfoHelper helper = OrmPojoInfoHelper.get();
+    OrmPropertyHelper helper = OrmPropertyHelper.get();
 
     pojoInfo.propertyStream()
         .map(OrmProperty::of)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .forEach(property -> property.acceptOrmPojoInfoHelper(helper));
+        .forEach(property -> property.acceptOrmPropertyHelper(helper));
 
     List<OrmProperty> propertyList = helper.propertyList();
 
@@ -71,14 +86,22 @@ abstract class OrmPojoInfo implements Testable {
         : Optional.of(of1(pojoInfo, propertyList, helper));
   }
 
-  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList, OrmPojoInfoHelper helper) {
+  private static OrmPojoInfo of1(PojoInfo pojoInfo, List<OrmProperty> propertyList, OrmPropertyHelper helper) {
+    TableInfoMap tableInfoMap = helper.tableInfoMap();
     return OrmPojoInfo.builder()
         .pojoInfo(pojoInfo)
         .propertyList(propertyList)
         .columnPropertyList(helper.columnPropertyList())
         .foreignKeyPropertyList(helper.foreignKeyPropertyList())
-        .insertable(OrmInsertable.of(pojoInfo, propertyList))
+        .tableInfoMap(tableInfoMap)
+        .insertable(tableInfoMap.toOrmInsertable(pojoInfo))
         .build();
+  }
+
+  public Optional<ColumnOrmProperty> columnPropertyAnnotatedWith(SimpleTypeInfo annotationTypeInfo) {
+    return columnPropertyList().stream()
+        .filter(m -> m.columnAnnotationMatches(annotationTypeInfo))
+        .findFirst();
   }
 
   public CompanionType companionType() {

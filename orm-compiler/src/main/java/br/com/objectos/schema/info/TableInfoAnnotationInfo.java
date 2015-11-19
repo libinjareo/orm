@@ -41,9 +41,9 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
 
   private static final Map<ClassName, TableInfoAnnotationInfo> CACHE = new ConcurrentHashMap<>();
 
-  abstract ClassName className();
+  public abstract ClassName className();
   @Override
-  abstract TableName tableName();
+  public abstract TableName tableName();
   @Override
   abstract List<ColumnInfoTypeInfo> columnInfoList();
 

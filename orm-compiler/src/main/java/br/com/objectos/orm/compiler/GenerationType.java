@@ -26,12 +26,22 @@ enum GenerationType {
 
   NONE {
     @Override
+    public <T> T adapt(GenerationTypeAdapter<T> adapter) {
+      return adapter.onNone();
+    }
+
+    @Override
     public boolean isGenerated() {
       return false;
     }
   },
 
-  AUTO_INCREMENT;
+  AUTO_INCREMENT {
+    @Override
+    public <T> T adapt(GenerationTypeAdapter<T> adapter) {
+      return adapter.onAutoIncrement();
+    }
+  };
 
   public static GenerationType of(AnnotationInfo columnAnnotationInfo) {
     return columnAnnotationInfo.annotationInfo(GeneratedValue.class)
@@ -40,6 +50,8 @@ enum GenerationType {
         .map(kind -> GenerationType.valueOf(kind.name()))
         .orElse(GenerationType.NONE);
   }
+
+  public abstract <T> T adapt(GenerationTypeAdapter<T> adapter);
 
   public boolean isGenerated() {
     return true;
