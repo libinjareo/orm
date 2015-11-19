@@ -135,13 +135,16 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
 
     @Override
     public CodeBlock onOptional(OptionalReturnType returnType) {
-      return build(CodeBlock.builder());
+      return build(CodeBlock.builder()
+          .add("    .value($S, $L.isPresent() ? $L.get().$L()$L : null)",
+              columnName, fieldName, fieldName, propertyAccessor, bindTypeAccessor));
     }
 
     @Override
     public CodeBlock onStandard(StandardReturnType returnType) {
       return build(CodeBlock.builder()
-          .add("    .value($S, $L.$L()$L)", columnName, fieldName, propertyAccessor, bindTypeAccessor));
+          .add("    .value($S, $L.$L()$L)",
+              columnName, fieldName, propertyAccessor, bindTypeAccessor));
     }
 
   }

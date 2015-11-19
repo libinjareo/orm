@@ -45,6 +45,11 @@ public class CompilerTest {
   }
 
   @Test
+  public void merge() {
+    test("Merge", "Revision");
+  }
+
+  @Test
   public void pair() {
     test("Pair");
   }
@@ -66,6 +71,7 @@ public class CompilerTest {
         .add("DUO")
         .add("EMPLOYEE_V002")
         .add("EMPLOYEE")
+        .add("MERGE")
         .add("OBJECTOS_ORM")
         .add("PAIR")
         .add("REVISION_V003")
