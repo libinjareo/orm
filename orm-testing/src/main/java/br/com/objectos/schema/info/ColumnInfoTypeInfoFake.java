@@ -22,6 +22,42 @@ import br.com.objectos.orm.compiler.TypeInfoFake;
  */
 class ColumnInfoTypeInfoFake {
 
+  public static final ColumnInfoTypeInfo EMPLOYEE_EMP_NO = ColumnInfoTypeInfo.builder()
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .simpleName("EMP_NO")
+      .nullable(false)
+      .generationInfo(OrmNoGenerationInfo.get())
+      .simpleTypeInfo(TypeInfoFake.EMPLOYEE_EMP_NO.toSimpleTypeInfo())
+      .build();
+  public static final ColumnInfoTypeInfo EMPLOYEE_BIRTH_DATE = ColumnInfoTypeInfo.builder()
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .simpleName("BIRTH_DATE")
+      .nullable(false)
+      .generationInfo(OrmNoGenerationInfo.get())
+      .simpleTypeInfo(TypeInfoFake.EMPLOYEE_BIRTH_DATE.toSimpleTypeInfo())
+      .build();
+  public static final ColumnInfoTypeInfo EMPLOYEE_FIRST_NAME = ColumnInfoTypeInfo.builder()
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .simpleName("FIRST_NAME")
+      .nullable(false)
+      .generationInfo(OrmNoGenerationInfo.get())
+      .simpleTypeInfo(TypeInfoFake.EMPLOYEE_FIRST_NAME.toSimpleTypeInfo())
+      .build();
+  public static final ColumnInfoTypeInfo EMPLOYEE_LAST_NAME = ColumnInfoTypeInfo.builder()
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .simpleName("LAST_NAME")
+      .nullable(false)
+      .generationInfo(OrmNoGenerationInfo.get())
+      .simpleTypeInfo(TypeInfoFake.EMPLOYEE_LAST_NAME.toSimpleTypeInfo())
+      .build();
+  public static final ColumnInfoTypeInfo EMPLOYEE_HIRE_DATE = ColumnInfoTypeInfo.builder()
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .simpleName("HIRE_DATE")
+      .nullable(false)
+      .generationInfo(OrmNoGenerationInfo.get())
+      .simpleTypeInfo(TypeInfoFake.EMPLOYEE_HIRE_DATE.toSimpleTypeInfo())
+      .build();
+
   public static final ColumnInfoTypeInfo PAIR_ID = ColumnInfoTypeInfo.builder()
       .tableName(TableNameAnnotationInfoFake.PAIR)
       .simpleName("ID")

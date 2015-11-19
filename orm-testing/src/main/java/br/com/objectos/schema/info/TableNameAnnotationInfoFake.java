@@ -24,6 +24,11 @@ class TableNameAnnotationInfoFake {
       .simpleName("OBJECTOS_ORM")
       .build();
 
+  public static final TableName EMPLOYEE = TableName.builder()
+      .schemaName(OBJECTOS_ORM)
+      .simpleName("EMPLOYEE")
+      .migrationVersion(MigrationVersionFake.V002)
+      .build();
   public static final TableName PAIR = TableName.builder()
       .schemaName(OBJECTOS_ORM)
       .simpleName("PAIR")

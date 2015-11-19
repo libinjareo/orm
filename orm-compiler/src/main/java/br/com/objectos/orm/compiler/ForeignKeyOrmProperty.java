@@ -16,15 +16,20 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.collections.ImmutableList;
+import br.com.objectos.collections.MoreCollectors;
+import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 import br.com.objectos.schema.meta.ColumnSeq;
+import br.com.objectos.schema.meta.ReferencesAnnotationClassArray;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -78,6 +83,27 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   @Override
   public String rowConstructorParameterName(AtomicInteger i) {
     return property().name();
+  }
+
+  @Lazy
+  List<ColumnOrmProperty> referencedPropertyList() {
+    SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
+    Optional<OrmPojoInfo> maybePojoInfo = OrmPojoInfo.of(returnTypeInfo);
+    return maybePojoInfo
+        .map(this::referencedPropertyList0)
+        .orElse(ImmutableList.of());
+  }
+
+  private List<ColumnOrmProperty> referencedPropertyList0(OrmPojoInfo returnPojoInfo) {
+    return foreignKeyAnnotationInfo()
+        .annotationInfo(ReferencesAnnotationClassArray.class)
+        .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
+        .map(list -> list.stream()
+            .map(typeInfo -> returnPojoInfo.columnPropertyAnnotatedWith(typeInfo))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(MoreCollectors.toImmutableList()))
+        .get();
   }
 
 }

@@ -22,6 +22,16 @@ import br.com.objectos.orm.compiler.NamingFake;
  */
 public class TableInfoAnnotationInfoFake {
 
+  public static final TableInfoAnnotationInfo EMPLOYEE = TableInfoAnnotationInfo.thisBuilder()
+      .className(NamingFake.schemaIt("EMPLOYEE"))
+      .tableName(TableNameAnnotationInfoFake.EMPLOYEE)
+      .columnInfoList(
+          ColumnInfoTypeInfoFake.EMPLOYEE_EMP_NO,
+          ColumnInfoTypeInfoFake.EMPLOYEE_BIRTH_DATE,
+          ColumnInfoTypeInfoFake.EMPLOYEE_FIRST_NAME,
+          ColumnInfoTypeInfoFake.EMPLOYEE_LAST_NAME,
+          ColumnInfoTypeInfoFake.EMPLOYEE_HIRE_DATE)
+      .build();
   public static final TableInfoAnnotationInfo PAIR = TableInfoAnnotationInfo.thisBuilder()
       .className(NamingFake.schemaIt("PAIR"))
       .tableName(TableNameAnnotationInfoFake.PAIR)

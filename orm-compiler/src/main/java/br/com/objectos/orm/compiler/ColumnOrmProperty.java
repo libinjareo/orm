@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.AnnotationValueInfo;
+import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.Pojo;
@@ -118,6 +119,10 @@ abstract class ColumnOrmProperty extends OrmProperty {
   @Override
   public <T> T adapt(OrmPropertyAdapter<T> adapter) {
     return adapter.onColumn(this);
+  }
+
+  public boolean columnAnnotationMatches(SimpleTypeInfo annotationTypeInfo) {
+    return columnAnnotationInfo().simpleTypeInfo().equals(annotationTypeInfo);
   }
 
   public ConstructorStatementWriter constructorStatementWriter(String statement) {

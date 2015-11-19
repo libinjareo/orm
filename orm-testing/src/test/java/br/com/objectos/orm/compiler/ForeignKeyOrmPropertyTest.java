@@ -15,24 +15,21 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.code.TypeInfo;
-import br.com.objectos.pojo.plugin.PojoInfo;
+import java.util.List;
+
+import br.com.objectos.assertion.ListAssertion;
+
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PojoInfoFake {
+public class ForeignKeyOrmPropertyTest {
 
-  public static final PojoInfo Employee = of(TypeInfoFake.Employee);
-  public static final PojoInfo Pair = of(TypeInfoFake.Pair);
-  public static final PojoInfo Revision = of(TypeInfoFake.Revision);
-  public static final PojoInfo Salary = of(TypeInfoFake.Salary);
-
-  private PojoInfoFake() {
-  }
-
-  private static PojoInfo of(TypeInfo typeInfo) {
-    return PojoInfo.of(typeInfo);
+  @Test
+  public void referencedMethodList() {
+    List<ColumnOrmProperty> res = OrmPropertyFake.Salary_employee.referencedPropertyList();
+    ListAssertion.assertThat(res).isEqualTo(OrmPropertyFake.Employee_empNo);
   }
 
 }

@@ -23,6 +23,7 @@ import br.com.objectos.code.TypeInfo;
  */
 class AnnotationInfoFake {
 
+  public static final AnnotationInfo EMPLOYEE_EMP_NO = methodFirst(TypeInfoFake.Employee, "empNo");
   public static final AnnotationInfo PAIR_ID = methodFirst(TypeInfoFake.Pair, "id");
   public static final AnnotationInfo PAIR_NAME = methodFirst(TypeInfoFake.Pair, "name");
   public static final AnnotationInfo REVISION_SEQ = methodFirst(TypeInfoFake.Revision, "seq");

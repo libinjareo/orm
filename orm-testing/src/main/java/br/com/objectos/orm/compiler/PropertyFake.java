@@ -23,6 +23,7 @@ import br.com.objectos.pojo.plugin.Property;
  */
 class PropertyFake {
 
+  public static final Property Employee_empNo = get(PojoInfoFake.Employee, "empNo");
   public static final Property Pair_id = get(PojoInfoFake.Pair, "id");
   public static final Property Pair_name = get(PojoInfoFake.Pair, "name");
   public static final Property Salary_employee = get(PojoInfoFake.Salary, "employee");

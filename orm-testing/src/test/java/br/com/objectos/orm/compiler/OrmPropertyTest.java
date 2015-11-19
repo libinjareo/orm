@@ -32,6 +32,7 @@ public class OrmPropertyTest {
   @DataProvider
   public Object[][] ofProvider() {
     return new Object[][] {
+      { PropertyFake.Employee_empNo, OrmPropertyFake.Employee_empNo },
       { PropertyFake.Pair_id, OrmPropertyFake.Pair_id },
       { PropertyFake.Pair_name, OrmPropertyFake.Pair_name },
       { PropertyFake.Salary_employee, OrmPropertyFake.Salary_employee }

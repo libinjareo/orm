@@ -101,6 +101,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @ColumnName("EMP_NO")
   @ColumnSeq(0)
   @ColumnClass(EMPLOYEE_EMP_NO.class)
+  @Testing
   public @interface EMP_NO {
     NumericComparison comparison() default NumericComparison.EQ;
 
@@ -115,6 +116,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @ColumnName("BIRTH_DATE")
   @ColumnSeq(1)
   @ColumnClass(EMPLOYEE_BIRTH_DATE.class)
+  @Testing
   public @interface BIRTH_DATE {
     DateComparison comparison() default DateComparison.EQ;
 
@@ -129,6 +131,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @ColumnName("FIRST_NAME")
   @ColumnSeq(2)
   @ColumnClass(EMPLOYEE_FIRST_NAME.class)
+  @Testing
   public @interface FIRST_NAME {
     StringComparison comparison() default StringComparison.EQ;
 
@@ -143,6 +146,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @ColumnName("LAST_NAME")
   @ColumnSeq(3)
   @ColumnClass(EMPLOYEE_LAST_NAME.class)
+  @Testing
   public @interface LAST_NAME {
     StringComparison comparison() default StringComparison.EQ;
 
@@ -157,6 +161,7 @@ public final class EMPLOYEE extends Table implements V002__Employee_Salary.EMPLO
   @ColumnName("HIRE_DATE")
   @ColumnSeq(4)
   @ColumnClass(EMPLOYEE_HIRE_DATE.class)
+  @Testing
   public @interface HIRE_DATE {
     DateComparison comparison() default DateComparison.EQ;
 

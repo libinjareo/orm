@@ -24,6 +24,18 @@ import br.com.objectos.schema.info.TableInfoAnnotationInfoFake;
  */
 class OrmPropertyFake {
 
+  public static final ColumnOrmProperty Employee_empNo = ColumnOrmProperty.builder()
+      .property(PropertyFake.Employee_empNo)
+      .tableInfo(TableInfoAnnotationInfoFake.EMPLOYEE)
+      .columnAnnotationClassList(simple(TypeInfoFake.EMPLOYEE_EMP_NO))
+      .columnSeq(0)
+      .columnAnnotationInfo(AnnotationInfoFake.EMPLOYEE_EMP_NO)
+      .columnClassName(NamingFake.schemaIt("EMPLOYEE", "EMPLOYEE_EMP_NO"))
+      .columnSimpleName("EMP_NO")
+      .returnType(ReturnTypeFake.INT)
+      .generationType(GenerationType.NONE)
+      .build();
+
   public static final ColumnOrmProperty Pair_id = ColumnOrmProperty.builder()
       .property(PropertyFake.Pair_id)
       .tableInfo(TableInfoAnnotationInfoFake.PAIR)

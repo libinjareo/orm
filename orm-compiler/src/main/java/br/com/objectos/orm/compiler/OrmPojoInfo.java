@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.code.TypeInfo;
+import br.com.objectos.code.TypeParameterInfo;
 import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
@@ -52,6 +55,17 @@ abstract class OrmPojoInfo implements Testable {
     return CACHE.computeIfAbsent(pojoInfo, OrmPojoInfo::of0);
   }
 
+  public static Optional<OrmPojoInfo> of(SimpleTypeInfo returnTypeInfo) {
+    TypeInfo typeInfo = returnTypeInfo.isInfoOf(Optional.class)
+        ? returnTypeInfo.getTypeParameterInfoStream()
+            .findFirst()
+            .flatMap(TypeParameterInfo::typeInfo)
+            .get()
+        : returnTypeInfo.typeInfo().get();
+    PojoInfo pojoInfo = PojoInfo.of(typeInfo);
+    return of(pojoInfo);
+  }
+
   static OrmPojoInfoBuilder builder() {
     return new OrmPojoInfoBuilderPojo();
   }
@@ -82,6 +96,12 @@ abstract class OrmPojoInfo implements Testable {
         .tableInfoMap(tableInfoMap)
         .insertable(tableInfoMap.toOrmInsertable(pojoInfo))
         .build();
+  }
+
+  public Optional<ColumnOrmProperty> columnPropertyAnnotatedWith(SimpleTypeInfo annotationTypeInfo) {
+    return columnPropertyList().stream()
+        .filter(m -> m.columnAnnotationMatches(annotationTypeInfo))
+        .findFirst();
   }
 
   public CompanionType companionType() {

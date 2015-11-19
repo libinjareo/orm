@@ -43,6 +43,12 @@ public class TypeInfoFake {
       "Salary.java",
       "SALARY.java");
 
+  public static final TypeInfo Employee = get("Employee");
+  public static final TypeInfo EMPLOYEE_EMP_NO = get("EMPLOYEE.EMP_NO");
+  public static final TypeInfo EMPLOYEE_BIRTH_DATE = get("EMPLOYEE.BIRTH_DATE");
+  public static final TypeInfo EMPLOYEE_FIRST_NAME = get("EMPLOYEE.FIRST_NAME");
+  public static final TypeInfo EMPLOYEE_LAST_NAME = get("EMPLOYEE.LAST_NAME");
+  public static final TypeInfo EMPLOYEE_HIRE_DATE = get("EMPLOYEE.HIRE_DATE");
   public static final TypeInfo Pair = get("Pair");
   public static final TypeInfo PAIR = get("PAIR");
   public static final TypeInfo PAIR_ID = get("PAIR.ID");
