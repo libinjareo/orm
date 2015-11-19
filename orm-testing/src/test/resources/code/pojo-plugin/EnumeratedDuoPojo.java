@@ -9,8 +9,7 @@ import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.ColumnPropertyPlugin$OptionalAction",
-    "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.RelationalInsertablePlugin",

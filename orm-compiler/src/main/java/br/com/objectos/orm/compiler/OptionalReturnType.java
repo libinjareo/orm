@@ -19,16 +19,13 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.code.TypeParameterInfo;
 import br.com.objectos.pojo.Pojo;
-
-import com.squareup.javapoet.TypeName;
+import br.com.objectos.pojo.plugin.PojoProperty;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
 abstract class OptionalReturnType extends ReturnType {
-
-  abstract TypeName enclosedTypeName();
 
   OptionalReturnType() {
   }
@@ -38,16 +35,24 @@ abstract class OptionalReturnType extends ReturnType {
         .findFirst()
         .map(TypeParameterInfo::simpleTypeInfo)
         .get();
-    TypeName enclosedTypeName = enclosedTypeInfo.typeName();
     return OptionalReturnType.builder()
-        .typeName(returnTypeInfo.typeName())
+        .typeName(enclosedTypeInfo.typeName())
         .bindType(BindType.of(enclosedTypeInfo, columnClassTypeInfo))
-        .enclosedTypeName(enclosedTypeName)
         .build();
   }
 
   private static OptionalReturnTypeBuilder builder() {
     return new OptionalReturnTypeBuilderPojo();
+  }
+
+  @Override
+  PojoProperty constructorStatement(ColumnOrmProperty property) {
+    return bindType().optionalConstructorStatement(property);
+  }
+
+  @Override
+  PojoProperty method(ColumnOrmProperty property) {
+    return bindType().optionalMethod(property);
   }
 
 }

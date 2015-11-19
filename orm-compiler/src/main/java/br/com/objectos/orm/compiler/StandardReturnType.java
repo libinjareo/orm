@@ -18,6 +18,7 @@ package br.com.objectos.orm.compiler;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.pojo.plugin.PojoProperty;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -37,6 +38,16 @@ abstract class StandardReturnType extends ReturnType {
 
   static StandardReturnTypeBuilder builder() {
     return new StandardReturnTypeBuilderPojo();
+  }
+
+  @Override
+  PojoProperty constructorStatement(ColumnOrmProperty property) {
+    return bindType().standardConstructorStatement(property);
+  }
+
+  @Override
+  PojoProperty method(ColumnOrmProperty property) {
+    return bindType().standardMethod(property);
   }
 
 }

@@ -77,7 +77,7 @@ public class CompilerTest {
         .add("V004__More")
         .build();
     PluginAssertion.assertThat(
-        new ColumnPropertyPlugin(),
+        new ColumnOrmPropertyPlugin(),
         new CompanionTypePlugin(),
         new ConstructorPlugin(),
         new InjectPlugin(),

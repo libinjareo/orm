@@ -17,8 +17,11 @@ package br.com.objectos.orm.compiler;
 
 import java.util.Optional;
 
+import javax.lang.model.element.Modifier;
+
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
+import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.TypeName;
@@ -38,6 +41,24 @@ abstract class ReturnType implements Testable {
     return returnTypeInfo.isInfoOf(Optional.class)
         ? OptionalReturnType.get(returnTypeInfo, columnClassTypeInfo)
         : StandardReturnType.get(returnTypeInfo, columnClassTypeInfo);
+  }
+
+  public PojoProperty executePojoProperty(ColumnOrmProperty property) {
+    return PojoProperty.of(
+        constructorStatement(property),
+        field(property),
+        method(property));
+  }
+
+  abstract PojoProperty constructorStatement(ColumnOrmProperty property);
+
+  abstract PojoProperty method(ColumnOrmProperty property);
+
+  private PojoProperty field(ColumnOrmProperty property) {
+    return PojoProperty.fieldBuilder(property.property())
+        .modifiers(Modifier.PRIVATE, Modifier.FINAL)
+        .type(property.columnClassName())
+        .build();
   }
 
 }

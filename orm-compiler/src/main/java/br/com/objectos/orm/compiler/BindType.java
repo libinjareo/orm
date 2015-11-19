@@ -19,7 +19,7 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.SimpleTypePrimitives;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.orm.EnumSql;
-import br.com.objectos.orm.compiler.ColumnProperty.ConstructorStatementWriter;
+import br.com.objectos.orm.compiler.ColumnOrmProperty.ConstructorStatementWriter;
 import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.schema.meta.EnumColumn;
 import br.com.objectos.schema.meta.EnumType;
@@ -32,12 +32,12 @@ enum BindType {
 
   BOOLEAN_INT {
     @Override
-    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+    public PojoProperty optionalMethod(ColumnOrmProperty property) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public PojoProperty standardMethod(StandardColumnProperty property) {
+    public PojoProperty standardMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.booleanValue()")
           .setPropertyName()
           .build();
@@ -51,7 +51,7 @@ enum BindType {
 
   ENUM_ORDINAL {
     @Override
-    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+    public PojoProperty optionalMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.ifPresent(i -> $T.values()[$L.get()])")
           .setPropertyName()
           .setReturnTypeName()
@@ -59,7 +59,7 @@ enum BindType {
     }
 
     @Override
-    public PojoProperty standardMethod(StandardColumnProperty property) {
+    public PojoProperty standardMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $T.values()[$L.get()]")
           .setReturnTypeName()
           .setPropertyName()
@@ -74,7 +74,7 @@ enum BindType {
 
   ENUM_SQL {
     @Override
-    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+    public PojoProperty optionalMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.getIfPresent().map(s -> $T.load(s))")
           .setPropertyName()
           .setReturnTypeName()
@@ -82,7 +82,7 @@ enum BindType {
     }
 
     @Override
-    public PojoProperty standardMethod(StandardColumnProperty property) {
+    public PojoProperty standardMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $T.load($L.get())")
           .setReturnTypeName()
           .setPropertyName()
@@ -97,7 +97,7 @@ enum BindType {
 
   ENUM_STRING {
     @Override
-    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+    public PojoProperty optionalMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.getIfPresent().map(s -> $T.valueOf(s))")
           .setPropertyName()
           .setReturnTypeName()
@@ -105,7 +105,7 @@ enum BindType {
     }
 
     @Override
-    public PojoProperty standardMethod(StandardColumnProperty property) {
+    public PojoProperty standardMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $T.valueOf($L.get())")
           .setReturnTypeName()
           .setPropertyName()
@@ -120,14 +120,14 @@ enum BindType {
 
   STANDARD {
     @Override
-    public PojoProperty optionalMethod(OptionalColumnProperty property) {
+    public PojoProperty optionalMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.getIfPresent()")
           .setPropertyName()
           .build();
     }
 
     @Override
-    public PojoProperty standardMethod(StandardColumnProperty property) {
+    public PojoProperty standardMethod(ColumnOrmProperty property) {
       return property.methodWriter("return $L.get()")
           .setPropertyName()
           .build();
@@ -179,7 +179,7 @@ enum BindType {
         : STANDARD;
   }
 
-  public PojoProperty optionalConstructorStatement(OptionalColumnProperty property) {
+  public PojoProperty optionalConstructorStatement(ColumnOrmProperty property) {
     return property.constructorStatementWriter(optionalConstructorCode())
         .setPropertyName()
         .setBuilderGet()
@@ -188,9 +188,9 @@ enum BindType {
         .build();
   }
 
-  public abstract PojoProperty optionalMethod(OptionalColumnProperty property);
+  public abstract PojoProperty optionalMethod(ColumnOrmProperty property);
 
-  public PojoProperty standardConstructorStatement(StandardColumnProperty property) {
+  public PojoProperty standardConstructorStatement(ColumnOrmProperty property) {
     ConstructorStatementWriter writer = property.constructorStatementWriter(standardConstructorCode(property))
         .setPropertyName()
         .setTableClassName()
@@ -203,7 +203,7 @@ enum BindType {
     return writer.build();
   }
 
-  public abstract PojoProperty standardMethod(StandardColumnProperty property);
+  public abstract PojoProperty standardMethod(ColumnOrmProperty property);
 
   abstract String accessor();
 
@@ -215,7 +215,7 @@ enum BindType {
         accessor());
   }
 
-  private String standardConstructorCode(StandardColumnProperty property) {
+  private String standardConstructorCode(ColumnOrmProperty property) {
     return property.isGenerated()
         ? "$L = $T.get().$L()"
         : String.format("$L = $T.get().$L($L%s)", accessor());

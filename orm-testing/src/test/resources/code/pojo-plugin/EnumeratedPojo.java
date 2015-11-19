@@ -8,7 +8,7 @@ import br.com.objectos.way.relational.Insert;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.ColumnPropertyPlugin$StandardAction",
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
