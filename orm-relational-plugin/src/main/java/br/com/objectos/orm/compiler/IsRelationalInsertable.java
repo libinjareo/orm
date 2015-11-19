@@ -74,7 +74,7 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
 
   private MethodSpec getInsert() {
     ClassName insertClassName = ClassName.get("br.com.objectos.way.relational", "Insert");
-    String qualifiedTableName = tableName.schemaSimpleName() + "." + tableName.simpleName();
+    String qualifiedTableName = tableName.qualifiedName();
     MethodSpec.Builder builder = MethodSpec.methodBuilder("getInsert")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
