@@ -50,7 +50,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
   abstract AnnotationInfo columnAnnotationInfo();
   abstract ClassName columnClassName();
   abstract String columnSimpleName();
-  abstract ReturnType returnType();
+  abstract BindType bindType();
   abstract GenerationType generationType();
 
   ColumnOrmProperty() {
@@ -72,6 +72,9 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   private static ColumnOrmProperty of0(Property property, AnnotationInfo columnAnnotationInfo) {
+    SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
+    ReturnTypeHelper returnTypeHelper = ReturnTypeHelper.of(returnTypeInfo);
+
     int columnSeq = 0;
     Optional<AnnotationValueInfo> value = columnAnnotationInfo
         .annotationInfo(ColumnSeq.class)
@@ -88,6 +91,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
     return ColumnOrmProperty.builder()
         .property(property)
+        .returnType(returnTypeHelper.returnType())
         .tableInfo(TableInfoAnnotationInfo.of(columnAnnotationInfo))
         .columnAnnotationClassList(ImmutableList.of(columnAnnotationInfo.simpleTypeInfo()))
         .columnSeq(columnSeq)
@@ -97,7 +101,7 @@ abstract class ColumnOrmProperty extends OrmProperty {
             .annotationInfo(ColumnName.class)
             .flatMap(ann -> ann.stringValue("value"))
             .get())
-        .returnType(ReturnType.of(property.returnTypeInfo(), columnClassTypeInfo))
+        .bindType(returnTypeHelper.bindType(columnClassTypeInfo))
         .generationType(GenerationType.of(columnAnnotationInfo))
         .build();
   }
@@ -143,9 +147,25 @@ abstract class ColumnOrmProperty extends OrmProperty {
     return new MethodWriter(template);
   }
 
+  public PojoProperty optionalConstructorStatement() {
+    return bindType().optionalConstructorStatement(this);
+  }
+
+  public PojoProperty optionalMethod() {
+    return bindType().optionalMethod(this);
+  }
+
   @Override
   public String rowConstructorParameterName(AtomicInteger i) {
     return "row.column" + i.getAndIncrement() + "()";
+  }
+
+  public PojoProperty standardConstructorStatement() {
+    return bindType().standardConstructorStatement(this);
+  }
+
+  public PojoProperty standardMethod() {
+    return bindType().standardMethod(this);
   }
 
   public class ConstructorStatementWriter {

@@ -16,8 +16,6 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.SimpleTypeInfo;
-import br.com.objectos.code.TypeInfo;
-import br.com.objectos.code.TypeParameterInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoProperty;
 
@@ -30,14 +28,9 @@ abstract class OptionalReturnType extends ReturnType {
   OptionalReturnType() {
   }
 
-  public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
-    SimpleTypeInfo enclosedTypeInfo = returnTypeInfo.getTypeParameterInfoStream()
-        .findFirst()
-        .map(TypeParameterInfo::simpleTypeInfo)
-        .get();
+  public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo) {
     return OptionalReturnType.builder()
-        .typeName(enclosedTypeInfo.typeName())
-        .bindType(BindType.of(enclosedTypeInfo, columnClassTypeInfo))
+        .typeName(returnTypeInfo.typeName())
         .build();
   }
 
@@ -46,13 +39,18 @@ abstract class OptionalReturnType extends ReturnType {
   }
 
   @Override
+  public <T> T adapt(ReturnTypeAdapter<T> adapter) {
+    return adapter.onOptional(this);
+  }
+
+  @Override
   PojoProperty constructorStatement(ColumnOrmProperty property) {
-    return bindType().optionalConstructorStatement(property);
+    return property.optionalConstructorStatement();
   }
 
   @Override
   PojoProperty method(ColumnOrmProperty property) {
-    return bindType().optionalMethod(property);
+    return property.optionalMethod();
   }
 
 }

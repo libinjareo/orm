@@ -7,7 +7,7 @@ import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.SALARY;
 
 @Pojo
-abstract class Salary {
+abstract class Salary implements br.com.objectos.way.relational.Insertable {
 
   abstract SuperOrm orm();
   

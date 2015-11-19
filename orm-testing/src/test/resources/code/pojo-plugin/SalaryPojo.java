@@ -3,6 +3,7 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
 import br.com.objectos.sql.query.Row3;
+import br.com.objectos.way.relational.Insert;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
@@ -10,6 +11,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
@@ -49,6 +51,15 @@ final class SalaryPojo extends Salary {
   @Override
   SuperOrm orm() {
     return orm;
+  }
+
+  @Override
+  public Insert getInsert() {
+    return Insert.into("OBJECTOS_ORM.SALARY")
+        .value("EMP_NO", employee.empNo())
+        .value("SALARY", salary.getWrapped())
+        .value("FROM_DATE", fromDate.getWrapped())
+        .value("TO_DATE", toDate.getWrapped());
   }
 
   @Override

@@ -16,7 +16,6 @@
 package br.com.objectos.orm.compiler;
 
 import br.com.objectos.code.SimpleTypeInfo;
-import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoProperty;
 
@@ -29,10 +28,9 @@ abstract class StandardReturnType extends ReturnType {
   StandardReturnType() {
   }
 
-  public static StandardReturnType get(SimpleTypeInfo returnTypeInfo, TypeInfo columnClassTypeInfo) {
+  public static StandardReturnType get(SimpleTypeInfo returnTypeInfo) {
     return StandardReturnType.builder()
         .typeName(returnTypeInfo.typeName())
-        .bindType(BindType.of(returnTypeInfo, columnClassTypeInfo))
         .build();
   }
 
@@ -41,13 +39,18 @@ abstract class StandardReturnType extends ReturnType {
   }
 
   @Override
+  public <T> T adapt(ReturnTypeAdapter<T> adapter) {
+    return adapter.onStandard(this);
+  }
+
+  @Override
   PojoProperty constructorStatement(ColumnOrmProperty property) {
-    return bindType().standardConstructorStatement(property);
+    return property.standardConstructorStatement();
   }
 
   @Override
   PojoProperty method(ColumnOrmProperty property) {
-    return bindType().standardMethod(property);
+    return property.standardMethod();
   }
 
 }

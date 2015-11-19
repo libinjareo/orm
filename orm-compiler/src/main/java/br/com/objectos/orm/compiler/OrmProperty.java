@@ -39,6 +39,7 @@ import com.squareup.javapoet.TypeName;
 abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   abstract Property property();
+  abstract ReturnType returnType();
   abstract TableInfoAnnotationInfo tableInfo();
   abstract List<SimpleTypeInfo> columnAnnotationClassList();
   abstract int columnSeq();

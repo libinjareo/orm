@@ -49,6 +49,7 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
         .get();
     return ForeignKeyOrmProperty.builder()
         .property(property)
+        .returnType(ReturnTypeHelper.of(property.returnTypeInfo()).returnType())
         .tableInfo(TableInfoAnnotationInfo.of(foreignKeyAnnotationInfo))
         .columnAnnotationClassList(columnAnnotationClassList)
         .columnSeq(columnAnnotationClassList.get(0)
@@ -80,18 +81,18 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
     return adapter.onForeignKey(this);
   }
 
-  @Override
-  public String rowConstructorParameterName(AtomicInteger i) {
-    return property().name();
-  }
-
   @Lazy
-  List<ColumnOrmProperty> referencedPropertyList() {
+  public List<ColumnOrmProperty> referencedPropertyList() {
     SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
     Optional<OrmPojoInfo> maybePojoInfo = OrmPojoInfo.of(returnTypeInfo);
     return maybePojoInfo
         .map(this::referencedPropertyList0)
         .orElse(ImmutableList.of());
+  }
+
+  @Override
+  public String rowConstructorParameterName(AtomicInteger i) {
+    return property().name();
   }
 
   private List<ColumnOrmProperty> referencedPropertyList0(OrmPojoInfo returnPojoInfo) {

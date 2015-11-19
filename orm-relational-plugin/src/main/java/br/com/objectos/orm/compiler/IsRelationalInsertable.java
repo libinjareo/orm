@@ -22,6 +22,7 @@ import javax.lang.model.element.Modifier;
 import br.com.objectos.db.query.Result;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.schema.info.TableName;
+import br.com.objectos.schema.meta.ColumnName;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -59,7 +60,8 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
 
   @Override
   public CodeBlock onForeignKey(ForeignKeyOrmProperty property) {
-    return build(CodeBlock.builder());
+    ReturnType returnType = property.returnType();
+    return returnType.adapt(new ReturnTypeAdapterPojo(property));
   }
 
   private CodeBlock build(CodeBlock.Builder builder) {
@@ -108,6 +110,38 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
           .add("    .value($S, $L.getWrapped())",
               property.columnSimpleName(),
               property.property().name()));
+    }
+
+  }
+
+  private class ReturnTypeAdapterPojo implements ReturnTypeAdapter<CodeBlock> {
+
+    private final String fieldName;
+    private final String columnName;
+    private final String propertyAccessor;
+    private final String bindTypeAccessor;
+
+    public ReturnTypeAdapterPojo(ForeignKeyOrmProperty property) {
+      fieldName = property.property().name();
+      columnName = property.columnAnnotationClassList().get(0)
+          .typeInfo()
+          .flatMap(t -> t.annotationInfo(ColumnName.class))
+          .flatMap(ann -> ann.stringValue("value"))
+          .get();
+      ColumnOrmProperty refMethod = property.referencedPropertyList().get(0);
+      propertyAccessor = refMethod.property().accessorName();
+      bindTypeAccessor = refMethod.bindType().accessor();
+    }
+
+    @Override
+    public CodeBlock onOptional(OptionalReturnType returnType) {
+      return build(CodeBlock.builder());
+    }
+
+    @Override
+    public CodeBlock onStandard(StandardReturnType returnType) {
+      return build(CodeBlock.builder()
+          .add("    .value($S, $L.$L()$L)", columnName, fieldName, propertyAccessor, bindTypeAccessor));
     }
 
   }

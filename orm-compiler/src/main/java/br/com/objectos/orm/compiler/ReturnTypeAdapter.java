@@ -15,24 +15,13 @@
  */
 package br.com.objectos.orm.compiler;
 
-import com.squareup.javapoet.TypeName;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class ReturnTypeFake {
+interface ReturnTypeAdapter<T> {
 
-  public static final StandardReturnType EMPLOYEE = StandardReturnType.builder()
-      .typeName(TypeInfoFake.Employee.typeName())
-      .build();
-  public static final StandardReturnType INT = StandardReturnType.builder()
-      .typeName(TypeName.INT)
-      .build();
-  public static final StandardReturnType STRING = StandardReturnType.builder()
-      .typeName(TypeName.get(String.class))
-      .build();
+  T onOptional(OptionalReturnType returnType);
 
-  private ReturnTypeFake() {
-  }
+  T onStandard(StandardReturnType returnType);
 
 }
