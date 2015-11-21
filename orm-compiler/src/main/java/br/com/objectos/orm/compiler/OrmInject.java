@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import javax.lang.model.element.Modifier;
+
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.plugin.Contribution;
@@ -22,6 +24,7 @@ import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -51,6 +54,12 @@ abstract class OrmInject implements Testable {
   }
 
   public abstract Contribution execute();
+
+  public final FieldSpec fieldSpec() {
+    return FieldSpec.builder(typeName(), name())
+        .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+        .build();
+  }
 
   public final ParameterSpec parameterSpec() {
     return ParameterSpec.builder(typeName(), name()).build();

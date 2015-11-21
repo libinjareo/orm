@@ -15,12 +15,14 @@
  */
 package br.com.objectos.orm.compiler;
 
+import static br.com.objectos.pojo.testing.PluginAssertion.assertThat;
+
 import java.util.List;
 import java.util.stream.Stream;
 
 import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.pojo.plugin.OptionalPlugin;
-import br.com.objectos.pojo.testing.PluginAssertion;
+import br.com.objectos.pojo.plugin.Plugin;
 
 import org.testng.annotations.Test;
 
@@ -51,7 +53,9 @@ public class CompilerTest {
 
   @Test
   public void pair() {
-    test("Pair");
+    assertThat(plugins())
+        .with(with("Pair"))
+        .generates("PairPojo", "PairBuilder", "PairBuilderPojo", "PairOrm", "AbstractPairLoader");
   }
 
   @Test
@@ -65,6 +69,29 @@ public class CompilerTest {
   }
 
   private void test(String pojo, String... more) {
+    assertThat(plugins())
+        .with(with(pojo, more))
+        .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo", "Orm"));
+  }
+
+  private String[] generates(String pojo, String... suffixes) {
+    return Stream.of(suffixes).map(suffix -> pojo + suffix).toArray(String[]::new);
+  }
+
+  private Plugin[] plugins() {
+    return new Plugin[] {
+      new ColumnOrmPropertyPlugin(),
+      new CompanionTypePlugin(),
+      new ConstructorPlugin(),
+      new InjectPlugin(),
+      new InsertablePlugin(),
+      new OptionalPlugin(),
+      new RelationalInsertablePlugin(),
+      new RelationalLoaderPlugin()
+    };
+  }
+
+  private String[] with(String pojo, String... more) {
     List<String> with = ImmutableList.<String> builder()
         .add(pojo)
         .add(more)
@@ -82,20 +109,7 @@ public class CompilerTest {
         .add("V003__Revision")
         .add("V004__More")
         .build();
-    PluginAssertion.assertThat(
-        new ColumnOrmPropertyPlugin(),
-        new CompanionTypePlugin(),
-        new ConstructorPlugin(),
-        new InjectPlugin(),
-        new InsertablePlugin(),
-        new OptionalPlugin(),
-        new RelationalInsertablePlugin())
-        .with(with.toArray(new String[] {}))
-        .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo", "Orm"));
-  }
-
-  private String[] generates(String pojo, String... suffixes) {
-    return Stream.of(suffixes).map(suffix -> pojo + suffix).toArray(String[]::new);
+    return with.toArray(new String[] {});
   }
 
 }

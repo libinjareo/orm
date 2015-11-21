@@ -20,9 +20,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import br.com.objectos.code.CanGenerateCompilationError;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.code.TypeParameterInfo;
+import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
@@ -33,7 +35,7 @@ import br.com.objectos.testable.Testable;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class OrmPojoInfo implements Testable {
+abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
 
   private static final Map<PojoInfo, Optional<OrmPojoInfo>> CACHE = new ConcurrentHashMap<>();
 
@@ -106,6 +108,18 @@ abstract class OrmPojoInfo implements Testable {
 
   public CompanionType companionType() {
     return CompanionType.of(this);
+  }
+
+  @Override
+  public void compilationError(String message) {
+    pojoInfo().compilationError(message);
+  }
+
+  @Lazy
+  public List<ConstructorContext> constructorContextList() {
+    return pojoInfo().constructorInfoStream()
+        .map(constructor -> ConstructorContext.of(this, constructor))
+        .collect(MoreCollectors.toImmutableList());
   }
 
   @Lazy
