@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.sql.ResultSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,11 +23,17 @@ import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
+import br.com.objectos.code.ConstructorInfo;
+import br.com.objectos.code.ParameterInfo;
 import br.com.objectos.pojo.plugin.Naming;
+import br.com.objectos.way.relational.ResultSetLoader;
+import br.com.objectos.way.relational.ResultSetWrapper;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
 /**
@@ -78,17 +85,52 @@ class IsRelationalLoader
     return TypeSpec.classBuilder("Abstract" + superClass.simpleName() + "Loader")
         .addAnnotation(GENERATED)
         .addModifiers(Modifier.ABSTRACT)
+        .addSuperinterface(ParameterizedTypeName.get(ClassName.get(ResultSetLoader.class), superClass))
         .addField(inject.fieldSpec())
         .addMethods(pojoInfo.constructorContextList()
             .stream()
             .map(IsRelationalLoaderConstructor::of)
             .map(IsRelationalLoaderConstructor::execute)
             .collect(Collectors.toList()))
+        .addMethod(load())
         .addMethods(pojoInfo.propertyList()
             .stream()
             .flatMap(property -> property.adapt(this))
             .collect(Collectors.toList()))
         .build();
+  }
+
+  private MethodSpec load() {
+    CodeBlock.Builder body = CodeBlock.builder()
+        .addStatement("$1T rs = new $1T($2S, resultSet)", ResultSetWrapper.class, tableSimpleName())
+        .add("return new $T(", naming.pojo())
+        .add("\n    $L", inject.name());
+
+    pojoInfo.constructorContextList()
+        .stream()
+        .map(ConstructorContext::constructorInfo)
+        .flatMap(ConstructorInfo::parameterInfoStream)
+        .map(ParameterInfo::name)
+        .forEach(name -> body.add(",\n    $L", name));
+
+    pojoInfo.propertyList()
+        .stream()
+        .map(property -> property.adapt(IsRelationalLoaderLoadMethod.INSTANCE))
+        .forEach(body::add);
+
+    body.add(");\n");
+
+    return MethodSpec.methodBuilder("load")
+        .addAnnotation(Override.class)
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(ResultSet.class, "resultSet")
+        .returns(naming.superClass())
+        .addCode(body.build())
+        .build();
+  }
+
+  private String tableSimpleName() {
+    return pojoInfo.tableInfoMap().onFirstEntry((info, list) -> info.tableSimpleName());
   }
 
 }

@@ -1,15 +1,28 @@
+
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.orm.Orm;
+import br.com.objectos.schema.it.PAIR;
+import br.com.objectos.way.relational.ResultSetLoader;
 import br.com.objectos.way.relational.ResultSetWrapper;
+import java.sql.ResultSet;
 import javax.annotation.Generated;
 
 @Generated("br.com.objectos.orm.compiler.RelationalLoaderPlugin")
-abstract class AbstractPairLoader {
+abstract class AbstractPairLoader implements ResultSetLoader<Pair> {
   private final Orm orm;
 
   AbstractPairLoader(Orm orm) {
     this.orm = orm;
+  }
+
+  @Override
+  public Pair load(ResultSet resultSet) {
+    ResultSetWrapper rs = new ResultSetWrapper("PAIR", resultSet);
+    return new PairPojo(
+        orm,
+        PAIR.get().ID(id(rs, "ID")),
+        PAIR.get().NAME(name(rs, "NAME")));
   }
 
   int id(ResultSetWrapper rs, String columnName) {

@@ -103,6 +103,10 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
         .build();
   }
 
+  public String tableSimpleName() {
+    return tableName().simpleName();
+  }
+
   @Override
   public String toString() {
     return simpleName();
