@@ -48,7 +48,7 @@ public class CompilerTest {
 
   @Test
   public void merge() {
-    test("Merge", "Revision");
+    testRelational("Merge", "Revision");
   }
 
   @Test

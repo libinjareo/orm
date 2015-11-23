@@ -70,7 +70,7 @@ class IsRelationalLoader
 
   @Override
   public Stream<MethodSpec> onForeignKey(ForeignKeyOrmProperty property) {
-    return Stream.empty();
+    return ForeignKeyIsRelationalLoaderProperty.of(property).execute();
   }
 
   private TypeSpec type() {
