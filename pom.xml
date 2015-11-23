@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>parent</artifactId>
-		<version>48</version>
+		<version>52</version>
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
@@ -60,7 +61,7 @@
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
-		<objectos.orm.version>0.1.3-SNAPSHOT</objectos.orm.version>
+		<objectos.orm.version>0.1.4-SNAPSHOT</objectos.orm.version>
 	</properties>
 
 	<build>

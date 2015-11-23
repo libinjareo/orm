@@ -19,18 +19,24 @@ import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.PojoProperty;
 
+import com.squareup.javapoet.TypeName;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
 abstract class OptionalReturnType extends ReturnType {
 
+  @Override
+  abstract TypeName actualTypeName();
+
   OptionalReturnType() {
   }
 
-  public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo) {
+  public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo, SimpleTypeInfo actualTypeInfo) {
     return OptionalReturnType.builder()
         .typeName(returnTypeInfo.typeName())
+        .actualTypeName(actualTypeInfo.typeName())
         .build();
   }
 

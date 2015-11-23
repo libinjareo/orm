@@ -20,11 +20,13 @@ import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.testable.Testable;
+import br.com.objectos.way.relational.Loader;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
+@Loader
 abstract class Pair
     implements
     Insertable,

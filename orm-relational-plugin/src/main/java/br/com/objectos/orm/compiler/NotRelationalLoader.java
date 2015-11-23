@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,27 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.it;
+package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.schema.meta.EnumType;
-import br.com.objectos.way.relational.Loader;
+import br.com.objectos.code.Artifact;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-@Loader
-abstract class Enumerated implements br.com.objectos.way.relational.Insertable {
+enum NotRelationalLoader implements RelationalLoader {
 
-  @PAIR.ID
-  abstract EnumType ordinalEnum();
+  INSTANCE;
 
-  @PAIR.NAME
-  abstract EnumType stringEnum();
-
-  Enumerated() {
+  @Override
+  public Artifact execute() {
+    return Artifact.empty();
   }
 
 }

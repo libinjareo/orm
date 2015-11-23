@@ -46,8 +46,11 @@ abstract class ReturnTypeHelper {
 
   private static class OptionalHelper extends ReturnTypeHelper {
 
-    private OptionalHelper(SimpleTypeInfo returnTypeInfo) {
+    private final SimpleTypeInfo actualTypeInfo;
+
+    private OptionalHelper(SimpleTypeInfo returnTypeInfo, SimpleTypeInfo actualTypeInfo) {
       super(returnTypeInfo);
+      this.actualTypeInfo = actualTypeInfo;
     }
 
     public static ReturnTypeHelper get(SimpleTypeInfo returnTypeInfo) {
@@ -55,12 +58,12 @@ abstract class ReturnTypeHelper {
           .findFirst()
           .map(TypeParameterInfo::simpleTypeInfo)
           .get();
-      return new OptionalHelper(enclosedTypeInfo);
+      return new OptionalHelper(enclosedTypeInfo, returnTypeInfo);
     }
 
     @Override
     public ReturnType returnType() {
-      return OptionalReturnType.get(returnTypeInfo);
+      return OptionalReturnType.get(returnTypeInfo, actualTypeInfo);
     }
 
   }

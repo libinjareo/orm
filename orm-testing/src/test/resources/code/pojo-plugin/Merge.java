@@ -4,8 +4,10 @@ import java.util.Optional;
 
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.MERGE;
+import br.com.objectos.way.relational.Loader;
 
 @Pojo
+@Loader
 abstract class Merge implements br.com.objectos.way.relational.Insertable {
 
   @MERGE.SEQ

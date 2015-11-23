@@ -15,34 +15,34 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.code.Artifact;
 import br.com.objectos.metainf.Services;
 import br.com.objectos.pojo.plugin.AbstractPlugin;
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.pojo.plugin.Contribution.Builder;
+import br.com.objectos.pojo.plugin.ArtifactAction;
 import br.com.objectos.pojo.plugin.Plugin;
-import br.com.objectos.pojo.plugin.PojoAction;
 import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.way.relational.Loader;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Services(Plugin.class)
-public class ConstructorPlugin extends AbstractPlugin implements PojoAction {
+public class RelationalLoaderPlugin extends AbstractPlugin implements ArtifactAction {
 
   @Override
   protected void configure() {
-    when(pojo((info) -> OrmPojoInfo.of(info).isPresent())).execute(this);
+    when(pojo(hasAnnotation(Loader.class))).execute(this);
   }
 
   @Override
-  public Contribution execute(PojoInfo pojoInfo) {
-    Builder builder = Contribution.builder();
+  public Artifact execute(PojoInfo pojoInfo) {
+    return OrmPojoInfo.of(pojoInfo)
+        .map(this::execute0)
+        .orElse(Artifact.empty());
+  }
 
-    OrmPojoInfo.of(pojoInfo).get()
-        .constructorContextList()
-        .forEach(constructor -> constructor.accept(builder));
-
-    return builder.build();
+  private Artifact execute0(OrmPojoInfo pojoInfo) {
+    return IsRelationalLoader.of(pojoInfo).execute();
   }
 
 }

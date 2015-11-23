@@ -41,6 +41,10 @@ abstract class ReturnType implements Testable {
         method(property));
   }
 
+  TypeName actualTypeName() {
+    return typeName();
+  }
+
   abstract PojoProperty constructorStatement(ColumnOrmProperty property);
 
   abstract PojoProperty method(ColumnOrmProperty property);

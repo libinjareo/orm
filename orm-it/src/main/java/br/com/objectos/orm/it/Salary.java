@@ -19,11 +19,13 @@ import java.time.LocalDate;
 
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.SALARY;
+import br.com.objectos.way.relational.Loader;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
+@Loader
 abstract class Salary implements br.com.objectos.way.relational.Insertable {
 
   abstract Model model();

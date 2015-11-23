@@ -19,11 +19,13 @@ import java.util.Optional;
 
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.MERGE;
+import br.com.objectos.way.relational.Loader;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
+@Loader
 abstract class Merge {
 
   @MERGE.SEQ

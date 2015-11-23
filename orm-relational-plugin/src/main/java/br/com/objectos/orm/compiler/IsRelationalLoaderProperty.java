@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Objectos, Fábrica de Software LTDA.
+ * Copyright 2014-2015 Objectos, Fábrica de Software LTDA.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,27 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.it;
+package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.schema.meta.EnumType;
-import br.com.objectos.way.relational.Loader;
+import java.util.stream.Stream;
+
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-@Loader
-abstract class Enumerated implements br.com.objectos.way.relational.Insertable {
+abstract class IsRelationalLoaderProperty<P extends OrmProperty> {
 
-  @PAIR.ID
-  abstract EnumType ordinalEnum();
+  final P ormProperty;
 
-  @PAIR.NAME
-  abstract EnumType stringEnum();
+  IsRelationalLoaderProperty(P ormProperty) {
+    this.ormProperty = ormProperty;
+  }
 
-  Enumerated() {
+  public abstract Stream<MethodSpec> execute();
+
+  String propertyName() {
+    return ormProperty.property().name();
+  }
+
+  TypeName returnTypeName() {
+    return ormProperty.returnType().typeName();
   }
 
 }
