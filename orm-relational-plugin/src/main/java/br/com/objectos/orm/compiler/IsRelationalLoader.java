@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
@@ -25,12 +26,16 @@ import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class IsRelationalLoader implements RelationalLoader {
+class IsRelationalLoader
+    implements
+    RelationalLoader,
+    OrmPropertyAdapter<Stream<MethodSpec>> {
 
   private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
       .addMember("value", "$S", RelationalLoaderPlugin.class.getName())
@@ -58,6 +63,16 @@ class IsRelationalLoader implements RelationalLoader {
     return naming.toArtifact(type());
   }
 
+  @Override
+  public Stream<MethodSpec> onColumn(ColumnOrmProperty property) {
+    return ColumnIsRelationalLoaderProperty.of(property).execute();
+  }
+
+  @Override
+  public Stream<MethodSpec> onForeignKey(ForeignKeyOrmProperty property) {
+    return Stream.empty();
+  }
+
   private TypeSpec type() {
     ClassName superClass = naming.superClass();
     return TypeSpec.classBuilder("Abstract" + superClass.simpleName() + "Loader")
@@ -68,6 +83,10 @@ class IsRelationalLoader implements RelationalLoader {
             .stream()
             .map(IsRelationalLoaderConstructor::of)
             .map(IsRelationalLoaderConstructor::execute)
+            .collect(Collectors.toList()))
+        .addMethods(pojoInfo.propertyList()
+            .stream()
+            .flatMap(property -> property.adapt(this))
             .collect(Collectors.toList()))
         .build();
   }

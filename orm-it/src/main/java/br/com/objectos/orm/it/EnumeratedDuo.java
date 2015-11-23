@@ -20,11 +20,13 @@ import java.util.Optional;
 import br.com.objectos.db.type.ColumnType;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.DUO;
+import br.com.objectos.way.relational.Loader;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
+@Loader
 abstract class EnumeratedDuo implements br.com.objectos.way.relational.Insertable {
 
   @DUO.ID

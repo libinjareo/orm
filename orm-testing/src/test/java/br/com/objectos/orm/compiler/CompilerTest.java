@@ -38,12 +38,12 @@ public class CompilerTest {
 
   @Test
   public void enumerated() {
-    test("Enumerated");
+    testRelational("Enumerated");
   }
 
   @Test
   public void enumeratedDuo() {
-    test("EnumeratedDuo");
+    testRelational("EnumeratedDuo");
   }
 
   @Test
@@ -53,9 +53,7 @@ public class CompilerTest {
 
   @Test
   public void pair() {
-    assertThat(plugins())
-        .with(with("Pair"))
-        .generates("PairPojo", "PairBuilder", "PairBuilderPojo", "PairOrm", "AbstractPairLoader");
+    testRelational("Pair");
   }
 
   @Test
@@ -72,6 +70,17 @@ public class CompilerTest {
     assertThat(plugins())
         .with(with(pojo, more))
         .generates(generates(pojo, "Pojo", "Builder", "BuilderPojo", "Orm"));
+  }
+
+  private void testRelational(String pojo, String... more) {
+    assertThat(plugins())
+        .with(with(pojo, more))
+        .generates(
+            pojo + "Pojo",
+            pojo + "Builder",
+            pojo + "BuilderPojo",
+            pojo + "Orm",
+            "Abstract" + pojo + "Loader");
   }
 
   private String[] generates(String pojo, String... suffixes) {

@@ -5,18 +5,18 @@ import br.com.objectos.way.relational.ResultSetWrapper;
 import javax.annotation.Generated;
 
 @Generated("br.com.objectos.orm.compiler.RelationalLoaderPlugin")
-abstract class AbstractPairLoader {
+abstract class AbstractEnumeratedLoader {
   private final Orm orm;
 
-  AbstractPairLoader(Orm orm) {
+  AbstractEnumeratedLoader(Orm orm) {
     this.orm = orm;
   }
 
-  int id(ResultSetWrapper rs, String columnName) {
+  int ordinalEnum(ResultSetWrapper rs, String columnName) {
     return rs.getInt(columnName);
   }
 
-  String name(ResultSetWrapper rs, String columnName) {
+  String stringEnum(ResultSetWrapper rs, String columnName) {
     return rs.getString(columnName);
   }
 }

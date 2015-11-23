@@ -5,10 +5,10 @@ import br.com.objectos.way.relational.ResultSetWrapper;
 import javax.annotation.Generated;
 
 @Generated("br.com.objectos.orm.compiler.RelationalLoaderPlugin")
-abstract class AbstractPairLoader {
+abstract class AbstractEnumeratedDuoLoader {
   private final Orm orm;
 
-  AbstractPairLoader(Orm orm) {
+  AbstractEnumeratedDuoLoader(Orm orm) {
     this.orm = orm;
   }
 
