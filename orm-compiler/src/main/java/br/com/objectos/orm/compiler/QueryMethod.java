@@ -95,6 +95,7 @@ abstract class QueryMethod {
     return CodeBlock.builder()
         .beginControlFlow("try ($T trx = $L.startTransaction())", Transaction.class, inject.name())
         .add(selectFrom(pojoInfo))
+        .add(OrderByInfo.of(methodInfo).get())
         .add(returnType.collect(collectCode(pojoInfo)))
         .nextControlFlow("catch ($T e)", Exception.class)
         .addStatement("throw new $T(e)", SqlRuntimeException.class)

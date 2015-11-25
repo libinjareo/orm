@@ -17,8 +17,10 @@ package br.com.objectos.orm.it;
 
 import java.util.List;
 
+import br.com.objectos.db.query.SortOrder;
 import br.com.objectos.orm.Query;
 import br.com.objectos.orm.Repo;
+import br.com.objectos.schema.it.PAIR;
 
 import com.google.inject.ImplementedBy;
 
@@ -34,5 +36,9 @@ abstract class PairRepo {
 
   @Query
   abstract List<Pair> findAll();
+
+  @Query
+  @PAIR.NAME(orderBy = SortOrder.ASC)
+  abstract List<Pair> findAllOrderByName();
 
 }
