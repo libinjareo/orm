@@ -15,18 +15,28 @@
  */
 package br.com.objectos.orm.it;
 
-import br.com.objectos.orm.Repo;
+import java.util.List;
 
-import com.google.inject.ImplementedBy;
+import javax.inject.Inject;
+
+import br.com.objectos.assertion.ListAssertion;
+
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Repo
-@ImplementedBy(PairsRepo.class)
-abstract class Pairs {
+public class PairRepoTest extends AbstractOrmTest {
 
-  Pairs() {
+  @Inject
+  private PairRepo pairRepo;
+
+  @Test
+  public void findAll() {
+    List<Pair> res = pairRepo.findAll().subList(0, 3);
+    ListAssertion
+        .assertThat(res)
+        .isEqualTo(PairFake.PAIR_001, PairFake.PAIR_002, PairFake.PAIR_003);
   }
 
 }
