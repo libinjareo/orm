@@ -25,6 +25,7 @@ import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -47,10 +48,28 @@ abstract class OrmInject implements Testable {
         .orElse(StandardOrmInject.INSTANCE);
   }
 
+  public void acceptRepoConstructor(MethodSpec.Builder constructor) {
+    constructor
+        .addParameter(parameterSpec())
+        .addStatement("this.$1L = $1L", name());
+  }
+
   public CodeBlock assignToFieldStatement() {
     return CodeBlock.builder()
         .addStatement("this.$1L = $1L", name())
         .build();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof OrmInject)) {
+      return false;
+    }
+    OrmInject that = (OrmInject) obj;
+    return typeName().equals(that.typeName());
   }
 
   public abstract Contribution execute();
@@ -59,6 +78,11 @@ abstract class OrmInject implements Testable {
     return FieldSpec.builder(typeName(), name())
         .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
         .build();
+  }
+
+  @Override
+  public int hashCode() {
+    return typeName().hashCode();
   }
 
   public final ParameterSpec parameterSpec() {

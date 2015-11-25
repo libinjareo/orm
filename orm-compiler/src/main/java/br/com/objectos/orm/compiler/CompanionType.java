@@ -141,8 +141,8 @@ abstract class CompanionType {
         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
         .addParameter(inject().parameterSpec())
         .returns(companionTypeClassName())
-        .addStatement("$T.requireNonNull(orm)", Objects.class)
-        .addStatement("return new $T(orm)", companionTypeClassName())
+        .addStatement("$T.requireNonNull($L)", Objects.class, inject().name())
+        .addStatement("return new $T($L)", companionTypeClassName(), inject().name())
         .build();
   }
 

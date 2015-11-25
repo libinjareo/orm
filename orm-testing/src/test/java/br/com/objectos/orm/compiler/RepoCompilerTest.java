@@ -15,6 +15,9 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.testing.AnnotationProcessorAssert;
 
 import org.testng.annotations.Test;
@@ -25,17 +28,43 @@ import org.testng.annotations.Test;
 public class RepoCompilerTest {
 
   @Test
-  public void pairs() {
-    test("Pairs");
+  public void pair() {
+    test("Pair");
   }
 
-  private void test(String repo) {
+  private void test(String pojo, String... more) {
     AnnotationProcessorAssert
         .using(new RepoCompiler())
         .dir("code/pojo-plugin")
         .pack("br.com.objectos.pojo.plugin")
-        .input(repo)
-        .output(repo + "Repo");
+        .input(input(pojo, more))
+        .output(pojo + "RepoRepo")
+        .verify();
+  }
+
+  private String[] input(String pojo, String... more) {
+    List<String> with = ImmutableList.<String> builder()
+        .add(pojo)
+        .add(pojo + "Repo")
+        .add(pojo + "Orm")
+        .add(pojo + "Pojo")
+        .add(pojo + "Builder")
+        .add(pojo + "BuilderPojo")
+        .add("DUO")
+        .add("EMPLOYEE_V002")
+        .add("EMPLOYEE")
+        .add("MERGE")
+        .add("OBJECTOS_ORM")
+        .add("PAIR")
+        .add("REVISION_V003")
+        .add("REVISION")
+        .add("SALARY")
+        .add("V001__First_Migration")
+        .add("V002__Employee_Salary")
+        .add("V003__Revision")
+        .add("V004__More")
+        .build();
+    return with.toArray(new String[] {});
   }
 
 }

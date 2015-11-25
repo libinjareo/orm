@@ -15,21 +15,19 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.annotation.Generated;
-import javax.inject.Inject;
-import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
 import br.com.objectos.code.TypeInfo;
+import br.com.objectos.collections.MoreCollectors;
+import br.com.objectos.orm.Query;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.testable.Testable;
 
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -39,20 +37,24 @@ import com.squareup.javapoet.TypeSpec;
 @Pojo
 abstract class RepoType implements Testable {
 
-  private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
-      .addMember("value", "$S", RepoCompiler.class.getName())
-      .build();
-
   abstract TypeName superTypeName();
   abstract ClassName repoClassName();
+  abstract List<QueryMethod> queryMethodList();
 
   RepoType() {
   }
 
   public static RepoType of(TypeInfo typeInfo) {
+    List<QueryMethod> queryMethodList = typeInfo.methodInfoStream()
+        .filter(m -> m.hasAnnotation(Query.class))
+        .map(QueryMethod::ofRepo)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(MoreCollectors.toImmutableList());
     return RepoType.builder()
         .superTypeName(typeInfo.typeName())
         .repoClassName(typeInfo.classNameSuffix("Repo"))
+        .queryMethodList(queryMethodList)
         .build();
   }
 
@@ -68,20 +70,14 @@ abstract class RepoType implements Testable {
     return Stream.of(artifact);
   }
 
-  private TypeSpec type() {
-    return TypeSpec.classBuilder(repoClassName().simpleName())
-        .addAnnotation(GENERATED)
-        .addModifiers(Modifier.FINAL)
-        .superclass(superTypeName())
-        .addMethod(constructor())
-        .build();
+  public String simpleName() {
+    return repoClassName().simpleName();
   }
 
-  private MethodSpec constructor() {
-    MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
-        .addAnnotation(Inject.class);
-
-    return constructor.build();
+  private TypeSpec type() {
+    RepoTypeSpecBuilder builder = new RepoTypeSpecBuilder();
+    queryMethodList().forEach(method -> method.accept(builder));
+    return builder.build(this);
   }
 
 }
