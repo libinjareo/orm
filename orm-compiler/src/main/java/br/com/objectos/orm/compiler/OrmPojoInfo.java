@@ -29,7 +29,12 @@ import br.com.objectos.lazy.annotation.Lazy;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.sql.query.Row;
 import br.com.objectos.testable.Testable;
+
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -123,12 +128,37 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
   }
 
   @Lazy
+  public List<ParameterSpec> foreignKeyParameterSpecList() {
+    return foreignKeyPropertyList().stream()
+        .map(OrmProperty::parameterSpec)
+        .collect(MoreCollectors.toImmutableList());
+  }
+
+  @Lazy
   public OrmInject inject() {
     return OrmInject.of(pojoInfo());
   }
 
+  @Lazy
+  public ParameterSpec rowParameterSpecColumns() {
+    return rowParameterSpec(columnPropertyList());
+  }
+
   Naming naming() {
     return pojoInfo().naming();
+  }
+
+  private ParameterSpec rowParameterSpec(List<? extends OrmProperty> propertyList) {
+    return ParameterSpec.builder(rowTypeName(propertyList), "row").build();
+  }
+
+  private ParameterizedTypeName rowTypeName(List<? extends OrmProperty> propertyList) {
+    ClassName rowClassName = ClassName.get(Row.class).peerClass("Row" + propertyList.size());
+    ClassName[] columnClassNameArray = propertyList.stream()
+        .sorted()
+        .flatMap(OrmProperty::columnClassNameStream)
+        .toArray(ClassName[]::new);
+    return ParameterizedTypeName.get(rowClassName, columnClassNameArray);
   }
 
 }

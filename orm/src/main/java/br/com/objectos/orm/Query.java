@@ -13,29 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
+package br.com.objectos.orm;
 
-import static br.com.objectos.assertion.TestableAssertion.assertThat;
-
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class CompanionTypeTest {
-
-  @DataProvider
-  public Object[][] ofProvider() {
-    return new Object[][] {
-      { OrmPojoInfoFake.Pair, CompanionTypeFake.Pair }
-    };
-  }
-
-  @Test(dataProvider = "ofProvider")
-  public void of(OrmPojoInfo pojoInfo, CompanionType expected) {
-    CompanionType res = CompanionType.of(pojoInfo);
-    assertThat(res).isEqualTo(expected);
-  }
-
-}
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.METHOD)
+public @interface Query {}

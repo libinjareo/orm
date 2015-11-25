@@ -3,6 +3,7 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.query.InsertableRow2;
+import br.com.objectos.sql.query.Row3;
 import br.com.objectos.sql.query.Sql;
 import java.util.Iterator;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import javax.inject.Inject;
 
 @Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
 public final class RevisionOrm {
-  final Orm orm;
+  private final Orm orm;
 
   @Inject
   RevisionOrm(Orm orm) {
@@ -39,5 +40,9 @@ public final class RevisionOrm {
       insert = pojo.bindInsertableRow(insert);
     }
     orm.executeUnchecked(insert);
+  }
+
+  public Revision load(Row3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
+    return new RevisionPojo(orm, row);
   }
 }

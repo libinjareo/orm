@@ -18,12 +18,16 @@ package br.com.objectos.orm.compiler;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.lang.model.element.Modifier;
+
 import br.com.objectos.code.ConstructorInfo;
 import br.com.objectos.code.ParameterInfo;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
 
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -58,6 +62,27 @@ abstract class ConstructorContext {
     builder
         .addMethod(RowConstructor.of(this).execute())
         .addMethod(ColumnsConstructor.of(this).execute());
+  }
+
+  public void acceptCompanionType(CompanionType companionType, TypeSpec.Builder type) {
+    type.addMethod(loadMethodSpec0(companionType));
+  }
+
+  private MethodSpec loadMethodSpec0(CompanionType companionType) {
+    return MethodSpec.methodBuilder("load")
+        .addModifiers(Modifier.PUBLIC)
+        .returns(companionType.superClassTypeName())
+        .addParameters(parameterSpecList())
+        .addParameters(pojoInfo().foreignKeyParameterSpecList())
+        .addParameter(pojoInfo().rowParameterSpecColumns())
+        .addCode("return new $T($L, ", companionType.pojoTypeName(), inject().name())
+        .addCode(Joiner.on(", ")
+            .addAll(parameterSpecList().stream().map(spec -> spec.name))
+            .addAll(pojoInfo().foreignKeyPropertyList().stream().map(OrmProperty::name))
+            .add("row")
+            .join())
+        .addStatement(")")
+        .build();
   }
 
 }

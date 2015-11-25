@@ -87,6 +87,10 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
     return false;
   }
 
+  public String name() {
+    return property().name();
+  }
+
   public ParameterSpec parameterSpec() {
     SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
     TypeName typeName = returnTypeInfo.typeName();

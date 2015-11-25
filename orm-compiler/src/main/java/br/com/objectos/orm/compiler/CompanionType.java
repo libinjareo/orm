@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -22,15 +23,12 @@ import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
-import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
-import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -40,16 +38,8 @@ import com.squareup.javapoet.TypeSpec;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class CompanionType implements Testable {
+abstract class CompanionType {
 
-  private static final MethodSpec CONSTRUCTOR = MethodSpec.constructorBuilder()
-      .addAnnotation(Inject.class)
-      .addParameter(Orm.class, "orm")
-      .addStatement("this.orm = orm")
-      .build();
-  private static final FieldSpec FIELD_ORM = FieldSpec.builder(Orm.class, "orm")
-      .addModifiers(Modifier.FINAL)
-      .build();
   private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
       .addMember("value", "$S", CompanionTypePlugin.class.getName())
       .build();
@@ -59,6 +49,8 @@ abstract class CompanionType implements Testable {
   abstract TypeName superClassTypeName();
   abstract TypeName pojoTypeName();
 
+  abstract List<ConstructorContext> constructorContextList();
+  abstract OrmInject inject();
   abstract OrmInsertable insertable();
 
   CompanionType() {
@@ -73,6 +65,8 @@ abstract class CompanionType implements Testable {
         .companionTypeClassName(companionTypeClassName)
         .superClassTypeName(naming.typeVariableNameRawListTo(superClassName))
         .pojoTypeName(naming.typeVariableNameRawListTo(pojoClassName))
+        .constructorContextList(pojoInfo.constructorContextList())
+        .inject(pojoInfo.inject())
         .insertable(pojoInfo.insertable())
         .build();
   }
@@ -128,11 +122,16 @@ abstract class CompanionType implements Testable {
     TypeSpec.Builder type = TypeSpec.classBuilder(simpleName())
         .addAnnotation(GENERATED)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-        .addField(FIELD_ORM)
-        .addMethod(CONSTRUCTOR)
+        .addField(inject().fieldSpec())
+        .addMethod(MethodSpec.constructorBuilder()
+            .addAnnotation(Inject.class)
+            .addParameter(inject().parameterSpec())
+            .addCode(inject().assignToFieldStatement())
+            .build())
         .addMethod(typeStaticFactory());
 
     insertable().acceptCompanionType(this, type);
+    constructorContextList().forEach(context -> context.acceptCompanionType(this, type));
 
     return type.build();
   }
@@ -140,10 +139,10 @@ abstract class CompanionType implements Testable {
   private MethodSpec typeStaticFactory() {
     return MethodSpec.methodBuilder("get")
         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-        .addParameter(Orm.class, "orm")
+        .addParameter(inject().parameterSpec())
         .returns(companionTypeClassName())
-        .addStatement("$T.requireNonNull(orm)", Objects.class)
-        .addStatement("return new $T(orm)", companionTypeClassName())
+        .addStatement("$T.requireNonNull($L)", Objects.class, inject().name())
+        .addStatement("return new $T($L)", companionTypeClassName(), inject().name())
         .build();
   }
 

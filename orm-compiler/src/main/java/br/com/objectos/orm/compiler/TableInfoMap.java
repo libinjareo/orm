@@ -19,28 +19,23 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.collections.ImmutableMap;
-import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.testable.Equality;
 import br.com.objectos.testable.Testable;
 import br.com.objectos.testable.Tester;
 
+import com.squareup.javapoet.CodeBlock;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class TableInfoMap implements Testable {
+abstract class TableInfoMap implements Testable {
 
-  private final Map<TableInfoAnnotationInfo, List<OrmProperty>> map;
-
-  private TableInfoMap(Map<TableInfoAnnotationInfo, List<OrmProperty>> map) {
-    this.map = map;
+  TableInfoMap() {
   }
 
   public static Builder builder() {
@@ -50,53 +45,19 @@ class TableInfoMap implements Testable {
   @Override
   public Equality isEqualTo(Object that) {
     return Tester.of(TableInfoMap.class)
-        // .add("keySet", o -> o.map.keySet())
         .add("values", o -> o.testableValues())
         .test(this, that);
   }
 
-  public <T> T onFirstEntry(TableInfoMapAction<T> action) {
-    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = firstEntry();
-    return action.onEntry(entry.getKey(), entry.getValue());
-  }
+  public abstract <T> T onFirstEntry(TableInfoMapAction<T> action);
 
-  public int size() {
-    return map.size();
-  }
+  public abstract CodeBlock selectFrom();
 
-  public OrmInsertable toOrmInsertable(PojoInfo pojoInfo) {
-    if (!pojoInfo.instanceOf(Insertable.class)) {
-      return NotOrmInsertable.INSTANCE;
-    }
+  public abstract int size();
 
-    if (map.size() != 1) {
-      return NotOrmInsertable.INSTANCE;
-    }
+  public abstract OrmInsertable toOrmInsertable(PojoInfo pojoInfo);
 
-    Entry<TableInfoAnnotationInfo, List<OrmProperty>> entry = firstEntry();
-    return toOrmInsertable0(entry.getKey(), entry.getValue());
-  }
-
-  private Entry<TableInfoAnnotationInfo, List<OrmProperty>> firstEntry() {
-    Set<Entry<TableInfoAnnotationInfo, List<OrmProperty>>> entrySet = map.entrySet();
-    return entrySet.iterator().next();
-  }
-
-  private OrmInsertable toOrmInsertable0(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
-    List<SimpleTypeInfo> columnAnnotationClassList = propertyList.stream()
-        .filter(property -> !property.isGenerated())
-        .flatMap(m -> m.columnAnnotationClassList().stream())
-        .collect(Collectors.toList());
-    return tableInfo.containsAll(columnAnnotationClassList)
-        ? IsOrmInsertable.of(tableInfo, propertyList)
-        : NotOrmInsertable.INSTANCE;
-  }
-
-  private List<OrmProperty> testableValues() {
-    return map.values().stream()
-        .flatMap(list -> list.stream())
-        .collect(Collectors.toList());
-  }
+  abstract List<OrmProperty> testableValues();
 
   public static class Builder {
 
@@ -114,9 +75,20 @@ class TableInfoMap implements Testable {
     }
 
     public TableInfoMap build() {
-      ImmutableMap.Builder<TableInfoAnnotationInfo, List<OrmProperty>> map = ImmutableMap.builder();
-      propertyTableInfoMap.forEach((k, v) -> map.put(k, v.build()));
-      return new TableInfoMap(map.build());
+      switch (propertyTableInfoMap.size()) {
+      case 1:
+        Entry<TableInfoAnnotationInfo, ImmutableList.Builder<OrmProperty>> entry = propertyTableInfoMap
+            .entrySet()
+            .iterator()
+            .next();
+        TableInfoAnnotationInfo tableInfo = entry.getKey();
+        List<OrmProperty> propertyList = entry.getValue().build();
+        return new SingletonTableInfoMap(tableInfo, propertyList);
+      default:
+        ImmutableMap.Builder<TableInfoAnnotationInfo, List<OrmProperty>> map = ImmutableMap.builder();
+        propertyTableInfoMap.forEach((k, v) -> map.put(k, v.build()));
+        return new RegularTableInfoMap(map.build());
+      }
     }
 
   }

@@ -60,7 +60,7 @@
 	<properties>
 		<javax.inject.version>1</javax.inject.version>
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
-		<objectos.orm.version>0.1.4-SNAPSHOT</objectos.orm.version>
+		<objectos.orm.version>0.1.5-SNAPSHOT</objectos.orm.version>
 	</properties>
 
 	<build>

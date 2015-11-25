@@ -13,21 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.orm.compiler;
+package br.com.objectos.orm.it;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import br.com.objectos.assertion.ListAssertion;
+
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class CompanionTypeFake {
+public class PairRepoTest extends AbstractOrmTest {
 
-  public static final CompanionType Pair = CompanionType.builder()
-      .companionTypeClassName(NamingFake.schemaIt("PairOrm"))
-      .superClassTypeName(NamingFake.schemaIt("Pair"))
-      .pojoTypeName(NamingFake.schemaIt("PairPojo"))
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  @Inject
+  private PairRepo pairRepo;
 
-  private CompanionTypeFake() {
+  @Test
+  public void findAll() {
+    List<Pair> res = pairRepo.findAll().subList(0, 3);
+    ListAssertion
+        .assertThat(res)
+        .isEqualTo(PairFake.PAIR_001, PairFake.PAIR_002, PairFake.PAIR_003);
   }
 
 }
