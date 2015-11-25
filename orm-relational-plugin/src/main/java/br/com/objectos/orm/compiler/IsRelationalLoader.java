@@ -115,6 +115,7 @@ class IsRelationalLoader
 
     pojoInfo.propertyList()
         .stream()
+        .sorted()
         .map(property -> property.adapt(IsRelationalLoaderLoadMethod.INSTANCE))
         .forEach(body::add);
 
