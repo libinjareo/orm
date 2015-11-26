@@ -42,6 +42,10 @@ abstract class TableInfoMap implements Testable {
     return new Builder();
   }
 
+  public boolean containsPrimaryKey() {
+    return false;
+  }
+
   @Override
   public Equality isEqualTo(Object that) {
     return Tester.of(TableInfoMap.class)
@@ -56,6 +60,11 @@ abstract class TableInfoMap implements Testable {
   public abstract int size();
 
   public abstract OrmInsertable toOrmInsertable(PojoInfo pojoInfo);
+
+  @Override
+  public String toString() {
+    return testableValues().toString();
+  }
 
   abstract List<OrmProperty> testableValues();
 

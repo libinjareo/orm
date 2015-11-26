@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -87,6 +88,10 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
     return false;
   }
 
+  public boolean matchesAny(Set<ClassName> pkNameSet) {
+    return false;
+  }
+
   public String name() {
     return property().name();
   }
@@ -99,6 +104,11 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
   }
 
   public abstract String rowConstructorParameterName(AtomicInteger i);
+
+  @Override
+  public String toString() {
+    return property().name();
+  }
 
   Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()

@@ -18,6 +18,7 @@ package br.com.objectos.schema.info;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,10 @@ import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.collections.ImmutableList;
+import br.com.objectos.collections.ImmutableSet;
 import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.pojo.Pojo;
+import br.com.objectos.schema.meta.PrimaryKeyClassArray;
 import br.com.objectos.sql.query.Sql;
 import br.com.objectos.testable.Equality;
 
@@ -45,7 +48,9 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
   @Override
   public abstract TableName tableName();
   @Override
-  abstract List<ColumnInfoTypeInfo> columnInfoList();
+  public abstract List<ColumnInfoTypeInfo> columnInfoList();
+
+  public abstract Set<ClassName> primaryKeyClassNameSet();
 
   TableInfoAnnotationInfo() {
   }
@@ -72,6 +77,12 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
         .className(className)
         .tableName(tableName)
         .columnInfoList(ColumnInfoTypeInfo.listOf(tableName, tableTypeInfo))
+        .primaryKeyClassNameSet(tableTypeInfo.annotationInfo(PrimaryKeyClassArray.class)
+            .flatMap(ann -> ann.simpleTypeInfoArrayValue("value"))
+            .map(list -> list.stream()
+                .map(SimpleTypeInfo::className)
+                .collect(MoreCollectors.toImmutableSet()))
+            .orElse(ImmutableSet.of()))
         .build();
   }
 

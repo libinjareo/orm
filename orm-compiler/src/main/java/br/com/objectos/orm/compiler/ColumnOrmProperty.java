@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -141,6 +142,12 @@ abstract class ColumnOrmProperty extends OrmProperty {
   @Override
   public boolean isGenerated() {
     return generationType().isGenerated();
+  }
+
+  @Override
+  public boolean matchesAny(Set<ClassName> pkNameSet) {
+    ClassName className = columnAnnotationInfo().simpleTypeInfo().className();
+    return pkNameSet.contains(className);
   }
 
   public MethodWriter methodWriter(String template) {

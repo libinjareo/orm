@@ -15,6 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.time.LocalDate;
+
 import com.squareup.javapoet.TypeName;
 
 /**
@@ -27,6 +29,9 @@ class ReturnTypeFake {
       .build();
   public static final StandardReturnType INT = StandardReturnType.builder()
       .typeName(TypeName.INT)
+      .build();
+  public static final StandardReturnType LOCAL_DATE = StandardReturnType.builder()
+      .typeName(TypeName.get(LocalDate.class))
       .build();
   public static final StandardReturnType STRING = StandardReturnType.builder()
       .typeName(TypeName.get(String.class))

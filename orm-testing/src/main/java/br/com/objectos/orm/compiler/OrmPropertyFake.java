@@ -70,6 +70,18 @@ class OrmPropertyFake {
       .columnSeq(0)
       .foreignKeyAnnotationInfo(AnnotationInfoFake.SALARY_EMP_NO_FK)
       .build();
+  public static final ColumnOrmProperty Salary_fromDate = ColumnOrmProperty.builder()
+      .property(PropertyFake.Salary_fromDate)
+      .returnType(ReturnTypeFake.LOCAL_DATE)
+      .tableInfo(TableInfoAnnotationInfoFake.SALARY)
+      .columnAnnotationClassList(simple(TypeInfoFake.SALARY_FROM_DATE))
+      .columnSeq(2)
+      .columnAnnotationInfo(AnnotationInfoFake.SALARY_FROM_DATE)
+      .columnClassName(NamingFake.schemaIt("SALARY", "SALARY_FROM_DATE"))
+      .columnSimpleName("FROM_DATE")
+      .bindType(BindType.STANDARD)
+      .generationType(GenerationType.NONE)
+      .build();
 
   private OrmPropertyFake() {
   }

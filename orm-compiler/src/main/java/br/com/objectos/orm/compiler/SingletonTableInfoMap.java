@@ -16,9 +16,11 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
@@ -38,6 +40,17 @@ class SingletonTableInfoMap extends TableInfoMap {
   public SingletonTableInfoMap(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
     this.tableInfo = tableInfo;
     this.propertyList = propertyList;
+  }
+
+  @Override
+  public boolean containsPrimaryKey() {
+    Set<ClassName> pkNameSet = tableInfo.primaryKeyClassNameSet();
+
+    List<OrmProperty> pkColumnList = propertyList.stream()
+        .filter(col -> col.matchesAny(pkNameSet))
+        .collect(MoreCollectors.toImmutableList());
+
+    return !pkNameSet.isEmpty() && pkNameSet.size() == pkColumnList.size();
   }
 
   @Override

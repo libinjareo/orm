@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
@@ -30,6 +31,8 @@ import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
 import br.com.objectos.schema.meta.ColumnSeq;
 import br.com.objectos.schema.meta.ReferencesAnnotationClassArray;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -79,6 +82,14 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   @Override
   public <T> T adapt(OrmPropertyAdapter<T> adapter) {
     return adapter.onForeignKey(this);
+  }
+
+  @Override
+  public boolean matchesAny(Set<ClassName> pkNameSet) {
+    Set<ClassName> classNameSet = columnAnnotationClassList().stream()
+        .map(SimpleTypeInfo::className)
+        .collect(MoreCollectors.toImmutableSet());
+    return pkNameSet.containsAll(classNameSet);
   }
 
   @Lazy
