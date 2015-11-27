@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.SimpleTypeInfo;
@@ -72,6 +73,24 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   @Override
   public void acceptColumnsConstructor(ColumnsConstructor constructor) {
     constructor.set(property().returnTypeInfo().typeName(), property().name());
+  }
+
+  @Override
+  public void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor) {
+    AtomicInteger i = new AtomicInteger(0);
+
+    columnClassNameStream()
+        .forEach(className -> constructor.addParameter(className, name() + i.getAndIncrement()));
+
+    i.set(0);
+
+    constructor.addCode(", $T.get($L).$L($L)",
+        constructor.naming().superClassSuffix("Orm"),
+        constructor.inject().name(),
+        returnType().findByPrimaryKeyMethodName(),
+        referencedPropertyList().stream()
+            .map(property -> property.foreignKeyColumnsConstructor(name() + i.getAndIncrement()))
+            .collect(Collectors.joining(", ")));
   }
 
   @Override

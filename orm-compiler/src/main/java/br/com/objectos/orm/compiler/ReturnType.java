@@ -41,6 +41,8 @@ abstract class ReturnType implements Testable {
         method(property));
   }
 
+  public abstract String findByPrimaryKeyMethodName();
+
   TypeName actualTypeName() {
     return typeName();
   }

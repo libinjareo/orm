@@ -15,7 +15,14 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.sql.query.Row;
+
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -30,5 +37,18 @@ abstract class AbstractConstructor {
   }
 
   public abstract MethodSpec execute();
+
+  ParameterSpec rowParameterSpec(List<? extends OrmProperty> propertyList) {
+    return ParameterSpec.builder(rowTypeName(propertyList), "row").build();
+  }
+
+  private ParameterizedTypeName rowTypeName(List<? extends OrmProperty> propertyList) {
+    ClassName rowClassName = ClassName.get(Row.class).peerClass("Row" + propertyList.size());
+    ClassName[] columnClassNameArray = propertyList.stream()
+        .sorted()
+        .flatMap(OrmProperty::columnClassNameStream)
+        .toArray(ClassName[]::new);
+    return ParameterizedTypeName.get(rowClassName, columnClassNameArray);
+  }
 
 }

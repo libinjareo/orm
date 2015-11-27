@@ -122,6 +122,13 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
+  public void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor) {
+    constructor
+        .addParameter(columnClassName(), name())
+        .addCode(", " + name());
+  }
+
+  @Override
   public <T> T adapt(OrmPropertyAdapter<T> adapter) {
     return adapter.onColumn(this);
   }
@@ -137,6 +144,10 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
   public PojoProperty executePojoProperty() {
     return returnType().executePojoProperty(this);
+  }
+
+  public String foreignKeyColumnsConstructor(String fieldName) {
+    return fieldName + "." + columnClassName().simpleName() + "()";
   }
 
   @Override

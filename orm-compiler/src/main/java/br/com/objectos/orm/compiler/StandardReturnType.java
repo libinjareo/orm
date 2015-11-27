@@ -44,6 +44,11 @@ abstract class StandardReturnType extends ReturnType {
   }
 
   @Override
+  public String findByPrimaryKeyMethodName() {
+    return "find";
+  }
+
+  @Override
   PojoProperty constructorStatement(ColumnOrmProperty property) {
     return property.standardConstructorStatement();
   }

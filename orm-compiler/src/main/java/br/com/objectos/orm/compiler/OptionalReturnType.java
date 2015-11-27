@@ -50,6 +50,11 @@ abstract class OptionalReturnType extends ReturnType {
   }
 
   @Override
+  public String findByPrimaryKeyMethodName() {
+    return "maybe";
+  }
+
+  @Override
   PojoProperty constructorStatement(ColumnOrmProperty property) {
     return property.optionalConstructorStatement();
   }

@@ -24,12 +24,9 @@ import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.ConstructorInfo;
 import br.com.objectos.code.ParameterInfo;
-import br.com.objectos.sql.query.Row;
 
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -61,7 +58,7 @@ class RowConstructor extends AbstractConstructor {
         .addParameter(inject.parameterSpec())
         .addParameters(context.parameterSpecList())
         .addParameters(foreignKeyParameterSpecList())
-        .addParameter(rowParameterSpecList())
+        .addParameter(rowParameterSpec(pojoInfo.columnPropertyList()))
         .addCode("this($L, ", inject.name())
         .addCode(Stream.concat(ctrStream, colStream).collect(Collectors.joining(", ")))
         .addStatement(")")
@@ -73,22 +70,6 @@ class RowConstructor extends AbstractConstructor {
     return pojoInfo.foreignKeyPropertyList().stream()
         .map(ForeignKeyOrmProperty::parameterSpec)
         .collect(Collectors.toList());
-  }
-
-  private ParameterSpec rowParameterSpecList() {
-    return ParameterSpec.builder(rowTypeName(), "row").build();
-  }
-
-  private ParameterizedTypeName rowTypeName() {
-    OrmPojoInfo pojoInfo = context.pojoInfo();
-    List<ColumnOrmProperty> propertyList = pojoInfo.columnPropertyList();
-
-    ClassName rowClassName = ClassName.get(Row.class).peerClass("Row" + propertyList.size());
-    ClassName[] columnClassNameArray = propertyList.stream()
-        .sorted()
-        .flatMap(OrmProperty::columnClassNameStream)
-        .toArray(ClassName[]::new);
-    return ParameterizedTypeName.get(rowClassName, columnClassNameArray);
   }
 
 }

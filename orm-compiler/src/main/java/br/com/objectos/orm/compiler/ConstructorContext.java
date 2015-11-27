@@ -58,6 +58,12 @@ abstract class ConstructorContext {
     builder
         .addMethod(RowConstructor.of(this).execute())
         .addMethod(ColumnsConstructor.of(this).execute());
+
+    if (!pojoInfo().foreignKeyPropertyList().isEmpty()) {
+      builder
+          .addMethod(ForeignKeyRowConstructor.of(this).execute())
+          .addMethod(ForeignKeyColumnsConstructor.of(this).execute());
+    }
   }
 
 }
