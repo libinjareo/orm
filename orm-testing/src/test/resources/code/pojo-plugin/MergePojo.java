@@ -43,7 +43,7 @@ final class MergePojo extends Merge {
   }
 
   public MergePojo(Orm orm, MERGE.MERGE_SEQ seq, MERGE.MERGE_PARENT_A parentA0, MERGE.MERGE_PARENT_B parentB0) {
-    this(orm, seq, MergeOrm.get(orm).find(parentA0.REVISION_SEQ()), MergeOrm.get(orm).maybe(parentB0.REVISION_SEQ()));
+    this(orm, seq, RevisionOrm.get(orm).find(parentA0.REVISION_SEQ()), RevisionOrm.get(orm).maybe(parentB0.REVISION_SEQ()));
   }
 
   public MergePojo(Orm orm, MergeBuilderPojo builder) {

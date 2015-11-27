@@ -15,11 +15,14 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Optional;
+
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.pojo.plugin.PojoProperty;
 import br.com.objectos.testable.Testable;
 
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 
 /**
@@ -28,6 +31,7 @@ import com.squareup.javapoet.TypeName;
 abstract class ReturnType implements Testable {
 
   abstract TypeName typeName();
+  abstract Optional<ClassName> companionTypeClassName();
 
   ReturnType() {
   }

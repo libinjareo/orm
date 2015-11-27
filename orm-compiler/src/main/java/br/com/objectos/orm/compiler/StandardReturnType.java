@@ -31,6 +31,7 @@ abstract class StandardReturnType extends ReturnType {
   public static StandardReturnType get(SimpleTypeInfo returnTypeInfo) {
     return StandardReturnType.builder()
         .typeName(returnTypeInfo.typeName())
+        .companionTypeClassNameOfNullable(returnTypeInfo.isPrimitive() ? null : returnTypeInfo.classNameSuffix("Orm"))
         .build();
   }
 

@@ -46,11 +46,11 @@ public final class RevisionOrm {
     orm.executeUnchecked(insert);
   }
 
-  public Revision find(int pk0) {
+  public Revision find(REVISION.REVISION_SEQ pk0) {
     return maybe(pk0).orElseThrow(NoResultFoundException::new);
   }
 
-  public Optional<Revision> maybe(int pk0) {
+  public Optional<Revision> maybe(REVISION.REVISION_SEQ pk0) {
     try (Transaction trx = orm.startTransaction()) {
       REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
       return Sql.select(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())

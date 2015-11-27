@@ -45,7 +45,7 @@ final class SalaryPojo extends Salary {
   }
 
   public SalaryPojo(SuperOrm orm, SALARY.SALARY_EMP_NO employee0, SALARY.SALARY_SALARY salary, SALARY.SALARY_FROM_DATE fromDate, SALARY.SALARY_TO_DATE toDate) {
-    this(orm, SalaryOrm.get(orm).find(employee0.EMPLOYEE_EMP_NO()), salary, fromDate, toDate);
+    this(orm, EmployeeOrm.get(orm).find(employee0.EMPLOYEE_EMP_NO()), salary, fromDate, toDate);
   }
 
   public SalaryPojo(SuperOrm orm, SalaryBuilderPojo builder) {

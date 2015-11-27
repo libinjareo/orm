@@ -36,6 +36,7 @@ abstract class OptionalReturnType extends ReturnType {
   public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo, SimpleTypeInfo actualTypeInfo) {
     return OptionalReturnType.builder()
         .typeName(returnTypeInfo.typeName())
+        .companionTypeClassNameOfNullable(returnTypeInfo.isPrimitive() ? null : returnTypeInfo.classNameSuffix("Orm"))
         .actualTypeName(actualTypeInfo.typeName())
         .build();
   }

@@ -85,7 +85,7 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
     i.set(0);
 
     constructor.addCode(", $T.get($L).$L($L)",
-        constructor.naming().superClassSuffix("Orm"),
+        returnType().companionTypeClassName().get(),
         constructor.inject().name(),
         returnType().findByPrimaryKeyMethodName(),
         referencedPropertyList().stream()

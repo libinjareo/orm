@@ -26,11 +26,11 @@ public final class EmployeeOrm {
     return new EmployeeOrm(orm);
   }
 
-  public Employee find(int pk0) {
+  public Employee find(EMPLOYEE.EMPLOYEE_EMP_NO pk0) {
     return maybe(pk0).orElseThrow(NoResultFoundException::new);
   }
 
-  public Optional<Employee> maybe(int pk0) {
+  public Optional<Employee> maybe(EMPLOYEE.EMPLOYEE_EMP_NO pk0) {
     try (Transaction trx = orm.startTransaction()) {
       EMPLOYEE EMPLOYEE = br.com.objectos.schema.it.EMPLOYEE.get();
       return Sql.select(EMPLOYEE.EMP_NO(), EMPLOYEE.BIRTH_DATE(), EMPLOYEE.FIRST_NAME(), EMPLOYEE.LAST_NAME(), EMPLOYEE.HIRE_DATE())

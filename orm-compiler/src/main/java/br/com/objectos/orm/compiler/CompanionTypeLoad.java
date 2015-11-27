@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.lang.model.element.Modifier;
 
@@ -51,7 +52,7 @@ class CompanionTypeLoad implements CompanionTypeExe {
     return type.addMethods(pojoInfo.constructorContextList()
         .stream()
         .map(Constructor::new)
-        .map(Constructor::get));
+        .flatMap(Constructor::stream));
   }
 
   private class Constructor {
@@ -62,7 +63,13 @@ class CompanionTypeLoad implements CompanionTypeExe {
       parameterSpecList = context.parameterSpecList();
     }
 
-    public MethodSpec get() {
+    public Stream<MethodSpec> stream() {
+      return pojoInfo.hasForeignKeys()
+          ? Stream.of(load0(), load1())
+          : Stream.of(load0());
+    }
+
+    private MethodSpec load0() {
       return MethodSpec.methodBuilder("load")
           .addModifiers(Modifier.PUBLIC)
           .returns(naming.superClassTypeName())
@@ -73,6 +80,21 @@ class CompanionTypeLoad implements CompanionTypeExe {
           .addCode(Joiner.on(", ")
               .addAll(parameterSpecList.stream().map(spec -> spec.name))
               .addAll(pojoInfo.foreignKeyPropertyList().stream().map(OrmProperty::name))
+              .add("row")
+              .join())
+          .addStatement(")")
+          .build();
+    }
+
+    private MethodSpec load1() {
+      return MethodSpec.methodBuilder("load")
+          .addModifiers(Modifier.PUBLIC)
+          .returns(naming.superClassTypeName())
+          .addParameters(parameterSpecList)
+          .addParameter(pojoInfo.rowParameterSpec())
+          .addCode("return new $T($L, ", naming.pojo(), inject.name())
+          .addCode(Joiner.on(", ")
+              .addAll(parameterSpecList.stream().map(spec -> spec.name))
               .add("row")
               .join())
           .addStatement(")")

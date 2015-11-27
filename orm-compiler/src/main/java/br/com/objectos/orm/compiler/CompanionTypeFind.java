@@ -68,7 +68,8 @@ class CompanionTypeFind implements CompanionTypeExe {
           pojoInfo.naming(),
           tableInfoMap.primaryKeyPropertyList()
               .stream()
-              .map(property -> property.parameterSpec("pk" + i.getAndIncrement()))
+              .flatMap(OrmProperty::columnClassNameStream)
+              .map(className -> ParameterSpec.builder(className, "pk" + i.getAndIncrement()).build())
               .collect(Collectors.toList()));
     }
 
