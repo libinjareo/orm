@@ -39,15 +39,15 @@ abstract class RepoType implements Testable {
 
   abstract TypeName superTypeName();
   abstract ClassName repoClassName();
-  abstract List<QueryMethod> queryMethodList();
+  abstract List<RepoQueryMethod> queryMethodList();
 
   RepoType() {
   }
 
   public static RepoType of(TypeInfo typeInfo) {
-    List<QueryMethod> queryMethodList = typeInfo.methodInfoStream()
+    List<RepoQueryMethod> queryMethodList = typeInfo.methodInfoStream()
         .filter(m -> m.hasAnnotation(Query.class))
-        .map(QueryMethod::ofRepo)
+        .map(RepoQueryMethod::ofRepo)
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(MoreCollectors.toImmutableList());

@@ -1,5 +1,7 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.db.core.SqlRuntimeException;
+import br.com.objectos.db.core.Transaction;
 import br.com.objectos.db.query.NoResultFoundException;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
@@ -49,7 +51,16 @@ public final class RevisionOrm {
   }
 
   public Optional<Revision> maybe(int pk0) {
-    return Optional.empty();
+    try (Transaction trx = orm.startTransaction()) {
+      REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
+      return Sql.select(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())
+          .from(REVISION)
+          .compile(trx.dialect())
+          .findFirst(trx)
+          .map(RevisionOrm.get(orm)::load);
+    } catch (Exception e) {
+      throw new SqlRuntimeException(e);
+    }
   }
 
   public Revision load(Row3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {

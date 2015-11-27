@@ -51,10 +51,12 @@ class CompanionTypeFind implements CompanionTypeExe {
 
   private static class Pk extends CompanionTypeFind {
 
+    private final OrmPojoInfo pojoInfo;
     private final Naming naming;
     private final List<ParameterSpec> primaryKeyParameterSpecList;
 
-    public Pk(Naming naming, List<ParameterSpec> primaryKeyParameterSpecList) {
+    public Pk(OrmPojoInfo pojoInfo, Naming naming, List<ParameterSpec> primaryKeyParameterSpecList) {
+      this.pojoInfo = pojoInfo;
       this.naming = naming;
       this.primaryKeyParameterSpecList = primaryKeyParameterSpecList;
     }
@@ -62,6 +64,7 @@ class CompanionTypeFind implements CompanionTypeExe {
     public static CompanionTypeFind of(OrmPojoInfo pojoInfo, TableInfoMap tableInfoMap) {
       AtomicInteger i = new AtomicInteger(0);
       return new Pk(
+          pojoInfo,
           pojoInfo.naming(),
           tableInfoMap.primaryKeyPropertyList()
               .stream()
@@ -89,12 +92,13 @@ class CompanionTypeFind implements CompanionTypeExe {
     }
 
     private MethodSpec findByPrimaryKey1() {
+      QueryMethodBody body = new QueryMethodBody(pojoInfo, QueryReturnType.OPTIONAL);
       ClassName optionalClassName = ClassName.get(Optional.class);
       return MethodSpec.methodBuilder("maybe")
           .addModifiers(Modifier.PUBLIC)
           .addParameters(primaryKeyParameterSpecList)
           .returns(ParameterizedTypeName.get(optionalClassName, naming.superClassTypeName()))
-          .addStatement("return $T.empty()", optionalClassName)
+          .addCode(body.get())
           .build();
     }
 
