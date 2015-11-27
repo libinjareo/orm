@@ -36,26 +36,40 @@ class SingletonTableInfoMap extends TableInfoMap {
 
   private final TableInfoAnnotationInfo tableInfo;
   private final List<OrmProperty> propertyList;
+  private final List<OrmProperty> primaryKeyPropertyList;
 
-  public SingletonTableInfoMap(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
+  private SingletonTableInfoMap(TableInfoAnnotationInfo tableInfo,
+                                List<OrmProperty> propertyList,
+                                List<OrmProperty> primaryKeyPropertyList) {
     this.tableInfo = tableInfo;
     this.propertyList = propertyList;
+    this.primaryKeyPropertyList = primaryKeyPropertyList;
+  }
+
+  public static TableInfoMap of(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
+    Set<ClassName> pkNameSet = tableInfo.primaryKeyClassNameSet();
+    return new SingletonTableInfoMap(
+        tableInfo,
+        propertyList,
+        propertyList.stream()
+            .filter(col -> col.matchesAny(pkNameSet))
+            .collect(MoreCollectors.toImmutableList()));
   }
 
   @Override
   public boolean containsPrimaryKey() {
     Set<ClassName> pkNameSet = tableInfo.primaryKeyClassNameSet();
-
-    List<OrmProperty> pkColumnList = propertyList.stream()
-        .filter(col -> col.matchesAny(pkNameSet))
-        .collect(MoreCollectors.toImmutableList());
-
-    return !pkNameSet.isEmpty() && pkNameSet.size() == pkColumnList.size();
+    return !pkNameSet.isEmpty() && pkNameSet.size() == primaryKeyPropertyList.size();
   }
 
   @Override
   public <T> T onFirstEntry(TableInfoMapAction<T> action) {
     return action.onEntry(tableInfo, propertyList);
+  }
+
+  @Override
+  public List<OrmProperty> primaryKeyPropertyList() {
+    return primaryKeyPropertyList;
   }
 
   @Override

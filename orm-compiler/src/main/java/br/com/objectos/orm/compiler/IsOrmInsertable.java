@@ -23,13 +23,14 @@ import javax.lang.model.element.Modifier;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -61,8 +62,8 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   @Override
-  public void acceptCompanionType(CompanionType companion, TypeSpec.Builder type) {
-    type.addMethod(companion.insertAll());
+  public CompanionType acceptCompanionType(CompanionType type) {
+    return type.addMethod(companionTypeInsertAll(type));
   }
 
   @Override
@@ -96,6 +97,33 @@ abstract class IsOrmInsertable implements OrmInsertable {
         .addStatement("return row.values($L)$L",
             valueNameList().stream().collect(Collectors.joining(", ")),
             generated)
+        .build();
+  }
+
+  private MethodSpec companionTypeInsertAll(CompanionType type) {
+    Naming naming = type.naming();
+    return MethodSpec.methodBuilder("insertAll")
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(OrmNaming.iterableOf(naming.superClassTypeName()), "entities")
+        .addStatement("$T iterator = entities.iterator()", OrmNaming.iteratorOf(naming.superClassTypeName()))
+        .addCode(CodeBlock.builder()
+            .beginControlFlow("if (!iterator.hasNext())")
+            .addStatement("return")
+            .endControlFlow()
+            .build())
+        .addStatement("$1T pojo = ($1T) iterator.next()", naming.pojo())
+        .addCode(tableInfo().tableGetCode())
+        .addStatement("$T insert", insertableRowValuesTypeName())
+        .addCode("insert = pojo.bindInsertableRow(")
+        .addCode(tableInfo().insertIntoCode())
+        .addCode(");\n")
+        .addCode(CodeBlock.builder()
+            .beginControlFlow("while(iterator.hasNext())")
+            .addStatement("pojo = ($T) iterator.next()", naming.pojo())
+            .addStatement("insert = pojo.bindInsertableRow(insert)")
+            .endControlFlow()
+            .build())
+        .addStatement("orm.executeUnchecked(insert)")
         .build();
   }
 

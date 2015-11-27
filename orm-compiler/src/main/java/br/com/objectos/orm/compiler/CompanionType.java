@@ -15,135 +15,112 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.annotation.Generated;
-import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
-import br.com.objectos.pojo.Pojo;
+import br.com.objectos.collections.ImmutableSet;
 import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-abstract class CompanionType {
+class CompanionType {
 
   private static final AnnotationSpec GENERATED = AnnotationSpec.builder(Generated.class)
       .addMember("value", "$S", CompanionTypePlugin.class.getName())
       .build();
 
-  abstract ClassName companionTypeClassName();
+  private static final Set<Exe> EXE_SET = ImmutableSet.<Exe> builder()
+      .add(CompanionTypeInject::of)
+      .add(CompanionTypeFactory::of)
+      .add(info -> info.insertable())
+      .add(CompanionTypeFind::of)
+      .add(CompanionTypeLoad::of)
+      .build();
 
-  abstract TypeName superClassTypeName();
-  abstract TypeName pojoTypeName();
+  private final OrmPojoInfo pojoInfo;
+  private final ClassName className;
 
-  abstract List<ConstructorContext> constructorContextList();
-  abstract OrmInject inject();
-  abstract OrmInsertable insertable();
+  private final List<FieldSpec> fieldSpecList = new ArrayList<>();
+  private final List<MethodSpec> methodSpecList = new ArrayList<>();
 
-  CompanionType() {
+  private CompanionType(OrmPojoInfo pojoInfo, ClassName className) {
+    this.pojoInfo = pojoInfo;
+    this.className = className;
   }
 
   public static CompanionType of(OrmPojoInfo pojoInfo) {
     Naming naming = pojoInfo.naming();
-    ClassName companionTypeClassName = naming.superClassSuffix("Orm");
-    ClassName superClassName = naming.superClass();
-    ClassName pojoClassName = naming.pojo();
-    return CompanionType.builder()
-        .companionTypeClassName(companionTypeClassName)
-        .superClassTypeName(naming.typeVariableNameRawListTo(superClassName))
-        .pojoTypeName(naming.typeVariableNameRawListTo(pojoClassName))
-        .constructorContextList(pojoInfo.constructorContextList())
-        .inject(pojoInfo.inject())
-        .insertable(pojoInfo.insertable())
-        .build();
+    ClassName className = naming.superClassSuffix("Orm");
+    return new CompanionType(
+        pojoInfo,
+        className);
   }
 
-  static CompanionTypeBuilder builder() {
-    return new CompanionTypeBuilderPojo();
+  public CompanionType addField(FieldSpec fieldSpec) {
+    fieldSpecList.add(fieldSpec);
+    return this;
+  }
+
+  public CompanionType addMethod(MethodSpec methodSpec) {
+    methodSpecList.add(methodSpec);
+    return this;
+  }
+
+  public CompanionType addMethods(Stream<MethodSpec> methodStream) {
+    methodStream.forEach(methodSpecList::add);
+    return this;
+  }
+
+  public ClassName className() {
+    return className;
   }
 
   public Artifact execute() {
     return Artifact.of(javaFile());
   }
 
-  public MethodSpec insertAll() {
-    MethodSpec.Builder insertAll = MethodSpec.methodBuilder("insertAll")
-        .addModifiers(Modifier.PUBLIC)
-        .addParameter(OrmNaming.iterableOf(superClassTypeName()), "entities")
-        .addStatement("$T iterator = entities.iterator()", OrmNaming.iteratorOf(superClassTypeName()))
-        .addCode(CodeBlock.builder()
-            .beginControlFlow("if (!iterator.hasNext())")
-            .addStatement("return")
-            .endControlFlow()
-            .build())
-        .addStatement("$1T pojo = ($1T) iterator.next()", pojoTypeName());
-
-    insertable().acceptInsertAll(insertAll);
-
-    return insertAll
-        .addCode(CodeBlock.builder()
-            .beginControlFlow("while(iterator.hasNext())")
-            .addStatement("pojo = ($T) iterator.next()", pojoTypeName())
-            .addStatement("insert = pojo.bindInsertableRow(insert)")
-            .endControlFlow()
-            .build())
-        .addStatement("orm.executeUnchecked(insert)")
-        .build();
+  public Naming naming() {
+    return pojoInfo.naming();
   }
 
   private JavaFile javaFile() {
-    return JavaFile.builder(packageName(), type())
+    return JavaFile.builder(className.packageName(), type())
         .skipJavaLangImports(true)
         .build();
   }
 
-  private String packageName() {
-    return companionTypeClassName().packageName();
-  }
-
-  private String simpleName() {
-    return companionTypeClassName().simpleName();
-  }
-
   private TypeSpec type() {
-    TypeSpec.Builder type = TypeSpec.classBuilder(simpleName())
+    EXE_SET.stream()
+        .map(exe -> exe.get(pojoInfo))
+        .forEach(exe -> exe.acceptCompanionType(this));
+
+    return TypeSpec.classBuilder(className.simpleName())
         .addAnnotation(GENERATED)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-        .addField(inject().fieldSpec())
-        .addMethod(MethodSpec.constructorBuilder()
-            .addAnnotation(Inject.class)
-            .addParameter(inject().parameterSpec())
-            .addCode(inject().assignToFieldStatement())
-            .build())
-        .addMethod(typeStaticFactory());
-
-    insertable().acceptCompanionType(this, type);
-    constructorContextList().forEach(context -> context.acceptCompanionType(this, type));
-
-    return type.build();
+        .addFields(fieldSpecList)
+        .addMethods(methodSpecList)
+        .build();
   }
 
-  private MethodSpec typeStaticFactory() {
-    return MethodSpec.methodBuilder("get")
-        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-        .addParameter(inject().parameterSpec())
-        .returns(companionTypeClassName())
-        .addStatement("$T.requireNonNull($L)", Objects.class, inject().name())
-        .addStatement("return new $T($L)", companionTypeClassName(), inject().name())
-        .build();
+  @FunctionalInterface
+  private static interface Exe {
+
+    CompanionTypeExe get(OrmPojoInfo pojoInfo);
+
   }
 
 }

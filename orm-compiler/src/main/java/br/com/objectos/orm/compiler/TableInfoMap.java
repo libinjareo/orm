@@ -55,6 +55,10 @@ abstract class TableInfoMap implements Testable {
 
   public abstract <T> T onFirstEntry(TableInfoMapAction<T> action);
 
+  public List<OrmProperty> primaryKeyPropertyList() {
+    return ImmutableList.of();
+  }
+
   public abstract CodeBlock selectFrom();
 
   public abstract int size();
@@ -92,7 +96,7 @@ abstract class TableInfoMap implements Testable {
             .next();
         TableInfoAnnotationInfo tableInfo = entry.getKey();
         List<OrmProperty> propertyList = entry.getValue().build();
-        return new SingletonTableInfoMap(tableInfo, propertyList);
+        return SingletonTableInfoMap.of(tableInfo, propertyList);
       default:
         ImmutableMap.Builder<TableInfoAnnotationInfo, List<OrmProperty>> map = ImmutableMap.builder();
         propertyTableInfoMap.forEach((k, v) -> map.put(k, v.build()));
