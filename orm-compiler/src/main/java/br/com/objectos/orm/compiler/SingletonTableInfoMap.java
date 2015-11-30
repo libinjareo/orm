@@ -80,6 +80,7 @@ class SingletonTableInfoMap extends TableInfoMap {
         .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
         .add("return $T.select(", Sql.class)
         .add(propertyList.stream()
+            .sorted()
             .flatMap(property -> property.columnAnnotationClassList().stream())
             .map(col -> String.format("%s.%s()", tableVarName, col.simpleName()))
             .collect(Collectors.joining(", ")))
