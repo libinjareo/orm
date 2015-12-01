@@ -46,15 +46,13 @@ class OrderByInfo {
   }
 
   public CodeBlock get() {
-    CodeBlock.Builder orderBy = CodeBlock.builder();
-
-    if (!columnList.isEmpty()) {
-      orderBy.add("    .orderBy($L)\n", columnList.stream()
-          .map(Column::toSql)
-          .collect(Collectors.joining(", ")));
-    }
-
-    return orderBy.build();
+    return columnList.isEmpty()
+        ? CodeBlocks.empty()
+        : CodeBlock.builder()
+            .add("    .orderBy($L)\n", columnList.stream()
+                .map(Column::toSql)
+                .collect(Collectors.joining(", ")))
+            .build();
   }
 
   private static class Column {

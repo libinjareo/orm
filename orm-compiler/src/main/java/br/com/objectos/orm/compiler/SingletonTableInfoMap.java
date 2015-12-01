@@ -16,9 +16,11 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
@@ -34,15 +36,40 @@ class SingletonTableInfoMap extends TableInfoMap {
 
   private final TableInfoAnnotationInfo tableInfo;
   private final List<OrmProperty> propertyList;
+  private final List<OrmProperty> primaryKeyPropertyList;
 
-  public SingletonTableInfoMap(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
+  private SingletonTableInfoMap(TableInfoAnnotationInfo tableInfo,
+                                List<OrmProperty> propertyList,
+                                List<OrmProperty> primaryKeyPropertyList) {
     this.tableInfo = tableInfo;
     this.propertyList = propertyList;
+    this.primaryKeyPropertyList = primaryKeyPropertyList;
+  }
+
+  public static TableInfoMap of(TableInfoAnnotationInfo tableInfo, List<OrmProperty> propertyList) {
+    Set<ClassName> pkNameSet = tableInfo.primaryKeyClassNameSet();
+    return new SingletonTableInfoMap(
+        tableInfo,
+        propertyList,
+        propertyList.stream()
+            .filter(col -> col.matchesAny(pkNameSet))
+            .collect(MoreCollectors.toImmutableList()));
+  }
+
+  @Override
+  public boolean containsPrimaryKey() {
+    Set<ClassName> pkNameSet = tableInfo.primaryKeyClassNameSet();
+    return !pkNameSet.isEmpty() && pkNameSet.size() == primaryKeyPropertyList.size();
   }
 
   @Override
   public <T> T onFirstEntry(TableInfoMapAction<T> action) {
     return action.onEntry(tableInfo, propertyList);
+  }
+
+  @Override
+  public List<OrmProperty> primaryKeyPropertyList() {
+    return primaryKeyPropertyList;
   }
 
   @Override
@@ -53,6 +80,7 @@ class SingletonTableInfoMap extends TableInfoMap {
         .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
         .add("return $T.select(", Sql.class)
         .add(propertyList.stream()
+            .sorted()
             .flatMap(property -> property.columnAnnotationClassList().stream())
             .map(col -> String.format("%s.%s()", tableVarName, col.simpleName()))
             .collect(Collectors.joining(", ")))

@@ -36,6 +36,7 @@ abstract class OptionalReturnType extends ReturnType {
   public static OptionalReturnType get(SimpleTypeInfo returnTypeInfo, SimpleTypeInfo actualTypeInfo) {
     return OptionalReturnType.builder()
         .typeName(returnTypeInfo.typeName())
+        .companionTypeClassNameOfNullable(returnTypeInfo.isPrimitive() ? null : returnTypeInfo.classNameSuffix("Orm"))
         .actualTypeName(actualTypeInfo.typeName())
         .build();
   }
@@ -47,6 +48,11 @@ abstract class OptionalReturnType extends ReturnType {
   @Override
   public <T> T adapt(ReturnTypeAdapter<T> adapter) {
     return adapter.onOptional(this);
+  }
+
+  @Override
+  public String findByPrimaryKeyMethodName() {
+    return "maybe";
   }
 
   @Override

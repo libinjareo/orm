@@ -15,35 +15,35 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
+import javax.inject.Inject;
 
-import com.squareup.javapoet.MethodSpec.Builder;
+import com.squareup.javapoet.MethodSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
+class CompanionTypeInject implements CompanionTypeExe {
 
-  INSTANCE;
+  private final OrmInject inject;
 
-  @Override
-  public CompanionType acceptCompanionType(CompanionType companion) {
-    return companion;
+  private CompanionTypeInject(OrmInject inject) {
+    this.inject = inject;
+  }
+
+  public static CompanionTypeInject of(OrmPojoInfo pojoInfo) {
+    OrmInject inject = pojoInfo.inject();
+    return new CompanionTypeInject(inject);
   }
 
   @Override
-  public void acceptInsertAll(Builder insertAll) {
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
+  public CompanionType acceptCompanionType(CompanionType type) {
+    return type
+        .addField(inject.fieldSpec())
+        .addMethod(MethodSpec.constructorBuilder()
+            .addAnnotation(Inject.class)
+            .addParameter(inject.parameterSpec())
+            .addCode(inject.assignToFieldStatement())
+            .build());
   }
 
 }

@@ -19,14 +19,11 @@ import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.MethodSpec.Builder;
-import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-interface OrmInsertable extends Testable {
-
-  void acceptCompanionType(CompanionType companion, TypeSpec.Builder type);
+interface OrmInsertable extends CompanionTypeExe, Testable {
 
   void acceptInsertAll(Builder insertAll);
 

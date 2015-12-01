@@ -15,35 +15,20 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
-
-import com.squareup.javapoet.MethodSpec.Builder;
+import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
+class CodeBlocks {
 
-  INSTANCE;
+  private static final CodeBlock EMPTY = CodeBlock.builder().build();
 
-  @Override
-  public CompanionType acceptCompanionType(CompanionType companion) {
-    return companion;
+  private CodeBlocks() {
   }
 
-  @Override
-  public void acceptInsertAll(Builder insertAll) {
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
+  public static CodeBlock empty() {
+    return EMPTY;
   }
 
 }

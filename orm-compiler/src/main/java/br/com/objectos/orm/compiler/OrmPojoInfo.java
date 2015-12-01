@@ -134,12 +134,19 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
         .collect(MoreCollectors.toImmutableList());
   }
 
+  public boolean hasForeignKeys() {
+    return foreignKeyPropertyList().size() > 0;
+  }
+
   @Lazy
   public OrmInject inject() {
     return OrmInject.of(pojoInfo());
   }
 
-  @Lazy
+  public ParameterSpec rowParameterSpec() {
+    return rowParameterSpec(propertyList());
+  }
+
   public ParameterSpec rowParameterSpecColumns() {
     return rowParameterSpec(columnPropertyList());
   }

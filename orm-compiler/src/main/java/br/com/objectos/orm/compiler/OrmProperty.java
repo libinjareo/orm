@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -30,6 +31,7 @@ import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -65,6 +67,8 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   public abstract void acceptColumnsConstructor(ColumnsConstructor constructor);
 
+  public abstract void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor);
+
   public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
     if (!isGenerated()) {
       helper.addColumnClassNameStream(columnClassNameStream());
@@ -87,18 +91,34 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
     return false;
   }
 
+  public boolean matchesAny(Set<ClassName> pkNameSet) {
+    return false;
+  }
+
   public String name() {
     return property().name();
   }
 
   public ParameterSpec parameterSpec() {
+    String name = property().name();
+    return parameterSpec(name);
+  }
+
+  public ParameterSpec parameterSpec(String name) {
     SimpleTypeInfo returnTypeInfo = property().returnTypeInfo();
     TypeName typeName = returnTypeInfo.typeName();
-    String name = property().name();
     return ParameterSpec.builder(typeName, name).build();
   }
 
   public abstract String rowConstructorParameterName(AtomicInteger i);
+
+  @Override
+  public String toString() {
+    return property().name();
+  }
+
+  public void where(CodeBlock.Builder expression) {
+  }
 
   Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()

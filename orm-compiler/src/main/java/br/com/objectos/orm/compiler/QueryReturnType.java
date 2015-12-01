@@ -63,7 +63,8 @@ enum QueryReturnType {
     @Override
     CodeBlock collect(CodeBlock code) {
       return CodeBlock.builder()
-          .add("    .findFirst()\n")
+          .add("    .compile(trx.dialect())\n")
+          .add("    .findFirst(trx)\n")
           .add("    .map(")
           .add(code)
           .addStatement(")")

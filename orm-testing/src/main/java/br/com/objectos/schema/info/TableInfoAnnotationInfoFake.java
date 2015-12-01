@@ -15,7 +15,11 @@
  */
 package br.com.objectos.schema.info;
 
+import br.com.objectos.code.TypeInfo;
 import br.com.objectos.orm.compiler.NamingFake;
+import br.com.objectos.orm.compiler.TypeInfoFake;
+
+import com.squareup.javapoet.ClassName;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -31,6 +35,8 @@ public class TableInfoAnnotationInfoFake {
           ColumnInfoTypeInfoFake.EMPLOYEE_FIRST_NAME,
           ColumnInfoTypeInfoFake.EMPLOYEE_LAST_NAME,
           ColumnInfoTypeInfoFake.EMPLOYEE_HIRE_DATE)
+      .primaryKeyClassNameSet(
+          cn(TypeInfoFake.EMPLOYEE_EMP_NO))
       .build();
   public static final TableInfoAnnotationInfo PAIR = TableInfoAnnotationInfo.thisBuilder()
       .className(NamingFake.schemaIt("PAIR"))
@@ -38,6 +44,7 @@ public class TableInfoAnnotationInfoFake {
       .columnInfoList(
           ColumnInfoTypeInfoFake.PAIR_ID,
           ColumnInfoTypeInfoFake.PAIR_NAME)
+      .primaryKeyClassNameSet()
       .build();
   public static final TableInfoAnnotationInfo REVISION = TableInfoAnnotationInfo.thisBuilder()
       .className(NamingFake.schemaIt("REVISION"))
@@ -46,6 +53,8 @@ public class TableInfoAnnotationInfoFake {
           ColumnInfoTypeInfoFake.REVISION_SEQ,
           ColumnInfoTypeInfoFake.REVISION_DATE,
           ColumnInfoTypeInfoFake.REVISION_DESCRIPTION)
+      .primaryKeyClassNameSet(
+          cn(TypeInfoFake.REVISION_SEQ))
       .build();
   public static final TableInfoAnnotationInfo SALARY = TableInfoAnnotationInfo.thisBuilder()
       .className(NamingFake.schemaIt("SALARY"))
@@ -55,9 +64,16 @@ public class TableInfoAnnotationInfoFake {
           ColumnInfoTypeInfoFake.SALARY_SALARY_,
           ColumnInfoTypeInfoFake.SALARY_FROM_DATE,
           ColumnInfoTypeInfoFake.SALARY_TO_DATE)
+      .primaryKeyClassNameSet(
+          cn(TypeInfoFake.SALARY_EMP_NO),
+          cn(TypeInfoFake.SALARY_FROM_DATE))
       .build();
 
   private TableInfoAnnotationInfoFake() {
+  }
+
+  private static ClassName cn(TypeInfo ann) {
+    return ann.className();
   }
 
 }

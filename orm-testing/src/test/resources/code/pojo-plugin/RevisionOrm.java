@@ -1,5 +1,8 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.db.core.SqlRuntimeException;
+import br.com.objectos.db.core.Transaction;
+import br.com.objectos.db.query.NoResultFoundException;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.query.InsertableRow2;
@@ -7,6 +10,7 @@ import br.com.objectos.sql.query.Row3;
 import br.com.objectos.sql.query.Sql;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Optional;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
@@ -40,6 +44,24 @@ public final class RevisionOrm {
       insert = pojo.bindInsertableRow(insert);
     }
     orm.executeUnchecked(insert);
+  }
+
+  public Revision find(REVISION.REVISION_SEQ pk0) {
+    return maybe(pk0).orElseThrow(NoResultFoundException::new);
+  }
+
+  public Optional<Revision> maybe(REVISION.REVISION_SEQ pk0) {
+    try (Transaction trx = orm.startTransaction()) {
+      REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
+      return Sql.select(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())
+          .from(REVISION)
+          .where(pk0)
+          .compile(trx.dialect())
+          .findFirst(trx)
+          .map(RevisionOrm.get(orm)::load);
+    } catch (Exception e) {
+      throw new SqlRuntimeException(e);
+    }
   }
 
   public Revision load(Row3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {

@@ -3,6 +3,7 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
 import br.com.objectos.sql.query.Row3;
+import br.com.objectos.sql.query.Row4;
 import br.com.objectos.way.relational.Insert;
 import java.time.LocalDate;
 import javax.annotation.Generated;
@@ -37,6 +38,14 @@ final class SalaryPojo extends Salary {
     this.salary = salary;
     this.fromDate = fromDate;
     this.toDate = toDate;
+  }
+
+  public SalaryPojo(SuperOrm orm, Row4<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE> row) {
+    this(orm, row.column1(), row.column2(), row.column3(), row.column4());
+  }
+
+  public SalaryPojo(SuperOrm orm, SALARY.SALARY_EMP_NO employee0, SALARY.SALARY_SALARY salary, SALARY.SALARY_FROM_DATE fromDate, SALARY.SALARY_TO_DATE toDate) {
+    this(orm, EmployeeOrm.get(orm).find(employee0.EMPLOYEE_EMP_NO()), salary, fromDate, toDate);
   }
 
   public SalaryPojo(SuperOrm orm, SalaryBuilderPojo builder) {

@@ -31,6 +31,7 @@ abstract class StandardReturnType extends ReturnType {
   public static StandardReturnType get(SimpleTypeInfo returnTypeInfo) {
     return StandardReturnType.builder()
         .typeName(returnTypeInfo.typeName())
+        .companionTypeClassNameOfNullable(returnTypeInfo.isPrimitive() ? null : returnTypeInfo.classNameSuffix("Orm"))
         .build();
   }
 
@@ -41,6 +42,11 @@ abstract class StandardReturnType extends ReturnType {
   @Override
   public <T> T adapt(ReturnTypeAdapter<T> adapter) {
     return adapter.onStandard(this);
+  }
+
+  @Override
+  public String findByPrimaryKeyMethodName() {
+    return "find";
   }
 
   @Override

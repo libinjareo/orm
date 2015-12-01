@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,6 +39,7 @@ import br.com.objectos.schema.meta.ColumnName;
 import br.com.objectos.schema.meta.ColumnSeq;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -121,6 +123,13 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
+  public void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor) {
+    constructor
+        .addParameter(columnClassName(), name())
+        .addCode(", " + name());
+  }
+
+  @Override
   public <T> T adapt(OrmPropertyAdapter<T> adapter) {
     return adapter.onColumn(this);
   }
@@ -138,9 +147,19 @@ abstract class ColumnOrmProperty extends OrmProperty {
     return returnType().executePojoProperty(this);
   }
 
+  public String foreignKeyColumnsConstructor(String fieldName) {
+    return fieldName + "." + columnClassName().simpleName() + "()";
+  }
+
   @Override
   public boolean isGenerated() {
     return generationType().isGenerated();
+  }
+
+  @Override
+  public boolean matchesAny(Set<ClassName> pkNameSet) {
+    ClassName className = columnAnnotationInfo().simpleTypeInfo().className();
+    return pkNameSet.contains(className);
   }
 
   public MethodWriter methodWriter(String template) {
@@ -166,6 +185,14 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
   public PojoProperty standardMethod() {
     return bindType().standardMethod(this);
+  }
+
+  @Override
+  public void where(CodeBlock.Builder expression) {
+    expression.add("$L.$L().eq($L)",
+        tableInfo().simpleName(),
+        columnAnnotationInfo().simpleName(),
+        name());
   }
 
   public class ConstructorStatementWriter {

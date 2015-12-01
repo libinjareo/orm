@@ -22,10 +22,7 @@ import br.com.objectos.code.MethodInfo;
 import br.com.objectos.code.ModifierInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
 import br.com.objectos.pojo.Pojo;
-import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
 
 import com.squareup.javapoet.CodeBlock;
@@ -34,23 +31,19 @@ import com.squareup.javapoet.MethodSpec;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-abstract class QueryMethod {
+class RepoQueryMethod {
 
   private final MethodInfo methodInfo;
   private final QueryReturnType returnType;
   private final TypeInfo pojoTypeInfo;
 
-  QueryMethod(MethodInfo methodInfo, QueryReturnType returnType, TypeInfo pojoTypeInfo) {
+  RepoQueryMethod(MethodInfo methodInfo, QueryReturnType returnType, TypeInfo pojoTypeInfo) {
     this.methodInfo = methodInfo;
     this.returnType = returnType;
     this.pojoTypeInfo = pojoTypeInfo;
   }
 
-  public static Optional<QueryMethod> ofRepo(MethodInfo methodInfo) {
-    return of(methodInfo, RepoQueryMethod::new);
-  }
-
-  private static Optional<QueryMethod> of(MethodInfo methodInfo, Constructor constructor) {
+  public static Optional<RepoQueryMethod> ofRepo(MethodInfo methodInfo) {
     if (!methodInfo.hasModifierInfo(ModifierInfo.ABSTRACT)) {
       methodInfo.compilationError("@Query method must be abstract");
       return Optional.empty();
@@ -70,11 +63,11 @@ abstract class QueryMethod {
       return Optional.empty();
     }
 
-    QueryMethod res = constructor.apply(methodInfo, returnType, pojoTypeInfo);
+    RepoQueryMethod res = new RepoQueryMethod(methodInfo, returnType, pojoTypeInfo);
     return Optional.of(res);
   }
 
-  public final void accept(RepoTypeSpecBuilder builder) {
+  public void accept(RepoTypeSpecBuilder builder) {
     Optional<OrmPojoInfo> maybePojoInfo = pojoInfo();
     if (!maybePojoInfo.isPresent()) {
       return;
@@ -86,26 +79,10 @@ abstract class QueryMethod {
         .addMethod(method(pojoInfo));
   }
 
-  abstract CodeBlock collectCode(OrmPojoInfo pojoInfo);
-
-  abstract CodeBlock selectFrom(OrmPojoInfo pojoInfo);
-
-  private CodeBlock body(OrmPojoInfo pojoInfo) {
-    OrmInject inject = pojoInfo.inject();
-    return CodeBlock.builder()
-        .beginControlFlow("try ($T trx = $L.startTransaction())", Transaction.class, inject.name())
-        .add(selectFrom(pojoInfo))
-        .add(OrderByInfo.of(methodInfo).get())
-        .add(returnType.collect(collectCode(pojoInfo)))
-        .nextControlFlow("catch ($T e)", Exception.class)
-        .addStatement("throw new $T(e)", SqlRuntimeException.class)
-        .endControlFlow()
-        .build();
-  }
-
   private MethodSpec method(OrmPojoInfo pojoInfo) {
+    Body body = new Body(pojoInfo, returnType);
     return methodInfo.overrideWriter()
-        .addCode(body(pojoInfo))
+        .addCode(body.get())
         .write();
   }
 
@@ -116,27 +93,18 @@ abstract class QueryMethod {
 
   @FunctionalInterface
   private static interface Constructor {
-    QueryMethod apply(MethodInfo methodInfo, QueryReturnType returnType, TypeInfo pojoTypeInfo);
+    RepoQueryMethod apply(MethodInfo methodInfo, QueryReturnType returnType, TypeInfo pojoTypeInfo);
   }
 
-  private static class RepoQueryMethod extends QueryMethod {
+  private class Body extends QueryMethodBody {
 
-    public RepoQueryMethod(MethodInfo methodInfo, QueryReturnType returnType, TypeInfo pojoTypeInfo) {
-      super(methodInfo, returnType, pojoTypeInfo);
+    public Body(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
+      super(pojoInfo, returnType);
     }
 
     @Override
-    CodeBlock collectCode(OrmPojoInfo pojoInfo) {
-      Naming naming = pojoInfo.naming();
-      OrmInject inject = pojoInfo.inject();
-      return CodeBlock.builder()
-          .add("$T.get($L)::load", naming.superClassSuffix("Orm"), inject.name())
-          .build();
-    }
-
-    @Override
-    CodeBlock selectFrom(OrmPojoInfo pojoInfo) {
-      return pojoInfo.tableInfoMap().selectFrom();
+    CodeBlock orderBy() {
+      return OrderByInfo.of(methodInfo).get();
     }
 
   }

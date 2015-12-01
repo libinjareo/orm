@@ -4,6 +4,7 @@ import br.com.objectos.db.query.Result;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.MERGE;
 import br.com.objectos.sql.query.Row1;
+import br.com.objectos.sql.query.Row3;
 import br.com.objectos.way.relational.Insert;
 import java.util.Optional;
 import javax.annotation.Generated;
@@ -35,6 +36,14 @@ final class MergePojo extends Merge {
     this.seq = seq;
     this.parentA = parentA;
     this.parentB = parentB;
+  }
+
+  public MergePojo(Orm orm, Row3<MERGE.MERGE_SEQ, MERGE.MERGE_PARENT_A, MERGE.MERGE_PARENT_B> row) {
+    this(orm, row.column1(), row.column2(), row.column3());
+  }
+
+  public MergePojo(Orm orm, MERGE.MERGE_SEQ seq, MERGE.MERGE_PARENT_A parentA0, MERGE.MERGE_PARENT_B parentB0) {
+    this(orm, seq, RevisionOrm.get(orm).find(parentA0.REVISION_SEQ()), RevisionOrm.get(orm).maybe(parentB0.REVISION_SEQ()));
   }
 
   public MergePojo(Orm orm, MergeBuilderPojo builder) {

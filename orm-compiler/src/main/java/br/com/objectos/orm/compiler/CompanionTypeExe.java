@@ -15,35 +15,11 @@
  */
 package br.com.objectos.orm.compiler;
 
-import br.com.objectos.pojo.plugin.Contribution;
-import br.com.objectos.testable.Equality;
-
-import com.squareup.javapoet.MethodSpec.Builder;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum NotOrmInsertable implements OrmInsertable {
+interface CompanionTypeExe {
 
-  INSTANCE;
-
-  @Override
-  public CompanionType acceptCompanionType(CompanionType companion) {
-    return companion;
-  }
-
-  @Override
-  public void acceptInsertAll(Builder insertAll) {
-  }
-
-  @Override
-  public Contribution execute() {
-    return Contribution.empty();
-  }
-
-  @Override
-  public Equality isEqualTo(Object that) {
-    return Equality.instanceOf(that, NotOrmInsertable.class);
-  }
+  CompanionType acceptCompanionType(CompanionType type);
 
 }
