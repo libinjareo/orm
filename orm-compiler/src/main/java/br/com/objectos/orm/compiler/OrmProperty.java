@@ -31,6 +31,7 @@ import br.com.objectos.schema.meta.ForeignKeyAnnotation;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -114,6 +115,9 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
   @Override
   public String toString() {
     return property().name();
+  }
+
+  public void where(CodeBlock.Builder expression) {
   }
 
   Stream<ClassName> columnClassNameStream() {

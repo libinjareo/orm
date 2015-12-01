@@ -55,6 +55,7 @@ public final class RevisionOrm {
       REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
       return Sql.select(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())
           .from(REVISION)
+          .where(pk0)
           .compile(trx.dialect())
           .findFirst(trx)
           .map(RevisionOrm.get(orm)::load);

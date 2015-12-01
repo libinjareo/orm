@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,6 +27,7 @@ import br.com.objectos.db.query.NoResultFoundException;
 import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -93,7 +95,7 @@ class CompanionTypeFind implements CompanionTypeExe {
     }
 
     private MethodSpec findByPrimaryKey1() {
-      QueryMethodBody body = new QueryMethodBody(pojoInfo, QueryReturnType.OPTIONAL);
+      QueryMethodBody body = new Body(pojoInfo);
       ClassName optionalClassName = ClassName.get(Optional.class);
       return MethodSpec.methodBuilder("maybe")
           .addModifiers(Modifier.PUBLIC)
@@ -101,6 +103,35 @@ class CompanionTypeFind implements CompanionTypeExe {
           .returns(ParameterizedTypeName.get(optionalClassName, naming.superClassTypeName()))
           .addCode(body.get())
           .build();
+    }
+
+    private class Body extends QueryMethodBody {
+
+      public Body(OrmPojoInfo pojoInfo) {
+        super(pojoInfo, QueryReturnType.OPTIONAL);
+      }
+
+      @Override
+      CodeBlock where() {
+        CodeBlock.Builder where = CodeBlock.builder();
+
+        Iterator<ParameterSpec> iter = primaryKeyParameterSpecList.iterator();
+        if (iter.hasNext()) {
+          ParameterSpec parameter = iter.next();
+          where0(where, parameter, "where");
+          while (iter.hasNext()) {
+            parameter = iter.next();
+            where0(where, parameter, "and");
+          }
+        }
+
+        return where.build();
+      }
+
+      private void where0(CodeBlock.Builder expression, ParameterSpec parameter, String keyword) {
+        expression.add("    .$L($L)\n", keyword, parameter.name);
+      }
+
     }
 
   }

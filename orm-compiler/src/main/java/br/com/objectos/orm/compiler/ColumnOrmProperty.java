@@ -39,6 +39,7 @@ import br.com.objectos.schema.meta.ColumnName;
 import br.com.objectos.schema.meta.ColumnSeq;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -184,6 +185,14 @@ abstract class ColumnOrmProperty extends OrmProperty {
 
   public PojoProperty standardMethod() {
     return bindType().standardMethod(this);
+  }
+
+  @Override
+  public void where(CodeBlock.Builder expression) {
+    expression.add("$L.$L().eq($L)",
+        tableInfo().simpleName(),
+        columnAnnotationInfo().simpleName(),
+        name());
   }
 
   public class ConstructorStatementWriter {

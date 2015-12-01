@@ -36,6 +36,7 @@ public final class MergeOrm {
       MERGE MERGE = br.com.objectos.schema.it.MERGE.get();
       return Sql.select(MERGE.SEQ(), MERGE.PARENT_A(), MERGE.PARENT_B())
           .from(MERGE)
+          .where(pk0)
           .compile(trx.dialect())
           .findFirst(trx)
           .map(MergeOrm.get(orm)::load);

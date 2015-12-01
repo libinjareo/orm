@@ -15,6 +15,9 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Iterator;
+import java.util.List;
+
 import br.com.objectos.db.core.SqlRuntimeException;
 import br.com.objectos.db.core.Transaction;
 import br.com.objectos.pojo.plugin.Naming;
@@ -39,6 +42,7 @@ class QueryMethodBody {
     return CodeBlock.builder()
         .beginControlFlow("try ($T trx = $L.startTransaction())", Transaction.class, inject.name())
         .add(selectFrom())
+        .add(where())
         .add(orderBy())
         .add(returnType.collect(collectCode()))
         .nextControlFlow("catch ($T e)", Exception.class)
@@ -61,6 +65,30 @@ class QueryMethodBody {
 
   CodeBlock selectFrom() {
     return pojoInfo.tableInfoMap().selectFrom();
+  }
+
+  CodeBlock where() {
+    return CodeBlocks.empty();
+  }
+
+  CodeBlock where0(List<? extends OrmProperty> propertyList) {
+    CodeBlock.Builder expression = CodeBlock.builder();
+    Iterator<? extends OrmProperty> iterator = propertyList.iterator();
+    if (iterator.hasNext()) {
+      OrmProperty property = iterator.next();
+      where1(expression, property, "where");
+      while (iterator.hasNext()) {
+        property = iterator.next();
+        where1(expression, property, "and");
+      }
+    }
+    return expression.build();
+  }
+
+  private void where1(CodeBlock.Builder expression, OrmProperty property, String keyword) {
+    expression.add("    .$L(", keyword);
+    property.where(expression);
+    expression.add(")\n");
   }
 
 }

@@ -36,6 +36,8 @@ public final class SalaryOrm {
       SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
       return Sql.select(SALARY.EMP_NO(), SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
           .from(SALARY)
+          .where(pk0)
+          .and(pk1)
           .compile(trx.dialect())
           .findFirst(trx)
           .map(SalaryOrm.get(orm)::load);

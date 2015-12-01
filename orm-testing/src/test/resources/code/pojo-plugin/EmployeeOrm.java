@@ -35,6 +35,7 @@ public final class EmployeeOrm {
       EMPLOYEE EMPLOYEE = br.com.objectos.schema.it.EMPLOYEE.get();
       return Sql.select(EMPLOYEE.EMP_NO(), EMPLOYEE.BIRTH_DATE(), EMPLOYEE.FIRST_NAME(), EMPLOYEE.LAST_NAME(), EMPLOYEE.HIRE_DATE())
           .from(EMPLOYEE)
+          .where(pk0)
           .compile(trx.dialect())
           .findFirst(trx)
           .map(EmployeeOrm.get(orm)::load);
