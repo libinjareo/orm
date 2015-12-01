@@ -60,12 +60,12 @@ __objectos::orm__ is at Maven central.
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.6</version>
 </dependency>
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm-compiler</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.6</version>
 </dependency>
 ```
 

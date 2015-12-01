@@ -14,6 +14,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
+			<artifactId>collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
 			<artifactId>sql</artifactId>
 		</dependency>
 		
