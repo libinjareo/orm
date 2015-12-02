@@ -16,7 +16,9 @@
 package br.com.objectos.orm.it;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import br.com.objectos.orm.Query;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.EMPLOYEE;
 
@@ -45,5 +47,8 @@ abstract class Employee {
 
   Employee() {
   }
+
+  @Query
+  abstract List<Salary> salaryList();
 
 }

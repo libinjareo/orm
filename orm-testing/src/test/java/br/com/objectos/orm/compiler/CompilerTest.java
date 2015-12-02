@@ -40,7 +40,7 @@ public class CompilerTest {
 
   @Test
   public void employee() {
-    test("Employee");
+    test("Employee", "Salary");
   }
 
   @Test
@@ -102,6 +102,7 @@ public class CompilerTest {
       new InjectPlugin(),
       new InsertablePlugin(),
       new OptionalPlugin(),
+      new QueryPlugin(),
       new RelationalInsertablePlugin(),
       new RelationalLoaderPlugin()
     };

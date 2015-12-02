@@ -5,9 +5,10 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+  "br.com.objectos.orm.compiler.InjectPlugin",
+  "br.com.objectos.orm.compiler.QueryPlugin$ThisBuilderPropertyAction",
+  "br.com.objectos.pojo.compiler.PojoCompiler",
+  "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class EmployeeBuilderPojo implements EmployeeBuilder, EmployeeBuilder.EmployeeBuilderEmpNo, EmployeeBuilder.EmployeeBuilderBirthDate, EmployeeBuilder.EmployeeBuilderFirstName, EmployeeBuilder.EmployeeBuilderLastName, EmployeeBuilder.EmployeeBuilderHireDate {
   private final SuperOrm orm;

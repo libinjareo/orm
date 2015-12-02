@@ -4,12 +4,14 @@ import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.EMPLOYEE;
 import br.com.objectos.sql.query.Row5;
 import java.time.LocalDate;
+import java.util.List;
 import javax.annotation.Generated;
 
 @Generated({
     "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.QueryPlugin$ThisPropertyAction",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class EmployeePojo extends Employee {
@@ -77,5 +79,10 @@ final class EmployeePojo extends Employee {
   @Override
   LocalDate hireDate() {
     return hireDate.get();
+  }
+
+  @Override
+  List<Salary> salaryList() {
+    throw new UnsupportedOperationException();
   }
 }
