@@ -38,7 +38,7 @@ enum BindType {
 
     @Override
     public PojoProperty standardMethod(ColumnOrmProperty property) {
-      return property.methodWriter("return $L.booleanValue()")
+      return property.methodWriter("return $L.get() != 0")
           .setPropertyName()
           .build();
     }
@@ -46,6 +46,13 @@ enum BindType {
     @Override
     String accessor() {
       return "";
+    }
+
+    @Override
+    String standardConstructorCode(ColumnOrmProperty property) {
+      return property.isGenerated()
+          ? "$L = $T.get().$L()"
+          : String.format("$L = $T.get().$L($L ? 1 : 0)");
     }
   },
 
@@ -207,18 +214,18 @@ enum BindType {
 
   abstract String accessor();
 
+  String standardConstructorCode(ColumnOrmProperty property) {
+    return property.isGenerated()
+        ? "$L = $T.get().$L()"
+        : String.format("$L = $T.get().$L($L%s)", accessor());
+  }
+
   private String optionalConstructorCode() {
     return String.format(""
         + "$1L = $2L\n"
         + "    .map(o -> $3T.get().$4L(o%s))\n"
         + "    .orElse($3T.get().$4L())",
         accessor());
-  }
-
-  private String standardConstructorCode(ColumnOrmProperty property) {
-    return property.isGenerated()
-        ? "$L = $T.get().$L()"
-        : String.format("$L = $T.get().$L($L%s)", accessor());
   }
 
 }

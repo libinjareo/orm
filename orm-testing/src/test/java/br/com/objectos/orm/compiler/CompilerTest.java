@@ -32,6 +32,13 @@ import org.testng.annotations.Test;
 public class CompilerTest {
 
   @Test
+  public void booleanInt() {
+    assertThat(plugins())
+        .with(with("BooleanInt"))
+        .generates("BooleanIntPojo");
+  }
+
+  @Test
   public void employee() {
     test("Employee");
   }
