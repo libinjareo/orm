@@ -26,6 +26,7 @@ import br.com.objectos.code.TypeInfo;
 import br.com.objectos.code.TypeParameterInfo;
 import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.lazy.annotation.Lazy;
+import br.com.objectos.orm.Query;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.pojo.plugin.PojoInfo;
@@ -48,6 +49,7 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
   abstract List<OrmProperty> propertyList();
   abstract List<ColumnOrmProperty> columnPropertyList();
   abstract List<ForeignKeyOrmProperty> foreignKeyPropertyList();
+  abstract List<PojoQueryMethod> queryMethodList();
   abstract TableInfoMap tableInfoMap();
   abstract OrmInsertable insertable();
 
@@ -100,6 +102,12 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
         .propertyList(propertyList)
         .columnPropertyList(helper.columnPropertyList())
         .foreignKeyPropertyList(helper.foreignKeyPropertyList())
+        .queryMethodList(pojoInfo.methodInfoStream()
+            .filter(m -> m.hasAnnotation(Query.class))
+            .map(PojoQueryMethod::of)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(MoreCollectors.toImmutableList()))
         .tableInfoMap(tableInfoMap)
         .insertable(tableInfoMap.toOrmInsertable(pojoInfo))
         .build();

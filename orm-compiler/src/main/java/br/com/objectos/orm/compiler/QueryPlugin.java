@@ -15,53 +15,44 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
 import br.com.objectos.metainf.Services;
 import br.com.objectos.orm.Query;
 import br.com.objectos.pojo.plugin.AbstractPlugin;
-import br.com.objectos.pojo.plugin.BuilderProperty;
-import br.com.objectos.pojo.plugin.BuilderPropertyAction;
+import br.com.objectos.pojo.plugin.Contribution;
+import br.com.objectos.pojo.plugin.Contribution.Builder;
 import br.com.objectos.pojo.plugin.Plugin;
-import br.com.objectos.pojo.plugin.PojoProperty;
-import br.com.objectos.pojo.plugin.PojoPropertyAction;
-import br.com.objectos.pojo.plugin.Property;
+import br.com.objectos.pojo.plugin.PojoAction;
+import br.com.objectos.pojo.plugin.PojoInfo;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Services(Plugin.class)
-public class QueryPlugin extends AbstractPlugin {
+public class QueryPlugin extends AbstractPlugin implements PojoAction {
 
   @Override
   protected void configure() {
-    when(property(hasAnnotation(Query.class)))
-        .execute(ThisPropertyAction.INSTANCE);
+    executeWhen(pojo((info) -> OrmPojoInfo.of(info).isPresent()));
 
-    when(property(hasAnnotation(Query.class)))
-        .execute(ThisBuilderPropertyAction.INSTANCE);
+    when(property(hasAnnotation(Query.class))).ignore();
+    execute(this);
   }
 
-  private static enum ThisBuilderPropertyAction implements BuilderPropertyAction {
-    INSTANCE;
-
-    @Override
-    public BuilderProperty execute(Property property) {
-      return BuilderProperty.ignore();
-    }
+  @Override
+  public Contribution execute(PojoInfo pojoInfo) {
+    OrmPojoInfo ownerPojoInfo = OrmPojoInfo.of(pojoInfo).get();
+    List<PojoQueryMethod> queryMethodList = ownerPojoInfo.queryMethodList();
+    return queryMethodList.isEmpty()
+        ? Contribution.empty()
+        : execute0(ownerPojoInfo, queryMethodList);
   }
 
-  private static enum ThisPropertyAction implements PojoPropertyAction {
-    INSTANCE;
-
-    @Override
-    public PojoProperty execute(Property property) {
-      return PojoProperty.of(method(property));
-    }
-
-    private PojoProperty method(Property property) {
-      return PojoProperty.overridingMethodBuilder(property)
-          .statement("throw new $T()", UnsupportedOperationException.class)
-          .build();
-    }
+  private Contribution execute0(OrmPojoInfo ownerPojoInfo, List<PojoQueryMethod> queryMethodList) {
+    Builder builder = Contribution.builder();
+    queryMethodList.forEach(method -> method.accept(ownerPojoInfo, builder));
+    return builder.build();
   }
 
 }

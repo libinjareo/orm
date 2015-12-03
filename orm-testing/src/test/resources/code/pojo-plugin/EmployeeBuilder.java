@@ -5,7 +5,6 @@ import javax.annotation.Generated;
 
 @Generated({
   "br.com.objectos.orm.compiler.InjectPlugin",
-  "br.com.objectos.orm.compiler.QueryPlugin$ThisBuilderPropertyAction",
   "br.com.objectos.pojo.compiler.PojoCompiler",
   "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
