@@ -24,16 +24,14 @@ import java.util.stream.Collectors;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
-import com.squareup.javapoet.CodeBlock;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class RegularTableInfoMap extends TableInfoMap {
+class StandardTableInfoMap extends TableInfoMap {
 
   private final Map<TableInfoAnnotationInfo, List<OrmProperty>> map;
 
-  public RegularTableInfoMap(Map<TableInfoAnnotationInfo, List<OrmProperty>> map) {
+  public StandardTableInfoMap(Map<TableInfoAnnotationInfo, List<OrmProperty>> map) {
     this.map = map;
   }
 
@@ -44,8 +42,8 @@ class RegularTableInfoMap extends TableInfoMap {
   }
 
   @Override
-  public CodeBlock selectFrom() {
-    return CodeBlock.builder().build();
+  public QuerySelectExpression selectFrom() {
+    return StandardQuerySelectExpression.INSTANCE;
   }
 
   @Override

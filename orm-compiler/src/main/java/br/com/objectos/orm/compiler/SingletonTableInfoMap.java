@@ -24,10 +24,8 @@ import br.com.objectos.collections.MoreCollectors;
 import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.plugin.PojoInfo;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
-import br.com.objectos.sql.query.Sql;
 
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -73,20 +71,10 @@ class SingletonTableInfoMap extends TableInfoMap {
   }
 
   @Override
-  public CodeBlock selectFrom() {
-    ClassName tableClassName = tableInfo.className();
-    String tableVarName = tableClassName.simpleName();
-    return CodeBlock.builder()
-        .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
-        .add("return $T.select(", Sql.class)
-        .add(propertyList.stream()
-            .sorted()
-            .flatMap(property -> property.columnAnnotationClassList().stream())
-            .map(col -> String.format("%s.%s()", tableVarName, col.simpleName()))
-            .collect(Collectors.joining(", ")))
-        .add(")\n")
-        .add("    .from($L)\n", tableVarName)
-        .build();
+  public QuerySelectExpression selectFrom() {
+    return new SingletonQuerySelectExpression(
+        tableInfo.className(),
+        propertyList);
   }
 
   @Override

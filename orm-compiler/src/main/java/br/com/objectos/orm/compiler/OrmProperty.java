@@ -82,6 +82,10 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   public abstract <T> T adapt(OrmPropertyAdapter<T> adapter);
 
+  public Stream<SimpleTypeInfo> columnAnnotationClassStream() {
+    return columnAnnotationClassList().stream();
+  }
+
   @Override
   public int compareTo(OrmProperty o) {
     return Integer.compare(columnSeq(), o.columnSeq());

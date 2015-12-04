@@ -25,7 +25,6 @@ import br.com.objectos.testable.Equality;
 import br.com.objectos.testable.Testable;
 import br.com.objectos.testable.Tester;
 
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 
 /**
@@ -50,7 +49,8 @@ class PojoQueryMethod implements Testable {
   public void accept(OrmPojoInfo ownerPojoInfo, Contribution.Builder builder) {
     Optional<OrmPojoInfo> maybePojoInfo = pojoInfo();
     if (maybePojoInfo.isPresent()) {
-      builder.addMethod(method(ownerPojoInfo, maybePojoInfo.get()));
+      OrmPojoInfo pojoInfo = maybePojoInfo.get();
+      builder.addMethod(method(pojoInfo, ownerPojoInfo));
     }
   }
 
@@ -61,29 +61,17 @@ class PojoQueryMethod implements Testable {
         .test(this, that);
   }
 
-  private MethodSpec method(OrmPojoInfo ownerPojoInfo, OrmPojoInfo pojoInfo) {
-    Body body = new Body(pojoInfo, returnType);
+  private MethodSpec method(OrmPojoInfo pojoInfo, OrmPojoInfo ownerPojoInfo) {
     return methodInfo.overrideWriter()
-        .addCode(body.get())
+        .addCode(QueryMethodBody.builder(pojoInfo, returnType)
+            .orderByExpression(StandardQueryOrderByExpression.of(methodInfo))
+            .build())
         .write();
   }
 
   private Optional<OrmPojoInfo> pojoInfo() {
     PojoInfo pojoInfo = PojoInfo.of(pojoTypeInfo);
     return OrmPojoInfo.of(pojoInfo);
-  }
-
-  private class Body extends QueryMethodBody {
-
-    public Body(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
-      super(pojoInfo, returnType);
-    }
-
-    @Override
-    CodeBlock orderBy() {
-      return OrderByInfo.of(methodInfo).get();
-    }
-
   }
 
 }

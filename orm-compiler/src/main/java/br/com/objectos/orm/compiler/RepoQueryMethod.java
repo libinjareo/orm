@@ -21,7 +21,6 @@ import br.com.objectos.code.MethodInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.plugin.PojoInfo;
 
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 
 /**
@@ -56,28 +55,16 @@ class RepoQueryMethod {
   }
 
   private MethodSpec method(OrmPojoInfo pojoInfo) {
-    Body body = new Body(pojoInfo, returnType);
     return methodInfo.overrideWriter()
-        .addCode(body.get())
+        .addCode(QueryMethodBody.builder(pojoInfo, returnType)
+            .orderByExpression(StandardQueryOrderByExpression.of(methodInfo))
+            .build())
         .write();
   }
 
   private Optional<OrmPojoInfo> pojoInfo() {
     PojoInfo pojoInfo = PojoInfo.of(pojoTypeInfo);
     return OrmPojoInfo.of(pojoInfo);
-  }
-
-  private class Body extends QueryMethodBody {
-
-    public Body(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
-      super(pojoInfo, returnType);
-    }
-
-    @Override
-    CodeBlock orderBy() {
-      return OrderByInfo.of(methodInfo).get();
-    }
-
   }
 
 }

@@ -28,8 +28,6 @@ import br.com.objectos.testable.Equality;
 import br.com.objectos.testable.Testable;
 import br.com.objectos.testable.Tester;
 
-import com.squareup.javapoet.CodeBlock;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -59,7 +57,7 @@ abstract class TableInfoMap implements Testable {
     return ImmutableList.of();
   }
 
-  public abstract CodeBlock selectFrom();
+  public abstract QuerySelectExpression selectFrom();
 
   public abstract int size();
 
@@ -100,7 +98,7 @@ abstract class TableInfoMap implements Testable {
       default:
         ImmutableMap.Builder<TableInfoAnnotationInfo, List<OrmProperty>> map = ImmutableMap.builder();
         propertyTableInfoMap.forEach((k, v) -> map.put(k, v.build()));
-        return new RegularTableInfoMap(map.build());
+        return new StandardTableInfoMap(map.build());
       }
     }
 
