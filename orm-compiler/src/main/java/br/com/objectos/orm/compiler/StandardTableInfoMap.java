@@ -42,7 +42,7 @@ class StandardTableInfoMap extends TableInfoMap {
   }
 
   @Override
-  public QuerySelectExpression selectFrom() {
+  public QuerySelectExpression selectExpression() {
     return StandardQuerySelectExpression.INSTANCE;
   }
 

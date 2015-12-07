@@ -71,7 +71,7 @@ class SingletonTableInfoMap extends TableInfoMap {
   }
 
   @Override
-  public QuerySelectExpression selectFrom() {
+  public QuerySelectExpression selectExpression() {
     return new SingletonQuerySelectExpression(
         tableInfo.className(),
         propertyList);

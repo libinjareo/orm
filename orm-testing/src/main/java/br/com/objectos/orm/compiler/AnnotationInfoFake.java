@@ -29,6 +29,8 @@ class AnnotationInfoFake {
   public static final AnnotationInfo REVISION_SEQ = methodFirst(TypeInfoFake.Revision, "seq");
   public static final AnnotationInfo SALARY_EMP_NO_FK = methodFirst(TypeInfoFake.Salary, "employee");
   public static final AnnotationInfo SALARY_FROM_DATE = methodFirst(TypeInfoFake.Salary, "fromDate");
+  public static final AnnotationInfo SALARY_SALARY_ = methodFirst(TypeInfoFake.Salary, "salary");
+  public static final AnnotationInfo SALARY_TO_DATE = methodFirst(TypeInfoFake.Salary, "toDate");
 
   private AnnotationInfoFake() {
   }

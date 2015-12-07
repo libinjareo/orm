@@ -65,11 +65,11 @@ final class EmployeePojo extends Employee {
   List<Salary> salaryList() {
     try (Transaction trx = orm.startTransaction()) {
       SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
-      return Sql.select(SALARY.EMP_NO(), SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
+      return Sql.select(SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
           .from(SALARY)
           .compile(trx.dialect())
           .stream(trx)
-          .map(SalaryOrm.get(orm)::load)
+          .map(row -> SalaryOrm.get(orm).load(EmployeePojo.this, row))
           .collect(MoreCollectors.toImmutableList());
     } catch (Exception e) {
       throw new SqlRuntimeException(e);

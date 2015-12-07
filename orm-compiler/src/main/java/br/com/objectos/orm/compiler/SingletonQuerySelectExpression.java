@@ -17,7 +17,9 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.sql.query.Sql;
 
 import com.squareup.javapoet.ClassName;
@@ -37,19 +39,45 @@ class SingletonQuerySelectExpression implements QuerySelectExpression {
   }
 
   @Override
+  public QuerySelectExpression removeAll(List<SimpleTypeInfo> referencesList) {
+    return new Sub(tableClassName, propertyList, referencesList);
+  }
+
+  @Override
   public CodeBlock get() {
     String tableVarName = tableClassName.simpleName();
     return CodeBlock.builder()
         .addStatement("$T $L = $L.get()", tableClassName, tableVarName, tableClassName)
         .add("return $T.select(", Sql.class)
-        .add(propertyList.stream()
-            .sorted()
-            .flatMap(OrmProperty::columnAnnotationClassStream)
+        .add(columnAnnotationClassStream()
             .map(col -> String.format("%s.%s()", tableVarName, col.simpleName()))
             .collect(Collectors.joining(", ")))
         .add(")\n")
         .add("    .from($L)\n", tableVarName)
         .build();
+  }
+
+  Stream<SimpleTypeInfo> columnAnnotationClassStream() {
+    return propertyList.stream()
+        .sorted()
+        .flatMap(OrmProperty::columnAnnotationClassStream);
+  }
+
+  private static class Sub extends SingletonQuerySelectExpression {
+
+    private final List<SimpleTypeInfo> referencesList;
+
+    public Sub(ClassName tableClassName, List<OrmProperty> propertyList, List<SimpleTypeInfo> referencesList) {
+      super(tableClassName, propertyList);
+      this.referencesList = referencesList;
+    }
+
+    @Override
+    Stream<SimpleTypeInfo> columnAnnotationClassStream() {
+      return super.columnAnnotationClassStream()
+          .filter(column -> !referencesList.contains(column));
+    }
+
   }
 
 }

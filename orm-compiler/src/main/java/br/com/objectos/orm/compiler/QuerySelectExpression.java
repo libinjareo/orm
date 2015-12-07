@@ -15,9 +15,15 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.code.SimpleTypeInfo;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 interface QuerySelectExpression extends QueryExpression {
+
+  QuerySelectExpression removeAll(List<SimpleTypeInfo> referencesList);
 
 }

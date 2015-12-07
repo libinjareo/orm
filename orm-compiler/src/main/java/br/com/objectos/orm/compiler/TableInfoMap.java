@@ -57,7 +57,7 @@ abstract class TableInfoMap implements Testable {
     return ImmutableList.of();
   }
 
-  public abstract QuerySelectExpression selectFrom();
+  public abstract QuerySelectExpression selectExpression();
 
   public abstract int size();
 

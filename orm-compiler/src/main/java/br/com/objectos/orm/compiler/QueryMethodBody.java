@@ -20,7 +20,6 @@ import java.util.List;
 
 import br.com.objectos.db.core.SqlRuntimeException;
 import br.com.objectos.db.core.Transaction;
-import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.CodeBlock;
 
@@ -30,21 +29,21 @@ import com.squareup.javapoet.CodeBlock;
 class QueryMethodBody {
 
   private final OrmPojoInfo pojoInfo;
-  private final QueryReturnType returnType;
   private final QuerySelectExpression selectExpression;
   private final QueryWhereExpression whereExpression;
   private final QueryOrderByExpression orderByExpression;
+  private final QueryCollectExpression collectExpression;
 
   private QueryMethodBody(OrmPojoInfo pojoInfo,
-                          QueryReturnType returnType,
                           QuerySelectExpression selectExpression,
                           QueryWhereExpression whereExpression,
-                          QueryOrderByExpression orderByExpression) {
+                          QueryOrderByExpression orderByExpression,
+                          QueryCollectExpression collectExpression) {
     this.pojoInfo = pojoInfo;
-    this.returnType = returnType;
     this.selectExpression = selectExpression;
     this.whereExpression = whereExpression;
     this.orderByExpression = orderByExpression;
+    this.collectExpression = collectExpression;
   }
 
   public static Builder builder(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
@@ -58,18 +57,10 @@ class QueryMethodBody {
         .add(selectExpression.get())
         .add(whereExpression.get())
         .add(orderByExpression.get())
-        .add(returnType.collect(collectCode()))
+        .add(collectExpression.get())
         .nextControlFlow("catch ($T e)", Exception.class)
         .addStatement("throw new $T(e)", SqlRuntimeException.class)
         .endControlFlow()
-        .build();
-  }
-
-  final CodeBlock collectCode() {
-    Naming naming = pojoInfo.naming();
-    OrmInject inject = pojoInfo.inject();
-    return CodeBlock.builder()
-        .add("$T.get($L)::load", naming.superClassSuffix("Orm"), inject.name())
         .build();
   }
 
@@ -93,28 +84,28 @@ class QueryMethodBody {
     expression.add(")\n");
   }
 
-  public static class Builder       {
+  public static class Builder {
 
     private final OrmPojoInfo pojoInfo;
-    private final QueryReturnType returnType;
 
     private QuerySelectExpression selectExpression;
     private QueryWhereExpression whereExpression = EmptyQueryWhereExpression.INSTANCE;
     private QueryOrderByExpression orderByExpression = EmptyQueryOrderByExpression.INSTANCE;
+    private QueryCollectExpression collectExpression;
 
     private Builder(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
       this.pojoInfo = pojoInfo;
-      this.returnType = returnType;
-      selectExpression = pojoInfo.tableInfoMap().selectFrom();
+      selectExpression = pojoInfo.tableInfoMap().selectExpression();
+      collectExpression = new ColumnQueryCollectExpression(pojoInfo, returnType);
     }
 
     public CodeBlock build() {
       QueryMethodBody body = new QueryMethodBody(
           pojoInfo,
-          returnType,
           selectExpression,
           whereExpression,
-          orderByExpression);
+          orderByExpression,
+          collectExpression);
       return body.get();
     }
 
@@ -130,6 +121,11 @@ class QueryMethodBody {
 
     public Builder whereExpression(QueryWhereExpression whereExpression) {
       this.whereExpression = whereExpression;
+      return this;
+    }
+
+    public Builder collectExpression(QueryCollectExpression collectExpression) {
+      this.collectExpression = collectExpression;
       return this;
     }
 

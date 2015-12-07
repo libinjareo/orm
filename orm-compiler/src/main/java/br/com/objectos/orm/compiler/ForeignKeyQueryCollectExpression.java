@@ -15,27 +15,30 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.List;
-
-import br.com.objectos.code.SimpleTypeInfo;
+import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-enum StandardQuerySelectExpression implements QuerySelectExpression {
+class ForeignKeyQueryCollectExpression extends QueryCollectExpression {
 
-  INSTANCE;
+  private final OrmPojoInfo ownerPojoInfo;
 
-  @Override
-  public QuerySelectExpression removeAll(List<SimpleTypeInfo> referencesList) {
-    return this;
+  public ForeignKeyQueryCollectExpression(OrmPojoInfo pojoInfo, QueryReturnType returnType, OrmPojoInfo ownerPojoInfo) {
+    super(pojoInfo, returnType);
+    this.ownerPojoInfo = ownerPojoInfo;
   }
 
   @Override
-  public CodeBlock get() {
-    return CodeBlocks.empty();
+  CodeBlock collectCode(Naming naming, OrmInject inject) {
+    return CodeBlock.builder()
+        .add("row -> $T.get($L).load($T.this, row)",
+            naming.superClassSuffix("Orm"),
+            inject.name(),
+            ownerPojoInfo.naming().pojo())
+        .build();
   }
 
 }
