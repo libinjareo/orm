@@ -15,11 +15,9 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.List;
 import java.util.Optional;
 
 import br.com.objectos.code.MethodInfo;
-import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.pojo.plugin.PojoInfo;
@@ -64,11 +62,12 @@ class PojoQueryMethod implements Testable {
   }
 
   private MethodSpec method(OrmPojoInfo pojoInfo, OrmPojoInfo ownerPojoInfo) {
-    List<SimpleTypeInfo> referencesList = pojoInfo.referencesColumnAnnotationClassList(ownerPojoInfo);
+    OrmRelationInfo relationInfo = pojoInfo.relationTo(ownerPojoInfo);
     QuerySelectExpression selectExpression = pojoInfo.tableInfoMap().selectExpression();
     return methodInfo.overrideWriter()
         .addCode(QueryMethodBody.builder(pojoInfo, returnType)
-            .selectExpression(selectExpression.removeAll(referencesList))
+            .selectExpression(relationInfo.filter(selectExpression))
+            .whereExpression(relationInfo.whereExpression())
             .orderByExpression(StandardQueryOrderByExpression.of(methodInfo))
             .collectExpression(new ForeignKeyQueryCollectExpression(pojoInfo, returnType, ownerPojoInfo))
             .build())

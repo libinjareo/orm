@@ -151,11 +151,12 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
     return OrmInject.of(pojoInfo());
   }
 
-  public List<SimpleTypeInfo> referencesColumnAnnotationClassList(OrmPojoInfo ownerPojoInfo) {
-    return foreignKeyPropertyList().stream()
+  public OrmRelationInfo relationTo(OrmPojoInfo ownerPojoInfo) {
+    OrmRelationInfo.Builder builder = OrmRelationInfo.builder();
+    foreignKeyPropertyList().stream()
         .filter(property -> property.references(ownerPojoInfo))
-        .flatMap(OrmProperty::columnAnnotationClassStream)
-        .collect(MoreCollectors.toImmutableList());
+        .forEach(builder::add);
+    return builder.build();
   }
 
   public ParameterSpec rowParameterSpec() {
