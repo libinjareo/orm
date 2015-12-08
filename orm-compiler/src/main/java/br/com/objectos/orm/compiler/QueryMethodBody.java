@@ -15,12 +15,8 @@
  */
 package br.com.objectos.orm.compiler;
 
-import java.util.Iterator;
-import java.util.List;
-
 import br.com.objectos.db.core.SqlRuntimeException;
 import br.com.objectos.db.core.Transaction;
-import br.com.objectos.pojo.plugin.Naming;
 
 import com.squareup.javapoet.CodeBlock;
 
@@ -29,66 +25,87 @@ import com.squareup.javapoet.CodeBlock;
  */
 class QueryMethodBody {
 
-  final OrmPojoInfo pojoInfo;
-  final QueryReturnType returnType;
+  private final OrmPojoInfo pojoInfo;
+  private final QuerySelectExpression selectExpression;
+  private final QueryWhereExpression whereExpression;
+  private final QueryOrderByExpression orderByExpression;
+  private final QueryCollectExpression collectExpression;
 
-  public QueryMethodBody(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
+  private QueryMethodBody(OrmPojoInfo pojoInfo,
+                          QuerySelectExpression selectExpression,
+                          QueryWhereExpression whereExpression,
+                          QueryOrderByExpression orderByExpression,
+                          QueryCollectExpression collectExpression) {
     this.pojoInfo = pojoInfo;
-    this.returnType = returnType;
+    this.selectExpression = selectExpression;
+    this.whereExpression = whereExpression;
+    this.orderByExpression = orderByExpression;
+    this.collectExpression = collectExpression;
+  }
+
+  public static Builder builder(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
+    return new Builder(pojoInfo, returnType);
   }
 
   public CodeBlock get() {
     OrmInject inject = pojoInfo.inject();
     return CodeBlock.builder()
         .beginControlFlow("try ($T trx = $L.startTransaction())", Transaction.class, inject.name())
-        .add(selectFrom())
-        .add(where())
-        .add(orderBy())
-        .add(returnType.collect(collectCode()))
+        .add(selectExpression.get())
+        .add(whereExpression.get())
+        .add(orderByExpression.get())
+        .add(collectExpression.get())
         .nextControlFlow("catch ($T e)", Exception.class)
         .addStatement("throw new $T(e)", SqlRuntimeException.class)
         .endControlFlow()
         .build();
   }
 
-  CodeBlock collectCode() {
-    Naming naming = pojoInfo.naming();
-    OrmInject inject = pojoInfo.inject();
-    return CodeBlock.builder()
-        .add("$T.get($L)::load", naming.superClassSuffix("Orm"), inject.name())
-        .build();
-  }
+  public static class Builder {
 
-  CodeBlock orderBy() {
-    return CodeBlocks.empty();
-  }
+    private final OrmPojoInfo pojoInfo;
 
-  CodeBlock selectFrom() {
-    return pojoInfo.tableInfoMap().selectFrom();
-  }
+    private QuerySelectExpression selectExpression;
+    private QueryWhereExpression whereExpression = EmptyQueryWhereExpression.INSTANCE;
+    private QueryOrderByExpression orderByExpression = EmptyQueryOrderByExpression.INSTANCE;
+    private QueryCollectExpression collectExpression;
 
-  CodeBlock where() {
-    return CodeBlocks.empty();
-  }
-
-  CodeBlock where0(List<? extends OrmProperty> propertyList) {
-    CodeBlock.Builder expression = CodeBlock.builder();
-    Iterator<? extends OrmProperty> iterator = propertyList.iterator();
-    if (iterator.hasNext()) {
-      OrmProperty property = iterator.next();
-      where1(expression, property, "where");
-      while (iterator.hasNext()) {
-        property = iterator.next();
-        where1(expression, property, "and");
-      }
+    private Builder(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
+      this.pojoInfo = pojoInfo;
+      selectExpression = pojoInfo.tableInfoMap().selectExpression();
+      collectExpression = new ColumnQueryCollectExpression(pojoInfo, returnType);
     }
-    return expression.build();
-  }
 
-  private void where1(CodeBlock.Builder expression, OrmProperty property, String keyword) {
-    expression.add("    .$L(", keyword);
-    property.where(expression);
-    expression.add(")\n");
+    public CodeBlock build() {
+      QueryMethodBody body = new QueryMethodBody(
+          pojoInfo,
+          selectExpression,
+          whereExpression,
+          orderByExpression,
+          collectExpression);
+      return body.get();
+    }
+
+    public Builder selectExpression(QuerySelectExpression selectExpression) {
+      this.selectExpression = selectExpression;
+      return this;
+    }
+
+    public Builder orderByExpression(QueryOrderByExpression orderByExpression) {
+      this.orderByExpression = orderByExpression;
+      return this;
+    }
+
+    public Builder whereExpression(QueryWhereExpression whereExpression) {
+      this.whereExpression = whereExpression;
+      return this;
+    }
+
+    public Builder collectExpression(QueryCollectExpression collectExpression) {
+      this.collectExpression = collectExpression;
+      return this;
+    }
+
   }
 
 }

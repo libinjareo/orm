@@ -29,22 +29,23 @@ import com.squareup.javapoet.CodeBlock;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrderByInfo {
+class StandardQueryOrderByExpression implements QueryOrderByExpression {
 
   private final List<Column> columnList;
 
-  private OrderByInfo(List<Column> columnList) {
+  private StandardQueryOrderByExpression(List<Column> columnList) {
     this.columnList = columnList;
   }
 
-  public static OrderByInfo of(MethodInfo methodInfo) {
-    return new OrderByInfo(
+  public static StandardQueryOrderByExpression of(MethodInfo methodInfo) {
+    return new StandardQueryOrderByExpression(
         methodInfo.annotationInfoListAnnotatedWith(ColumnAnnotation.class)
             .stream()
             .map(Column::of)
             .collect(MoreCollectors.toImmutableList()));
   }
 
+  @Override
   public CodeBlock get() {
     return columnList.isEmpty()
         ? CodeBlocks.empty()

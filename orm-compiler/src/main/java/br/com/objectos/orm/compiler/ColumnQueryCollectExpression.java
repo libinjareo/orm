@@ -15,26 +15,24 @@
  */
 package br.com.objectos.orm.compiler;
 
+import br.com.objectos.pojo.plugin.Naming;
+
+import com.squareup.javapoet.CodeBlock;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+class ColumnQueryCollectExpression extends QueryCollectExpression {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .columnPropertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .foreignKeyPropertyList()
-      .queryMethodList()
-      .tableInfoMap(TableInfoMapFake.Pair)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  public ColumnQueryCollectExpression(OrmPojoInfo pojoInfo, QueryReturnType returnType) {
+    super(pojoInfo, returnType);
+  }
 
-  private OrmPojoInfoFake() {
+  @Override
+  CodeBlock collectCode(Naming naming, OrmInject inject) {
+    return CodeBlock.builder()
+        .add("$T.get($L)::load", naming.superClassSuffix("Orm"), inject.name())
+        .build();
   }
 
 }

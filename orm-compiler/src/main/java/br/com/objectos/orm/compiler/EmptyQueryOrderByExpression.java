@@ -15,26 +15,18 @@
  */
 package br.com.objectos.orm.compiler;
 
+import com.squareup.javapoet.CodeBlock;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+enum EmptyQueryOrderByExpression implements QueryOrderByExpression {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .columnPropertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .foreignKeyPropertyList()
-      .queryMethodList()
-      .tableInfoMap(TableInfoMapFake.Pair)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  INSTANCE;
 
-  private OrmPojoInfoFake() {
+  @Override
+  public CodeBlock get() {
+    return CodeBlocks.empty();
   }
 
 }

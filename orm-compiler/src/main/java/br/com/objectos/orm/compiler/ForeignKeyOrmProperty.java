@@ -120,6 +120,11 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
         .orElse(ImmutableList.of());
   }
 
+  public boolean references(OrmPojoInfo ownerPojoInfo) {
+    List<ColumnOrmProperty> columnPropertyList = ownerPojoInfo.columnPropertyList();
+    return columnPropertyList.containsAll(referencedPropertyList());
+  }
+
   @Override
   public String rowConstructorParameterName(AtomicInteger i) {
     return property().name();

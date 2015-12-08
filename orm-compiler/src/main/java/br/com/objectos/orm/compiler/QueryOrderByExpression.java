@@ -18,23 +18,6 @@ package br.com.objectos.orm.compiler;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
-
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .columnPropertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .foreignKeyPropertyList()
-      .queryMethodList()
-      .tableInfoMap(TableInfoMapFake.Pair)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
-
-  private OrmPojoInfoFake() {
-  }
+interface QueryOrderByExpression extends QueryExpression {
 
 }

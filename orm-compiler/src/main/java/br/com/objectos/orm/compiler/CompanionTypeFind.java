@@ -95,24 +95,21 @@ class CompanionTypeFind implements CompanionTypeExe {
     }
 
     private MethodSpec findByPrimaryKey1() {
-      QueryMethodBody body = new Body(pojoInfo);
       ClassName optionalClassName = ClassName.get(Optional.class);
       return MethodSpec.methodBuilder("maybe")
           .addModifiers(Modifier.PUBLIC)
           .addParameters(primaryKeyParameterSpecList)
           .returns(ParameterizedTypeName.get(optionalClassName, naming.superClassTypeName()))
-          .addCode(body.get())
+          .addCode(QueryMethodBody.builder(pojoInfo, QueryReturnType.OPTIONAL)
+              .whereExpression(new Where())
+              .build())
           .build();
     }
 
-    private class Body extends QueryMethodBody {
-
-      public Body(OrmPojoInfo pojoInfo) {
-        super(pojoInfo, QueryReturnType.OPTIONAL);
-      }
+    private class Where implements QueryWhereExpression {
 
       @Override
-      CodeBlock where() {
+      public CodeBlock get() {
         CodeBlock.Builder where = CodeBlock.builder();
 
         Iterator<ParameterSpec> iter = primaryKeyParameterSpecList.iterator();

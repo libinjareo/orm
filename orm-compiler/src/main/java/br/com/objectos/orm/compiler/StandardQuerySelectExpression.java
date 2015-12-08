@@ -15,26 +15,27 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.List;
+
+import br.com.objectos.code.SimpleTypeInfo;
+
+import com.squareup.javapoet.CodeBlock;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class OrmPojoInfoFake {
+enum StandardQuerySelectExpression implements QuerySelectExpression {
 
-  public static final OrmPojoInfo Pair = OrmPojoInfo.builder()
-      .pojoInfo(PojoInfoFake.Pair)
-      .propertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .columnPropertyList(
-          OrmPropertyFake.Pair_id,
-          OrmPropertyFake.Pair_name)
-      .foreignKeyPropertyList()
-      .queryMethodList()
-      .tableInfoMap(TableInfoMapFake.Pair)
-      .insertable(OrmInsertableFake.Pair)
-      .build();
+  INSTANCE;
 
-  private OrmPojoInfoFake() {
+  @Override
+  public QuerySelectExpression removeAll(List<SimpleTypeInfo> referencesList) {
+    return this;
+  }
+
+  @Override
+  public CodeBlock get() {
+    return CodeBlocks.empty();
   }
 
 }

@@ -15,12 +15,16 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.pojo.plugin.PojoInfo;
+import br.com.objectos.pojo.plugin.Property;
 import br.com.objectos.testable.Testable;
 
 import com.squareup.javapoet.CodeBlock;
@@ -38,14 +42,23 @@ abstract class OrmInject implements Testable {
   }
 
   public static OrmInject of(PojoInfo pojoInfo) {
-    return pojoInfo.ignoredPropertyStream()
+    return ofStream(pojoInfo.ignoredPropertyStream())
+        .orElse(ofNotYetIgnored(pojoInfo));
+  }
+
+  private static OrmInject ofNotYetIgnored(PojoInfo pojoInfo) {
+    return ofStream(pojoInfo.propertyStream())
+        .orElse(StandardOrmInject.INSTANCE);
+  }
+
+  private static Optional<OrmInject> ofStream(Stream<Property> propertyStream) {
+    return propertyStream
         .filter(property -> {
           SimpleTypeInfo returnTypeInfo = property.returnTypeInfo();
           return returnTypeInfo.isSubType(Orm.class);
         })
         .map(PropertyOrmInject::of)
-        .findFirst()
-        .orElse(StandardOrmInject.INSTANCE);
+        .findFirst();
   }
 
   public void acceptRepoConstructor(MethodSpec.Builder constructor) {

@@ -29,6 +29,8 @@ class PropertyFake {
   public static final Property Salary_employee = get(PojoInfoFake.Salary, "employee");
   public static final Property Salary_fromDate = get(PojoInfoFake.Salary, "fromDate");
   public static final Property Salary_orm = get(PojoInfoFake.Salary, "orm");
+  public static final Property Salary_salary = get(PojoInfoFake.Salary, "salary");
+  public static final Property Salary_toDate = get(PojoInfoFake.Salary, "toDate");
 
   private PropertyFake() {
   }
