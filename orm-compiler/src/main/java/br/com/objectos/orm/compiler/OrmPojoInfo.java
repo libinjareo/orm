@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import br.com.objectos.code.AnnotationInfo;
 import br.com.objectos.code.CanGenerateCompilationError;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.code.TypeInfo;
@@ -149,6 +150,12 @@ abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
   @Lazy
   public OrmInject inject() {
     return OrmInject.of(pojoInfo());
+  }
+
+  public Optional<OrmProperty> propertyAnnotatedWith(AnnotationInfo annotationInfo) {
+    return propertyList().stream()
+        .filter(property -> property.matches(annotationInfo))
+        .findAny();
   }
 
   public OrmRelationInfo relationTo(OrmPojoInfo ownerPojoInfo) {

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>parent</artifactId>
-		<version>59</version>
+		<version>61</version>
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
@@ -58,9 +58,8 @@
 	</modules>
 
 	<properties>
-		<javax.inject.version>1</javax.inject.version>
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
-		<objectos.orm.version>0.1.8-SNAPSHOT</objectos.orm.version>
+		<objectos.orm.version>0.1.9-SNAPSHOT</objectos.orm.version>
 	</properties>
 
 	<build>
@@ -103,22 +102,6 @@
 						<artifactId>guava</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>orm-relational-plugin</artifactId>
-				<version>0.1.9-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>sql</artifactId>
-				<version>${objectos.sql.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.inject</groupId>
-				<artifactId>javax.inject</artifactId>
-				<version>${javax.inject.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -157,6 +157,11 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
+  public boolean matches(AnnotationInfo annotationInfo) {
+    return annotationInfo.simpleTypeInfo().equals(columnAnnotationInfo().simpleTypeInfo());
+  }
+
+  @Override
   public boolean matchesAny(Set<ClassName> pkNameSet) {
     ClassName className = columnAnnotationInfo().simpleTypeInfo().className();
     return pkNameSet.contains(className);
@@ -193,6 +198,12 @@ abstract class ColumnOrmProperty extends OrmProperty {
         tableInfo().simpleName(),
         columnAnnotationInfo().simpleName(),
         name());
+  }
+
+  @Override
+  void acceptSetterMethodBody(CodeBlock.Builder body, SetterParameter parameter) {
+    body.add(",\n    $T.get().$L($L)",
+        tableInfo().className(), columnAnnotationInfo().simpleName(), parameter.name());
   }
 
   public class ConstructorStatementWriter {

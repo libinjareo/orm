@@ -14,6 +14,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
+    "br.com.objectos.orm.compiler.SetterPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME>, InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME>> {
@@ -61,5 +62,29 @@ final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<
   @Override
   String name() {
     return name.get();
+  }
+
+  @Override
+  public Pair set(int id) {
+    return new PairPojo(
+        orm,
+        PAIR.get().ID(id),
+        name);
+  }
+
+  @Override
+  public Pair set(int id, String name) {
+    return new PairPojo(
+        orm,
+        PAIR.get().ID(id),
+        PAIR.get().NAME(name));
+  }
+
+  @Override
+  Pair setName(String name) {
+    return new PairPojo(
+        orm,
+        id,
+        PAIR.get().NAME(name));
   }
 }

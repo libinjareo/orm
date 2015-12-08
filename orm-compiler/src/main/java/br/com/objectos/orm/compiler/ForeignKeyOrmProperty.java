@@ -34,6 +34,7 @@ import br.com.objectos.schema.meta.ColumnSeq;
 import br.com.objectos.schema.meta.ReferencesAnnotationClassArray;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -104,6 +105,11 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   }
 
   @Override
+  public boolean matches(AnnotationInfo annotationInfo) {
+    return annotationInfo.simpleTypeInfo().equals(foreignKeyAnnotationInfo().simpleTypeInfo());
+  }
+
+  @Override
   public boolean matchesAny(Set<ClassName> pkNameSet) {
     Set<ClassName> classNameSet = columnAnnotationClassList().stream()
         .map(SimpleTypeInfo::className)
@@ -128,6 +134,10 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
   @Override
   public String rowConstructorParameterName(AtomicInteger i) {
     return property().name();
+  }
+
+  @Override
+  void acceptSetterMethodBody(CodeBlock.Builder body, SetterParameter parameter) {
   }
 
   private List<ColumnOrmProperty> referencedPropertyList0(OrmPojoInfo returnPojoInfo) {
