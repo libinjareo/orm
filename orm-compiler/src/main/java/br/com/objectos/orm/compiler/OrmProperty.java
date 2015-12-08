@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -80,6 +81,15 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   public abstract void acceptOrmPropertyHelper(OrmPropertyHelper helper);
 
+  public final void acceptSetterMethodBody(CodeBlock.Builder body, Map<OrmProperty, SetterParameter> parameterMap) {
+    SetterParameter parameter = parameterMap.get(this);
+    if (parameter != null) {
+      acceptSetterMethodBody(body, parameter);
+    } else {
+      body.add(",\n    $L", name());
+    }
+  }
+
   public abstract <T> T adapt(OrmPropertyAdapter<T> adapter);
 
   public Stream<SimpleTypeInfo> columnAnnotationClassStream() {
@@ -94,6 +104,8 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
   public boolean isGenerated() {
     return false;
   }
+
+  public abstract boolean matches(AnnotationInfo annotationInfo);
 
   public boolean matchesAny(Set<ClassName> pkNameSet) {
     return false;
@@ -123,6 +135,8 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
 
   public void where(CodeBlock.Builder expression) {
   }
+
+  abstract void acceptSetterMethodBody(CodeBlock.Builder body, SetterParameter parameter);
 
   Stream<ClassName> columnClassNameStream() {
     return columnAnnotationClassList().stream()

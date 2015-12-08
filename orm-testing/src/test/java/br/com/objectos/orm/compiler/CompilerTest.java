@@ -104,7 +104,8 @@ public class CompilerTest {
       new OptionalPlugin(),
       new QueryPlugin(),
       new RelationalInsertablePlugin(),
-      new RelationalLoaderPlugin()
+      new RelationalLoaderPlugin(),
+      new SetterPlugin()
     };
   }
 

@@ -64,6 +64,12 @@ public class PairTest extends AbstractOrmTest {
     assertThat(a).isEqualTo(b);
   }
 
+  @Test
+  public void setter() {
+    Pair res = PairFake.PAIR_004.set(5, "Five");
+    assertThat(res).isEqualTo(PairFake.PAIR_005);
+  }
+
   private Pair p(int id, String name) {
     return Pair.builder(orm())
         .id(id)
