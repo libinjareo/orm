@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
-	<version>0.1.8-SNAPSHOT</version>
+	<version>0.1.8</version>
 	<packaging>pom</packaging>
 
 	<name>objectos :: orm :: parent</name>
@@ -28,7 +28,7 @@
 		<connection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</connection>
 		<developerConnection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</developerConnection>
 		<url>https://github.com/objectos/orm</url>
-		<tag>HEAD</tag>
+		<tag>orm-parent-0.1.8</tag>
 	</scm>
 
 	<issueManagement>
@@ -107,7 +107,7 @@
 			<dependency>
 				<groupId>br.com.objectos</groupId>
 				<artifactId>orm-relational-plugin</artifactId>
-				<version>0.1.8-SNAPSHOT</version>
+				<version>0.1.8</version>
 			</dependency>
 			<dependency>
 				<groupId>br.com.objectos</groupId>
