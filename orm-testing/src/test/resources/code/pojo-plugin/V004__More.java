@@ -49,5 +49,12 @@ class V004__More {
       IntColumn PARENT_A();
     }
   }
+  
+  @Table
+  interface APP {
+    @NotNull
+    @AutoIncrement
+    IntColumn ID();
+  }
 
 }

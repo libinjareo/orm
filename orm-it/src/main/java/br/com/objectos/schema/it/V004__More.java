@@ -68,4 +68,11 @@ class V004__More {
     }
   }
 
+  @Table
+  interface APP {
+    @NotNull
+    @AutoIncrement
+    IntColumn ID();
+  }
+
 }

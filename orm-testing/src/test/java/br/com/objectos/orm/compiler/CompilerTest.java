@@ -32,6 +32,11 @@ import org.testng.annotations.Test;
 public class CompilerTest {
 
   @Test
+  public void app() {
+    test("App");
+  }
+
+  @Test
   public void booleanInt() {
     assertThat(plugins())
         .with(with("BooleanInt"))
@@ -113,6 +118,7 @@ public class CompilerTest {
     List<String> with = ImmutableList.<String> builder()
         .add(pojo)
         .add(more)
+        .add("APP")
         .add("DUO")
         .add("EMPLOYEE_V002")
         .add("EMPLOYEE")
