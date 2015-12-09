@@ -3,18 +3,10 @@ package br.com.objectos.pojo.plugin;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
     "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.pojo.compiler.PojoCompiler"
 })
 interface AppBuilder {
-  PairBuilderId id(int id);
-
-  interface PairBuilderId {
-    PairBuilderName name(String name);
-  }
-
-  interface PairBuilderName {
-    Pair build();
-  }
+  App build();
 }

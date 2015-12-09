@@ -61,6 +61,7 @@ public class TypeInfoFake {
   public static final TypeInfo REVISION_DESCRIPTION = get("REVISION.DESCRIPTION");
   public static final TypeInfo REVISION_REVISION_DATE = get("REVISION.REVISION_DATE");
   public static final TypeInfo REVISION_REVISION_DESCRIPTION = get("REVISION.REVISION_DESCRIPTION");
+  public static final TypeInfo REVISION_REVISION_SEQ = get("REVISION.REVISION_SEQ");
   public static final TypeInfo Salary = get("Salary");
   public static final TypeInfo SALARY = get("SALARY");
   public static final TypeInfo SALARY_EMP_NO = get("SALARY.EMP_NO");

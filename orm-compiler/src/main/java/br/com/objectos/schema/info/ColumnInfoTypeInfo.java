@@ -75,10 +75,6 @@ abstract class ColumnInfoTypeInfo implements ColumnInfo {
     return simpleTypeInfo().simpleName();
   }
 
-  public boolean insertable() {
-    return generationInfo().insertable();
-  }
-
   @Override
   public String toString() {
     return simpleName();

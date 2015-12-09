@@ -41,10 +41,6 @@ abstract class OrmGenerationInfo implements GenerationInfo {
     }
   }
 
-  public boolean insertable() {
-    return true;
-  }
-
   @Override
   public Equality isEqualTo(Object that) {
     return Equality.instanceOf(that, OrmGenerationInfo.class);

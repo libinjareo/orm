@@ -1,9 +1,9 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.sql.query.InsertableRow2;
-import br.com.objectos.sql.query.Row2;
+import br.com.objectos.schema.it.APP;
+import br.com.objectos.sql.query.InsertableRow1;
+import br.com.objectos.sql.query.Row1;
 import br.com.objectos.sql.query.Sql;
 import java.util.Iterator;
 import java.util.Objects;
@@ -15,34 +15,34 @@ public final class AppOrm {
   private final Orm orm;
 
   @Inject
-  PairOrm(Orm orm) {
+  AppOrm(Orm orm) {
     this.orm = orm;
   }
 
-  public static PairOrm get(Orm orm) {
+  public static AppOrm get(Orm orm) {
     Objects.requireNonNull(orm);
-    return new PairOrm(orm);
+    return new AppOrm(orm);
   }
 
-  public void insertAll(Iterable<Pair> entities) {
-    Iterator<Pair> iterator = entities.iterator();
+  public void insertAll(Iterable<App> entities) {
+    Iterator<App> iterator = entities.iterator();
     if (!iterator.hasNext()) {
       return;
     }
-    PairPojo pojo = (PairPojo) iterator.next();
-    PAIR PAIR = br.com.objectos.schema.it.PAIR.get();
-    InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME> insert;
+    AppPojo pojo = (AppPojo) iterator.next();
+    APP APP = br.com.objectos.schema.it.APP.get();
+    InsertableRow1.Values<APP.APP_ID> insert;
     insert = pojo.bindInsertableRow(Sql
-        .insertInto(PAIR)
-        .$(PAIR.ID(), PAIR.NAME()));
+        .insertInto(APP)
+        .$(APP.ID()));
     while(iterator.hasNext()) {
-      pojo = (PairPojo) iterator.next();
+      pojo = (AppPojo) iterator.next();
       insert = pojo.bindInsertableRow(insert);
     }
     orm.executeUnchecked(insert);
   }
 
-  public Pair load(Row2<PAIR.PAIR_ID, PAIR.PAIR_NAME> row) {
-    return new PairPojo(orm, row);
+  public App load(Row1<APP.APP_ID> row) {
+    return new AppPojo(orm, row);
   }
 }

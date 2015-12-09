@@ -4,46 +4,19 @@ import br.com.objectos.orm.Orm;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
     "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.pojo.compiler.PojoCompiler"
 })
-final class AppBuilderPojo implements PairBuilder, PairBuilder.PairBuilderId, PairBuilder.PairBuilderName {
+final class AppBuilderPojo implements AppBuilder {
   private final Orm orm;
 
-  private int id;
-
-  private String name;
-
-  public PairBuilderPojo(Orm orm) {
+  public AppBuilderPojo(Orm orm) {
     this.orm = orm;
   }
 
   @Override
-  public Pair build() {
-    return new PairPojo(orm, this);
-  }
-
-  @Override
-  public PairBuilder.PairBuilderId id(int id) {
-    this.id = id;
-    return this;
-  }
-
-  int ___get___id() {
-    return id;
-  }
-
-  @Override
-  public PairBuilder.PairBuilderName name(String name) {
-    if (name == null) {
-      throw new NullPointerException();
-    }
-    this.name = name;
-    return this;
-  }
-
-  String ___get___name() {
-    return name;
+  public App build() {
+    return new AppPojo(orm, this);
   }
 }

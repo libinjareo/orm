@@ -5,7 +5,7 @@ import br.com.objectos.db.core.Transaction;
 import br.com.objectos.db.query.NoResultFoundException;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
-import br.com.objectos.sql.query.InsertableRow2;
+import br.com.objectos.sql.query.InsertableRow3;
 import br.com.objectos.sql.query.Row3;
 import br.com.objectos.sql.query.Sql;
 import java.util.Iterator;
@@ -35,10 +35,10 @@ public final class RevisionOrm {
     }
     RevisionPojo pojo = (RevisionPojo) iterator.next();
     REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
-    InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> insert;
+    InsertableRow3.Values<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> insert;
     insert = pojo.bindInsertableRow(Sql
         .insertInto(REVISION)
-        .$(REVISION.DATE(), REVISION.DESCRIPTION()));
+        .$(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION()));
     while(iterator.hasNext()) {
       pojo = (RevisionPojo) iterator.next();
       insert = pojo.bindInsertableRow(insert);

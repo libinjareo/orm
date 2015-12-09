@@ -95,7 +95,6 @@ public abstract class TableInfoAnnotationInfo extends TableInfo {
 
   public CodeBlock insertIntoCode() {
     String columnList = columnInfoList().stream()
-        .filter(ColumnInfoTypeInfo::insertable)
         .map(ann -> String.format("%s.%s()", simpleName(), ann.identifier()))
         .collect(Collectors.joining(", "));
     return CodeBlock.builder()

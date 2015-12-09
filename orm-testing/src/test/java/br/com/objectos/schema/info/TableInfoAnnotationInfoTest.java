@@ -39,7 +39,7 @@ public class TableInfoAnnotationInfoTest {
       { TableInfoAnnotationInfoFake.REVISION, Arrays.asList(
           "br.com.objectos.sql.query.Sql",
           "    .insertInto(REVISION)",
-          "    .$(REVISION.DATE(), REVISION.DESCRIPTION())") },
+          "    .$(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())") },
       { TableInfoAnnotationInfoFake.SALARY, Arrays.asList(
           "br.com.objectos.sql.query.Sql",
           "    .insertInto(SALARY)",

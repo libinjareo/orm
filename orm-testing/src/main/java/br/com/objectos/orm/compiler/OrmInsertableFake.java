@@ -42,13 +42,15 @@ class OrmInsertableFake {
       .tableInfo(TableInfoAnnotationInfoFake.REVISION)
       .insertableRowTypeName(
           OrmNaming.insertableRowTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_SEQ),
               cn(TypeInfoFake.REVISION_REVISION_DATE),
               cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
       .insertableRowValuesTypeName(
           OrmNaming.insertableRowValuesTypeName(
+              cn(TypeInfoFake.REVISION_REVISION_SEQ),
               cn(TypeInfoFake.REVISION_REVISION_DATE),
               cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
-      .valueNameList("date", "description")
+      .valueNameList("seq", "date", "description")
       .generatedKeyListenerNameList("seq")
       .build();
 

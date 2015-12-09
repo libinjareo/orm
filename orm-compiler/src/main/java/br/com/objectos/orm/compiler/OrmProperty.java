@@ -71,10 +71,10 @@ abstract class OrmProperty implements Comparable<OrmProperty>, Testable {
   public abstract void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor);
 
   public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
-    if (!isGenerated()) {
-      helper.addColumnClassNameStream(columnClassNameStream());
-      helper.addValueName(property().name());
-    } else {
+    helper.addColumnClassNameStream(columnClassNameStream());
+    helper.addValueName(property().name());
+
+    if (isGenerated()) {
       helper.addGeneratedKeyListenerName(property().name());
     }
   }
