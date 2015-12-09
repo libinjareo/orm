@@ -46,7 +46,7 @@ public class RevisionTest extends AbstractOrmTest {
         rev(dt(2015, 11, 7), "Third commit"));
 
     assertSeq(list, 0, 0, 0);
-    RevisionOrm.get(orm()).insertAll(list);
+    RevisionOrm.get(model()).insertAll(list);
     assertSeq(list, 1, 2, 3);
 
     List<Row1<REVISION_SEQ>> res = Sql.select(REVISION.SEQ())
@@ -72,7 +72,7 @@ public class RevisionTest extends AbstractOrmTest {
   }
 
   private Revision rev(LocalDate date, String description) {
-    return Revision.builder(orm())
+    return Revision.builder(model())
         .date(date)
         .description(description)
         .build();

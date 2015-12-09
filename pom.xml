@@ -59,7 +59,7 @@
 
 	<properties>
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
-		<objectos.orm.version>0.1.10-SNAPSHOT</objectos.orm.version>
+		<objectos.orm.version>0.1.11-SNAPSHOT</objectos.orm.version>
 	</properties>
 
 	<build>
