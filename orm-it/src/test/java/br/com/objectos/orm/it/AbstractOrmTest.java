@@ -35,7 +35,7 @@ public abstract class AbstractOrmTest {
   @Inject
   private Database db;
   @Inject
-  private Orm orm;
+  private Model model;
 
   private Transaction trx;
 
@@ -49,8 +49,12 @@ public abstract class AbstractOrmTest {
     trx.rollback();
   }
 
+  protected Model model() {
+    return model;
+  }
+
   protected Orm orm() {
-    return orm;
+    return model;
   }
 
   protected Transaction trx() {

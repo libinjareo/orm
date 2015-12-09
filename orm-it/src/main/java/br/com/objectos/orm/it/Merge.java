@@ -28,6 +28,8 @@ import br.com.objectos.way.relational.Loader;
 @Loader
 abstract class Merge {
 
+  abstract Model model();
+
   @MERGE.SEQ
   abstract int seq();
 

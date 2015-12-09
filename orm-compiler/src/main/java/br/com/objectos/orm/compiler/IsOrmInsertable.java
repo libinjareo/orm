@@ -102,6 +102,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
 
   private MethodSpec companionTypeInsertAll(CompanionType type) {
     Naming naming = type.naming();
+    OrmInject inject = type.inject();
     return MethodSpec.methodBuilder("insertAll")
         .addModifiers(Modifier.PUBLIC)
         .addParameter(OrmNaming.iterableOf(naming.superClassTypeName()), "entities")
@@ -123,7 +124,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
             .addStatement("insert = pojo.bindInsertableRow(insert)")
             .endControlFlow()
             .build())
-        .addStatement("orm.executeUnchecked(insert)")
+        .addStatement("$L.executeUnchecked(insert)", inject.name())
         .build();
   }
 

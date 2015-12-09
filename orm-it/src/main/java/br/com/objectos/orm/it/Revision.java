@@ -18,7 +18,6 @@ package br.com.objectos.orm.it;
 import java.time.LocalDate;
 
 import br.com.objectos.orm.Insertable;
-import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.REVISION;
 
@@ -30,6 +29,8 @@ abstract class Revision
     implements
     Insertable,
     br.com.objectos.way.relational.Insertable {
+
+  abstract Model model();
 
   @REVISION.SEQ
   abstract int seq();
@@ -43,7 +44,7 @@ abstract class Revision
   Revision() {
   }
 
-  public static RevisionBuilder builder(Orm orm) {
+  public static RevisionBuilder builder(Model orm) {
     return new RevisionBuilderPojo(orm);
   }
 

@@ -93,6 +93,10 @@ class CompanionType {
     return Artifact.of(javaFile());
   }
 
+  public OrmInject inject() {
+    return pojoInfo.inject();
+  }
+
   public Naming naming() {
     return pojoInfo.naming();
   }

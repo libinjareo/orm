@@ -44,9 +44,10 @@ public class OrmTestingModule extends AbstractModule {
         .connect();
     bind(Database.class).toInstance(database);
     bind(Orm.class).to(OrmImpl.class);
+    bind(Model.class).to(OrmImpl.class);
   }
 
-  private static class OrmImpl implements Orm {
+  private static class OrmImpl implements Orm, Model {
 
     private final Database db;
 
