@@ -13,31 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.schema.it;
+package br.com.objectos.orm.it;
 
-import br.com.objectos.schema.annotation.Schema;
+import br.com.objectos.orm.Insertable;
+import br.com.objectos.orm.Orm;
+import br.com.objectos.pojo.Pojo;
+import br.com.objectos.schema.it.APP;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Schema(migrations = {
-  V001__First_Migration.class,
-  V002__Employee_Salary.class,
-  V003__Revision.class,
-  V004__More.class
-})
-public class OBJECTOS_ORM {
+@Pojo
+abstract class App implements Insertable {
 
-  public static br.com.objectos.schema.it.APP APP() {
-    return APP.get();
+  @APP.ID
+  abstract int id();
+
+  App() {
   }
 
-  public static br.com.objectos.schema.it.PAIR PAIR() {
-    return PAIR.get();
-  }
-
-  public static br.com.objectos.schema.it.REVISION REVISION() {
-    return REVISION.get();
+  public static AppBuilder builder(Orm orm) {
+    return new AppBuilderPojo(orm);
   }
 
 }

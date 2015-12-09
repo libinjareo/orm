@@ -21,3 +21,11 @@ create table REVISION (
   primary key (SEQ)
   
 ) engine=InnoDB default charset=utf8;
+
+create table APP (
+
+  ID int not null auto_increment,
+  
+  primary key (ID)
+
+) engine=InnoDB default charset=utf8;
