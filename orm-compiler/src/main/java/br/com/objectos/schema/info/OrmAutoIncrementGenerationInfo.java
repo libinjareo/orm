@@ -29,9 +29,4 @@ class OrmAutoIncrementGenerationInfo extends OrmGenerationInfo implements AutoIn
     return INSTANCE;
   }
 
-  @Override
-  public boolean insertable() {
-    return false;
-  }
-
 }

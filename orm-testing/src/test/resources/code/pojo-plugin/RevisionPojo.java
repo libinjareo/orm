@@ -4,7 +4,7 @@ import br.com.objectos.db.query.Result;
 import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
-import br.com.objectos.sql.query.InsertableRow2;
+import br.com.objectos.sql.query.InsertableRow3;
 import br.com.objectos.sql.query.Row3;
 import br.com.objectos.way.relational.Insert;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler"
 })
-final class RevisionPojo extends Revision implements InsertableRowBinder<InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>, InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>> {
+final class RevisionPojo extends Revision implements InsertableRowBinder<InsertableRow3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>, InsertableRow3.Values<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>> {
   final Orm orm;
 
   private final REVISION.REVISION_SEQ seq;
@@ -48,8 +48,8 @@ final class RevisionPojo extends Revision implements InsertableRowBinder<Inserta
   }
 
   @Override
-  public InsertableRow2.Values<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> bindInsertableRow(InsertableRow2<REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
-    return row.values(date, description).onGeneratedKey(seq);
+  public InsertableRow3.Values<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> bindInsertableRow(InsertableRow3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> row) {
+    return row.values(seq, date, description).onGeneratedKey(seq);
   }
 
   @Override
