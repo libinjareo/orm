@@ -5,9 +5,11 @@ import br.com.objectos.db.core.Transaction;
 import br.com.objectos.db.query.NoResultFoundException;
 import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
+import br.com.objectos.sql.query.InsertableRow4;
 import br.com.objectos.sql.query.Row3;
 import br.com.objectos.sql.query.Row4;
 import br.com.objectos.sql.query.Sql;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Generated;
@@ -25,6 +27,24 @@ public final class SalaryOrm {
   public static SalaryOrm get(SuperOrm orm) {
     Objects.requireNonNull(orm);
     return new SalaryOrm(orm);
+  }
+
+  public void insertAll(Iterable<Salary> entities) {
+    Iterator<Salary> iterator = entities.iterator();
+    if (!iterator.hasNext()) {
+      return;
+    }
+    SalaryPojo pojo = (SalaryPojo) iterator.next();
+    SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
+    InsertableRow4.Values<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE> insert;
+    insert = pojo.bindInsertableRow(Sql
+        .insertInto(SALARY)
+        .$(SALARY.EMP_NO(), SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE()));
+    while(iterator.hasNext()) {
+      pojo = (SalaryPojo) iterator.next();
+      insert = pojo.bindInsertableRow(insert);
+    }
+    orm.executeUnchecked(insert);
   }
 
   public Salary find(SALARY.SALARY_EMP_NO pk0, SALARY.SALARY_FROM_DATE pk1) {

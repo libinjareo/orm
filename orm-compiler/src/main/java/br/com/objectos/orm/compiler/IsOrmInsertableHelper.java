@@ -21,6 +21,7 @@ import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.schema.info.TableInfoAnnotationInfo;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -28,7 +29,7 @@ import com.squareup.javapoet.ClassName;
 class IsOrmInsertableHelper {
 
   private final ImmutableList.Builder<ClassName> columnClassNameList = ImmutableList.builder();
-  private final ImmutableList.Builder<String> valueNameList = ImmutableList.builder();
+  private final ImmutableList.Builder<CodeBlock> expressionPartList = ImmutableList.builder();
   private final ImmutableList.Builder<String> generatedKeyListenerNameList = ImmutableList.builder();
 
   private IsOrmInsertableHelper() {
@@ -43,13 +44,16 @@ class IsOrmInsertableHelper {
     return this;
   }
 
-  public IsOrmInsertableHelper addGeneratedKeyListenerName(String valueName) {
-    generatedKeyListenerNameList.add(valueName);
+  public IsOrmInsertableHelper addExpressionPart(String template, Object... args) {
+    CodeBlock part = CodeBlock.builder()
+        .add(template, args)
+        .build();
+    expressionPartList.add(part);
     return this;
   }
 
-  public IsOrmInsertableHelper addValueName(String valueName) {
-    valueNameList.add(valueName);
+  public IsOrmInsertableHelper addGeneratedKeyListenerName(String valueName) {
+    generatedKeyListenerNameList.add(valueName);
     return this;
   }
 
@@ -59,9 +63,14 @@ class IsOrmInsertableHelper {
         .tableInfo(tableInfo)
         .insertableRowTypeName(OrmNaming.insertableRowTypeName(columnClassNameArray))
         .insertableRowValuesTypeName(OrmNaming.insertableRowValuesTypeName(columnClassNameArray))
-        .valueNameList(valueNameList.build())
-        .generatedKeyListenerNameList(generatedKeyListenerNameList.build())
+        .insertableRowExpression(insertableRowExpression())
         .build();
+  }
+
+  private InsertableRowExpression insertableRowExpression() {
+    return new InsertableRowExpression(
+        expressionPartList.build(),
+        generatedKeyListenerNameList.build());
   }
 
 }

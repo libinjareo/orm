@@ -16,7 +16,6 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.lang.model.element.Modifier;
 
@@ -41,8 +40,7 @@ abstract class IsOrmInsertable implements OrmInsertable {
   abstract TableInfoAnnotationInfo tableInfo();
   abstract ParameterizedTypeName insertableRowTypeName();
   abstract ParameterizedTypeName insertableRowValuesTypeName();
-  abstract List<String> valueNameList();
-  abstract List<String> generatedKeyListenerNameList();
+  abstract InsertableRowExpression insertableRowExpression();
 
   IsOrmInsertable() {
   }
@@ -85,18 +83,12 @@ abstract class IsOrmInsertable implements OrmInsertable {
   }
 
   private MethodSpec bindInsertableRow() {
-    String generated = generatedKeyListenerNameList().stream().collect(Collectors.joining(", "));
-    if (!generated.isEmpty()) {
-      generated = ".onGeneratedKey(" + generated + ")";
-    }
     return MethodSpec.methodBuilder("bindInsertableRow")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
         .addParameter(insertableRowTypeName(), "row")
         .returns(insertableRowValuesTypeName())
-        .addStatement("return row.values($L)$L",
-            valueNameList().stream().collect(Collectors.joining(", ")),
-            generated)
+        .addCode(insertableRowExpression().get())
         .build();
   }
 

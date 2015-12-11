@@ -35,8 +35,10 @@ class OrmInsertableFake {
           OrmNaming.insertableRowValuesTypeName(
               cn(TypeInfoFake.PAIR_PAIR_ID),
               cn(TypeInfoFake.PAIR_PAIR_NAME)))
-      .valueNameList("id", "name")
-      .generatedKeyListenerNameList()
+      .insertableRowExpression(InsertableRowExpressionBuilder.get()
+          .expressionPartList("id")
+          .expressionPartList("name")
+          .build())
       .build();
   public static final OrmInsertable Revision = IsOrmInsertable.builder()
       .tableInfo(TableInfoAnnotationInfoFake.REVISION)
@@ -50,8 +52,12 @@ class OrmInsertableFake {
               cn(TypeInfoFake.REVISION_REVISION_SEQ),
               cn(TypeInfoFake.REVISION_REVISION_DATE),
               cn(TypeInfoFake.REVISION_REVISION_DESCRIPTION)))
-      .valueNameList("seq", "date", "description")
-      .generatedKeyListenerNameList("seq")
+      .insertableRowExpression(InsertableRowExpressionBuilder.get()
+          .expressionPartList("seq")
+          .expressionPartList("date")
+          .expressionPartList("description")
+          .generatedKeyListenerNameList("seq")
+          .build())
       .build();
 
   private OrmInsertableFake() {

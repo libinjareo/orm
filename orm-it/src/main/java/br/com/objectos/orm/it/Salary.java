@@ -17,6 +17,7 @@ package br.com.objectos.orm.it;
 
 import java.time.LocalDate;
 
+import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.SALARY;
 import br.com.objectos.way.relational.Loader;
@@ -26,7 +27,10 @@ import br.com.objectos.way.relational.Loader;
  */
 @Pojo
 @Loader
-abstract class Salary implements br.com.objectos.way.relational.Insertable {
+abstract class Salary
+    implements
+    Insertable,
+    br.com.objectos.way.relational.Insertable {
 
   abstract Model model();
 
