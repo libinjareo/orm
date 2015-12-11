@@ -1,7 +1,9 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.InsertableRowBinder;
 import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
+import br.com.objectos.sql.query.InsertableRow4;
 import br.com.objectos.sql.query.Row3;
 import br.com.objectos.sql.query.Row4;
 import br.com.objectos.way.relational.Insert;
@@ -12,11 +14,12 @@ import javax.annotation.Generated;
     "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
     "br.com.objectos.orm.compiler.ConstructorPlugin",
     "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.InsertablePlugin",
     "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
-final class SalaryPojo extends Salary {
+final class SalaryPojo extends Salary implements InsertableRowBinder<InsertableRow4<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE>, InsertableRow4.Values<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE>> {
   final SuperOrm orm;
 
   private final Employee employee;
@@ -60,6 +63,11 @@ final class SalaryPojo extends Salary {
   @Override
   SuperOrm orm() {
     return orm;
+  }
+
+  @Override
+  public InsertableRow4.Values<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE> bindInsertableRow(InsertableRow4<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE> row) {
+    return row.values(SALARY.get().EMP_NO(employee.empNo()), salary, fromDate, toDate);
   }
 
   @Override

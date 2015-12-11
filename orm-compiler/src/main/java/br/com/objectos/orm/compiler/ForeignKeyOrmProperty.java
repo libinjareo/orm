@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -92,6 +93,24 @@ abstract class ForeignKeyOrmProperty extends OrmProperty {
         referencedPropertyList().stream()
             .map(property -> property.foreignKeyColumnsConstructor(name() + i.getAndIncrement()))
             .collect(Collectors.joining(", ")));
+  }
+
+  @Override
+  public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
+    super.acceptIsOrmInsertableHelper(helper);
+
+    Iterator<SimpleTypeInfo> columnAnnotationClassIterator = columnAnnotationClassList().iterator();
+    Iterator<ColumnOrmProperty> referencedPropertyIterator = referencedPropertyList().iterator();
+
+    while (columnAnnotationClassIterator.hasNext()) {
+      SimpleTypeInfo columnAnnotationClass = columnAnnotationClassIterator.next();
+      ColumnOrmProperty referencedProperty = referencedPropertyIterator.next();
+      helper.addExpressionPart("$T.get().$L($L.$L())",
+          tableInfo().className(),
+          columnAnnotationClass.simpleName(),
+          property().name(),
+          referencedProperty.property().accessorName());
+    }
   }
 
   @Override

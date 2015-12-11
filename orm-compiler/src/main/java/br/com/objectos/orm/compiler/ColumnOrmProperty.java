@@ -118,15 +118,21 @@ abstract class ColumnOrmProperty extends OrmProperty {
   }
 
   @Override
-  public void acceptOrmPropertyHelper(OrmPropertyHelper helper) {
-    helper.addColumnOrmProperty(this);
-  }
-
-  @Override
   public void acceptForeignKeyColumnsConstructor(ForeignKeyColumnsConstructor constructor) {
     constructor
         .addParameter(columnClassName(), name())
         .addCode(", " + name());
+  }
+
+  @Override
+  public void acceptIsOrmInsertableHelper(IsOrmInsertableHelper helper) {
+    super.acceptIsOrmInsertableHelper(helper);
+    helper.addExpressionPart(property().name());
+  }
+
+  @Override
+  public void acceptOrmPropertyHelper(OrmPropertyHelper helper) {
+    helper.addColumnOrmProperty(this);
   }
 
   @Override
