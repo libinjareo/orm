@@ -44,10 +44,12 @@
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>orm-compiler</artifactId>
+			<version>0.1.12-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>orm-relational-plugin</artifactId>
+			<version>0.1.12-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>

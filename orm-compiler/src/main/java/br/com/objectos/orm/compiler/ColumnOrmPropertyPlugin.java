@@ -45,6 +45,11 @@ public class ColumnOrmPropertyPlugin extends AbstractPlugin implements PojoPrope
   }
 
   @Override
+  public void onConfigure() {
+    Compiler.invalidate();
+  }
+
+  @Override
   public void onStart() {
     Compiler.invalidate();
   }
