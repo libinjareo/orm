@@ -48,9 +48,9 @@ abstract class IsOrmInsertable implements OrmInsertable {
   public static IsOrmInsertable of(TableInfoAnnotationInfo tableClassInfo, List<OrmProperty> propertyList) {
     IsOrmInsertableHelper helper = IsOrmInsertableHelper.get();
 
-    for (OrmProperty property : propertyList) {
-      property.acceptIsOrmInsertableHelper(helper);
-    }
+    propertyList.stream()
+        .sorted()
+        .forEach(property -> property.acceptIsOrmInsertableHelper(helper));
 
     return helper.build(tableClassInfo);
   }
@@ -62,16 +62,6 @@ abstract class IsOrmInsertable implements OrmInsertable {
   @Override
   public CompanionType acceptCompanionType(CompanionType type) {
     return type.addMethod(companionTypeInsertAll(type));
-  }
-
-  @Override
-  public void acceptInsertAll(MethodSpec.Builder insertAll) {
-    insertAll
-        .addCode(tableInfo().tableGetCode())
-        .addStatement("$T insert", insertableRowValuesTypeName())
-        .addCode("insert = pojo.bindInsertableRow(")
-        .addCode(tableInfo().insertIntoCode())
-        .addCode(");\n");
   }
 
   @Override

@@ -18,14 +18,10 @@ package br.com.objectos.orm.compiler;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Testable;
 
-import com.squareup.javapoet.MethodSpec.Builder;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 interface OrmInsertable extends CompanionTypeExe, Testable {
-
-  void acceptInsertAll(Builder insertAll);
 
   Contribution execute();
 
