@@ -67,7 +67,7 @@ final class EmployeePojo extends Employee {
       SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
       return Sql.select(SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
           .from(SALARY)
-          .where(empNo)
+          .where(SALARY.EMP_NO()).eq(empNo)
           .compile(trx.dialect())
           .stream(trx)
           .map(row -> SalaryOrm.get(orm).load(EmployeePojo.this, row))
