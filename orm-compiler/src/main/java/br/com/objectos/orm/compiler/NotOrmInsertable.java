@@ -18,8 +18,6 @@ package br.com.objectos.orm.compiler;
 import br.com.objectos.pojo.plugin.Contribution;
 import br.com.objectos.testable.Equality;
 
-import com.squareup.javapoet.MethodSpec.Builder;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -30,10 +28,6 @@ enum NotOrmInsertable implements OrmInsertable {
   @Override
   public CompanionType acceptCompanionType(CompanionType companion) {
     return companion;
-  }
-
-  @Override
-  public void acceptInsertAll(Builder insertAll) {
   }
 
   @Override
