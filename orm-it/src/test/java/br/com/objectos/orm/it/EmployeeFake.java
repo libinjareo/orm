@@ -17,44 +17,20 @@ package br.com.objectos.orm.it;
 
 import java.time.LocalDate;
 
-import br.com.objectos.orm.Insertable;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.SALARY;
-import br.com.objectos.testable.NotTestable;
-import br.com.objectos.testable.Testable;
-import br.com.objectos.way.relational.Loader;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Pojo
-@Loader
-abstract class Salary
-    implements
-    Insertable,
-    br.com.objectos.way.relational.Insertable,
-    Testable {
+class EmployeeFake {
 
-  @NotTestable
-  abstract Model model();
+  public static final Employee HOMER_SIMPSON = Employee.builder(OrmFake.INSTANCE)
+      .empNo(1)
+      .birthDate(LocalDate.of(1970, 1, 1))
+      .firstName("Homer")
+      .lastName("Simpson")
+      .hireDate(LocalDate.of(2010, 1, 1))
+      .build();
 
-  @SALARY.SALARY_EMP_NO_FK
-  abstract Employee employee();
-
-  @SALARY.SALARY_
-  abstract int salary();
-
-  @SALARY.FROM_DATE
-  abstract LocalDate fromDate();
-
-  @SALARY.TO_DATE
-  abstract LocalDate toDate();
-
-  Salary() {
-  }
-
-  public static SalaryBuilder builder(Model model) {
-    return new SalaryBuilderPojo(model);
+  private EmployeeFake() {
   }
 
 }
