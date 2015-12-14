@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>orm-parent</artifactId>
-		<version>0.1.14</version>
+		<version>0.1.15-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>orm-it</artifactId>
@@ -34,12 +34,12 @@
 					<dependency>
 						<groupId>br.com.objectos</groupId>
 						<artifactId>orm-compiler</artifactId>
-						<version>0.1.14</version>
+						<version>0.1.15-SNAPSHOT</version>
 					</dependency>
 					<dependency>
 						<groupId>br.com.objectos</groupId>
 						<artifactId>orm-relational-plugin</artifactId>
-						<version>0.1.14</version>
+						<version>0.1.15-SNAPSHOT</version>
 					</dependency>
 					<dependency>
 						<groupId>br.com.objectos</groupId>
@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>orm</artifactId>
-			<version>0.1.14</version><!--$NO-MVN-MAN-VER$-->
+			<version>0.1.15-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
