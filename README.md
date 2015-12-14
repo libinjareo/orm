@@ -1,4 +1,4 @@
-# objectos::orm [![Build Status](https://travis-ci.org/objectos/orm.svg?branch=master)](https://travis-ci.org/objectos/orm)
+# objectos::orm
 
 A lightweight Java8 ORM library.
 
@@ -60,12 +60,12 @@ __objectos::orm__ is at Maven central.
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm</artifactId>
-    <version>0.1.14</version>
+    <version>0.1.15</version>
 </dependency>
 <dependency>
     <groupId>br.com.objectos</groupId>
     <artifactId>orm-compiler</artifactId>
-    <version>0.1.14</version>
+    <version>0.1.15</version>
 </dependency>
 ```
 

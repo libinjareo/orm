@@ -21,13 +21,16 @@ import java.util.List;
 import br.com.objectos.orm.Query;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.EMPLOYEE;
+import br.com.objectos.testable.NotTestable;
+import br.com.objectos.testable.Testable;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class Employee {
+abstract class Employee implements Testable {
 
+  @NotTestable
   abstract Model model();
 
   @EMPLOYEE.EMP_NO
@@ -48,7 +51,11 @@ abstract class Employee {
   Employee() {
   }
 
+  public static EmployeeBuilder builder(Model model) {
+    return new EmployeeBuilderPojo(model);
+  }
+
   @Query
-  abstract List<Salary> salaryList();
+  public abstract List<Salary> salaryList();
 
 }

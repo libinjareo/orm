@@ -25,7 +25,7 @@ import br.com.objectos.orm.Orm;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public enum OrmFake implements Orm {
+public enum OrmFake implements Orm, Model {
 
   INSTANCE(DatabaseConfig.builder()
       .dialect(Mysql.dialect())
