@@ -21,7 +21,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import br.com.objectos.collections.ImmutableMap;
+
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 

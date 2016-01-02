@@ -20,9 +20,9 @@ import java.util.stream.Stream;
 
 import javax.lang.model.element.Modifier;
 
+import br.com.objectos.collections.ImmutableList;
 import br.com.objectos.way.relational.ResultSetWrapper;
 
-import com.google.common.collect.ImmutableList;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
