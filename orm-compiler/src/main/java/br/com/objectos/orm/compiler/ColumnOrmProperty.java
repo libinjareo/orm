@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.objectos.code.AnnotationInfo;
@@ -47,7 +46,7 @@ import com.squareup.javapoet.CodeBlock;
 @Pojo
 abstract class ColumnOrmProperty extends OrmProperty {
 
-  private static final Map<Property, ColumnOrmProperty> CACHE = new ConcurrentHashMap<>();
+  private static final Map<Property, ColumnOrmProperty> CACHE = Orm.newConcurrentHashMap();
 
   abstract AnnotationInfo columnAnnotationInfo();
   abstract ClassName columnClassName();
