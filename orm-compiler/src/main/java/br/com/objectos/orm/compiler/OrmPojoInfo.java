@@ -15,6 +15,7 @@
  */
 package br.com.objectos.orm.compiler;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +44,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 @Pojo
 abstract class OrmPojoInfo implements CanGenerateCompilationError, Testable {
 
-  private static final Map<PojoInfo, Optional<OrmPojoInfo>> CACHE = Orm.newConcurrentHashMap();
+  private static final Map<PojoInfo, Optional<OrmPojoInfo>> CACHE = new HashMap<>();
 
   abstract PojoInfo pojoInfo();
   abstract List<OrmProperty> propertyList();

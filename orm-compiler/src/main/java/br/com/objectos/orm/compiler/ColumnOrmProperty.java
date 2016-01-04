@@ -16,6 +16,7 @@
 package br.com.objectos.orm.compiler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,7 +47,7 @@ import com.squareup.javapoet.CodeBlock;
 @Pojo
 abstract class ColumnOrmProperty extends OrmProperty {
 
-  private static final Map<Property, ColumnOrmProperty> CACHE = Orm.newConcurrentHashMap();
+  private static final Map<Property, ColumnOrmProperty> CACHE = new HashMap<>();
 
   abstract AnnotationInfo columnAnnotationInfo();
   abstract ClassName columnClassName();
