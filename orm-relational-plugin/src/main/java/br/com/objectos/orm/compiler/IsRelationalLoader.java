@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
 import br.com.objectos.code.Artifact;
-import br.com.objectos.code.ConstructorInfo;
 import br.com.objectos.code.ParameterInfo;
 import br.com.objectos.pojo.plugin.Naming;
 import br.com.objectos.way.relational.ResultSetLoader;
@@ -108,8 +107,7 @@ class IsRelationalLoader
 
     pojoInfo.constructorContextList()
         .stream()
-        .map(ConstructorContext::constructorInfo)
-        .flatMap(ConstructorInfo::parameterInfoStream)
+        .flatMap(ConstructorContext::parameterInfoStream)
         .map(ParameterInfo::name)
         .forEach(name -> body.add(",\n    $L", name));
 

@@ -13,8 +13,6 @@ abstract class Salary
     Insertable,
     br.com.objectos.way.relational.Insertable {
 
-  abstract SuperOrm orm();
-  
   @SALARY.SALARY_EMP_NO_FK
   abstract Employee employee();
 
@@ -26,8 +24,11 @@ abstract class Salary
 
   @SALARY.TO_DATE
   abstract LocalDate toDate();
+  
+  private final SuperOrm orm;
 
-  Salary() {
+  Salary(SuperOrm orm) {
+    this.orm = orm;
   }
 
 }

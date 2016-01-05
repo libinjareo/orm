@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import br.com.objectos.orm.Insertable;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.SALARY;
-import br.com.objectos.testable.NotTestable;
 import br.com.objectos.testable.Testable;
 import br.com.objectos.way.relational.Loader;
 
@@ -35,9 +34,6 @@ abstract class Salary
     br.com.objectos.way.relational.Insertable,
     Testable {
 
-  @NotTestable
-  abstract Model model();
-
   @SALARY.SALARY_EMP_NO_FK
   abstract Employee employee();
 
@@ -50,7 +46,10 @@ abstract class Salary
   @SALARY.TO_DATE
   abstract LocalDate toDate();
 
-  Salary() {
+  final Model model;
+
+  Salary(Model model) {
+    this.model = model;
   }
 
   public static SalaryBuilder builder(Model model) {

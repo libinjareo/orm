@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 import javax.lang.model.element.Modifier;
 
-import br.com.objectos.code.ConstructorInfo;
 import br.com.objectos.code.ParameterInfo;
 
 import com.squareup.javapoet.MethodSpec;
@@ -45,10 +44,9 @@ class RowConstructor extends AbstractConstructor {
   public MethodSpec execute() {
     OrmPojoInfo pojoInfo = context.pojoInfo();
     OrmInject inject = context.inject();
-    ConstructorInfo c = context.constructorInfo();
 
     AtomicInteger i = new AtomicInteger(1);
-    Stream<String> ctrStream = c.parameterInfoStream().map(ParameterInfo::name);
+    Stream<String> ctrStream = context.parameterInfoStream().map(ParameterInfo::name);
     Stream<String> colStream = pojoInfo.propertyList().stream()
         .sorted()
         .map(property -> property.rowConstructorParameterName(i));

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })

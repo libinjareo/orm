@@ -20,6 +20,8 @@ import java.util.stream.Stream;
 
 import javax.lang.model.element.Modifier;
 
+import br.com.objectos.code.ConstructorInfo;
+import br.com.objectos.code.ParameterInfo;
 import br.com.objectos.code.SimpleTypeInfo;
 import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.plugin.Contribution;
@@ -41,14 +43,28 @@ abstract class OrmInject implements Testable {
   OrmInject() {
   }
 
-  public static OrmInject of(PojoInfo pojoInfo) {
-    return ofStream(pojoInfo.ignoredPropertyStream())
-        .orElse(ofNotYetIgnored(pojoInfo));
+  public static boolean isNotOrm(ParameterInfo parameter) {
+    return !isOrm(parameter);
   }
 
-  private static OrmInject ofNotYetIgnored(PojoInfo pojoInfo) {
-    return ofStream(pojoInfo.propertyStream())
-        .orElse(StandardOrmInject.INSTANCE);
+  public static boolean isOrm(ParameterInfo parameter) {
+    SimpleTypeInfo simpleTypeInfo = parameter.simpleTypeInfo();
+    return simpleTypeInfo.isSubType(Orm.class);
+  }
+
+  public static OrmInject of(PojoInfo pojoInfo) {
+    return ofStream(pojoInfo.ignoredPropertyStream())
+        .orElse(ofStream(pojoInfo.propertyStream())
+            .orElse(ofConstructor(pojoInfo)
+                .orElse(StandardOrmInject.INSTANCE)));
+  }
+
+  private static Optional<OrmInject> ofConstructor(PojoInfo pojoInfo) {
+    return pojoInfo.constructorInfoStream()
+        .flatMap(ConstructorInfo::parameterInfoStream)
+        .filter(OrmInject::isOrm)
+        .findFirst()
+        .map(ConstructorOrmInject::of);
   }
 
   private static Optional<OrmInject> ofStream(Stream<Property> propertyStream) {
