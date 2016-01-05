@@ -5,12 +5,11 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.PojoCompiler",
     "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuilderEmployee, SalaryBuilder.SalaryBuilderSalary, SalaryBuilder.SalaryBuilderFromDate, SalaryBuilder.SalaryBuilderToDate {
-  private final SuperOrm orm;
+  private SuperOrm ___constructor0___orm;
 
   private Employee employee;
 
@@ -21,12 +20,15 @@ final class SalaryBuilderPojo implements SalaryBuilder, SalaryBuilder.SalaryBuil
   private LocalDate toDate;
 
   public SalaryBuilderPojo(SuperOrm orm) {
-    this.orm = orm;
+    if (orm == null) {
+      throw new NullPointerException();
+    }
+    ___constructor0___orm = orm;
   }
 
   @Override
   public Salary build() {
-    return new SalaryPojo(orm, this);
+    return new SalaryPojo(___constructor0___orm, this);
   }
 
   @Override

@@ -17,6 +17,7 @@ package br.com.objectos.orm.compiler;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import br.com.objectos.code.ConstructorInfo;
 import br.com.objectos.code.ParameterInfo;
@@ -45,6 +46,7 @@ abstract class ConstructorContext {
         .inject(pojoInfo.inject())
         .constructorInfo(constructorInfo)
         .parameterSpecList(constructorInfo.parameterInfoStream()
+            .filter(OrmInject::isNotOrm)
             .map(ParameterInfo::parameterSpec)
             .collect(Collectors.toList()))
         .build();
@@ -64,6 +66,12 @@ abstract class ConstructorContext {
           .addMethod(ForeignKeyRowConstructor.of(this).execute())
           .addMethod(ForeignKeyColumnsConstructor.of(this).execute());
     }
+  }
+
+  Stream<ParameterInfo> parameterInfoStream() {
+    return constructorInfo()
+        .parameterInfoStream()
+        .filter(OrmInject::isNotOrm);
   }
 
 }
