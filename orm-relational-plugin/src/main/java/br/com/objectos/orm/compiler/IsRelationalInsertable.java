@@ -101,7 +101,7 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
       CodeBlock.Builder code = CodeBlock.builder();
 
       if (size == 1) {
-        code.add("    .value($S, ($T) null)",
+        code.add("    .value($S, ($T) null)\n",
             property.columnSimpleName(),
             property.property().returnTypeInfo().autobox().className());
       }
