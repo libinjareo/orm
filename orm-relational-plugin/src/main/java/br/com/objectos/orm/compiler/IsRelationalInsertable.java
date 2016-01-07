@@ -98,10 +98,17 @@ class IsRelationalInsertable implements OrmPropertyAdapter<CodeBlock>, Relationa
 
     @Override
     public CodeBlock onAutoIncrement() {
-      return build(CodeBlock.builder()
-          .add("    .on(rs -> $L.onGeneratedKey($T.of(rs)))",
-              property.property().name(),
-              Result.class));
+      CodeBlock.Builder code = CodeBlock.builder();
+
+      if (size == 1) {
+        code.add("    .value($S, ($T) null)",
+            property.columnSimpleName(),
+            property.property().returnTypeInfo().autobox().className());
+      }
+
+      return build(code.add("    .on(rs -> $L.onGeneratedKey($T.of(rs)))",
+          property.property().name(),
+          Result.class));
     }
 
     @Override
