@@ -24,7 +24,10 @@ import br.com.objectos.schema.it.APP;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Pojo
-abstract class App implements Insertable {
+abstract class App
+    implements
+    Insertable,
+    br.com.objectos.way.relational.Insertable {
 
   @APP.ID
   abstract int id();
