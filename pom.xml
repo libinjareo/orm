@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>orm-parent</artifactId>
-	<version>0.1.21</version>
+	<version>0.1.22-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>objectos :: orm :: parent</name>
@@ -28,7 +28,7 @@
 		<connection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</connection>
 		<developerConnection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</developerConnection>
 		<url>https://github.com/objectos/orm</url>
-		<tag>orm-parent-0.1.21</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
