@@ -1,21 +1,21 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
-import br.com.objectos.db.query.NoResultFoundException;
-import br.com.objectos.orm.compiler.SuperOrm;
-import br.com.objectos.schema.it.SALARY;
-import br.com.objectos.sql.query.InsertableRow4;
-import br.com.objectos.sql.query.Row3;
-import br.com.objectos.sql.query.Row4;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.way.db.NoResultFoundException;
+import br.com.objectos.way.db.SqlRuntimeException;
+import br.com.objectos.way.db.Transaction;
+import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.way.schema.it.SALARY;
+import br.com.objectos.way.sql.InsertableRow4;
+import br.com.objectos.way.sql.Row3;
+import br.com.objectos.way.sql.Row4;
+import br.com.objectos.way.sql.Sql;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
 public final class SalaryOrm {
   private final SuperOrm orm;
 
@@ -35,7 +35,7 @@ public final class SalaryOrm {
       return;
     }
     SalaryPojo pojo = (SalaryPojo) iterator.next();
-    SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
+    SALARY SALARY = br.com.objectos.way.schema.it.SALARY.get();
     InsertableRow4.Values<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE> insert;
     insert = pojo.bindInsertableRow(Sql
         .insertInto(SALARY)
@@ -53,7 +53,7 @@ public final class SalaryOrm {
 
   public Optional<Salary> maybe(SALARY.SALARY_EMP_NO pk0, SALARY.SALARY_FROM_DATE pk1) {
     try (Transaction trx = orm.startTransaction()) {
-      SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
+      SALARY SALARY = br.com.objectos.way.schema.it.SALARY.get();
       return Sql.select(SALARY.EMP_NO(), SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
           .from(SALARY)
           .where(pk0)

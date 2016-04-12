@@ -1,22 +1,22 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.db.query.Result;
-import br.com.objectos.orm.InsertableRowBinder;
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.REVISION;
-import br.com.objectos.sql.query.InsertableRow3;
-import br.com.objectos.sql.query.Row3;
+import br.com.objectos.way.db.Result;
+import br.com.objectos.way.orm.InsertableRowBinder;
+import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.Insert;
+import br.com.objectos.way.schema.it.REVISION;
+import br.com.objectos.way.sql.InsertableRow3;
+import br.com.objectos.way.sql.Row3;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.orm.compiler.InsertablePlugin",
-    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler"
+    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.way.orm.compiler.InjectPlugin",
+    "br.com.objectos.way.orm.compiler.InsertablePlugin",
+    "br.com.objectos.way.orm.compiler.RelationalInsertablePlugin",
+    "br.com.objectos.way.pojo.compiler.WritingPojoCompiler"
 })
 final class RevisionPojo extends Revision implements InsertableRowBinder<InsertableRow3<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>, InsertableRow3.Values<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION>> {
   final Orm orm;

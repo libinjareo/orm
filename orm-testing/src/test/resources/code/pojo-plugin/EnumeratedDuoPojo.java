@@ -1,19 +1,19 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.db.type.ColumnType;
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.DUO;
-import br.com.objectos.sql.query.Row2;
+import br.com.objectos.way.db.ColumnType;
+import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.Insert;
+import br.com.objectos.way.schema.it.DUO;
+import br.com.objectos.way.sql.Row2;
 import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler"
+    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.way.orm.compiler.InjectPlugin",
+    "br.com.objectos.way.orm.compiler.RelationalInsertablePlugin",
+    "br.com.objectos.way.pojo.compiler.WritingPojoCompiler"
 })
 final class EnumeratedDuoPojo extends EnumeratedDuo {
   final Orm orm;

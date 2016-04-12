@@ -1,8 +1,8 @@
-package br.com.objectos.schema.it;
+package br.com.objectos.way.schema.it;
 
-import br.com.objectos.code.Testing;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.PAIR;
+import br.com.objectos.way.code.Testing;
+import br.com.objectos.way.pojo.Pojo;
+import br.com.objectos.way.schema.it.PAIR;
 
 @Pojo
 @Testing

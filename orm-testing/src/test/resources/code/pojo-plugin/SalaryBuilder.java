@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.way.pojo.compiler.WritingPojoCompiler",
+    "br.com.objectos.way.pojo.plugin.StandardBuilderPropertyAction"
 })
 interface SalaryBuilder {
   SalaryBuilderEmployee employee(Employee employee);

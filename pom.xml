@@ -1,15 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>parent</artifactId>
-		<version>126</version>
+		<version>0.3.0</version>
 	</parent>
 
-	<artifactId>orm-parent</artifactId>
-	<version>0.1.22-SNAPSHOT</version>
+	<groupId>br.com.objectos.orm</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.2.-1</version>
 	<packaging>pom</packaging>
 
 	<name>objectos :: orm :: parent</name>
@@ -25,15 +27,15 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</connection>
-		<developerConnection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</developerConnection>
+		<connection>scm:git:ssh://git@rio.objectos.com.br:7999/objectos/orm.git</connection>
+		<developerConnection>scm:git:ssh://git@rio.objectos.com.br:7999/objectos/orm.git</developerConnection>
 		<url>https://github.com/objectos/orm</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>http://github.com/objectos/orm/issues</url>
+		<url>http://github.com/objectos/way/issues</url>
 	</issueManagement>
 
 	<developers>
@@ -50,11 +52,12 @@
 	</organization>
 
 	<modules>
-		<module>orm</module>
+		<module>annotations</module>
+		<!-- 
 		<module>orm-compiler</module>
-		<module>orm-it</module>
 		<module>orm-relational-plugin</module>
 		<module>orm-testing</module>
+		 -->
 	</modules>
 
 	<properties>
@@ -83,26 +86,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>assertion</artifactId>
-				<version>${objectos.assertion.version}</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>br.com.objectos</groupId>
-						<artifactId>core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.google.guava</groupId>
-						<artifactId>guava</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 </project>

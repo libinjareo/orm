@@ -1,14 +1,13 @@
-
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.PAIR;
+import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.ResultSetLoader;
 import br.com.objectos.way.relational.ResultSetWrapper;
+import br.com.objectos.way.schema.it.PAIR;
 import java.sql.ResultSet;
 import javax.annotation.Generated;
 
-@Generated("br.com.objectos.orm.compiler.RelationalLoaderPlugin")
+@Generated("br.com.objectos.way.orm.compiler.RelationalLoaderPlugin")
 abstract class AbstractPairLoader implements ResultSetLoader<Pair> {
   private final Orm orm;
 

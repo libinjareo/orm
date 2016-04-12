@@ -1,35 +1,35 @@
-package br.com.objectos.schema.it;
+package br.com.objectos.way.schema.it;
 
-import br.com.objectos.code.Testing;
-import br.com.objectos.db.query.NumericComparison;
-import br.com.objectos.db.query.SortOrder;
-import br.com.objectos.db.query.StringComparison;
-import br.com.objectos.db.type.ColumnOf;
-import br.com.objectos.schema.meta.ColumnAnnotation;
-import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
-import br.com.objectos.schema.meta.ColumnClass;
-import br.com.objectos.schema.meta.ColumnName;
-import br.com.objectos.schema.meta.ColumnSeq;
-import br.com.objectos.schema.meta.MigrationPrefix;
-import br.com.objectos.schema.meta.SchemaName;
-import br.com.objectos.schema.meta.TableClass;
-import br.com.objectos.schema.meta.TableName;
-import br.com.objectos.schema.type.IntColumn;
-import br.com.objectos.schema.type.Table;
-import br.com.objectos.schema.type.VarcharColumn;
+import br.com.objectos.way.code.Testing;
+import br.com.objectos.way.db.ColumnOf;
+import br.com.objectos.way.db.NumericComparison;
+import br.com.objectos.way.db.SortOrder;
+import br.com.objectos.way.db.StringComparison;
+import br.com.objectos.way.schema.meta.ColumnAnnotation;
+import br.com.objectos.way.schema.meta.ColumnAnnotationClassArray;
+import br.com.objectos.way.schema.meta.ColumnClass;
+import br.com.objectos.way.schema.meta.ColumnName;
+import br.com.objectos.way.schema.meta.ColumnSeq;
+import br.com.objectos.way.schema.meta.MigrationPrefix;
+import br.com.objectos.way.schema.meta.SchemaName;
+import br.com.objectos.way.schema.meta.TableClass;
+import br.com.objectos.way.schema.meta.TableName;
+import br.com.objectos.way.schema.type.IntColumn;
+import br.com.objectos.way.schema.type.Table;
+import br.com.objectos.way.schema.type.VarcharColumn;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.annotation.Generated;
 
-@Generated("br.com.objectos.schema.compiler.SchemaProcessor")
+@Testing
+@Generated("br.com.objectos.way.schema.compiler.SchemaProcessor")
 @TableClass
 @SchemaName("OBJECTOS_ORM")
 @TableName("PAIR")
 @ColumnAnnotationClassArray({ PAIR.ID.class, PAIR.NAME.class })
 @MigrationPrefix("V001")
-@Testing
 public final class PAIR extends Table implements V001__First_Migration.PAIR {
   private static final PAIR INSTANCE = new PAIR();
 
@@ -59,6 +59,7 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
     return new PAIR_NAME(value);
   }
 
+  @Testing
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
@@ -67,13 +68,13 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   @ColumnName("ID")
   @ColumnSeq(0)
   @ColumnClass(PAIR_ID.class)
-  @Testing
   public @interface ID {
     NumericComparison comparison() default NumericComparison.EQ;
 
     SortOrder orderBy() default SortOrder.ASC;
   }
 
+  @Testing
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ ElementType.METHOD, ElementType.PARAMETER })
   @ColumnAnnotation
@@ -82,7 +83,6 @@ public final class PAIR extends Table implements V001__First_Migration.PAIR {
   @ColumnName("NAME")
   @ColumnSeq(1)
   @ColumnClass(PAIR_NAME.class)
-  @Testing
   public @interface NAME {
     StringComparison comparison() default StringComparison.EQ;
 

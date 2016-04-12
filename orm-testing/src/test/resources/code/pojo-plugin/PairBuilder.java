@@ -3,9 +3,9 @@ package br.com.objectos.pojo.plugin;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
+    "br.com.objectos.way.orm.compiler.InjectPlugin",
+    "br.com.objectos.way.pojo.compiler.WritingPojoCompiler",
+    "br.com.objectos.way.pojo.plugin.StandardBuilderPropertyAction"
 })
 interface PairBuilder {
   PairBuilderId id(int id);

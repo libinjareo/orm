@@ -1,19 +1,19 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
-import br.com.objectos.db.query.NoResultFoundException;
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.MERGE;
-import br.com.objectos.sql.query.Row1;
-import br.com.objectos.sql.query.Row3;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.way.db.NoResultFoundException;
+import br.com.objectos.way.db.SqlRuntimeException;
+import br.com.objectos.way.db.Transaction;
+import br.com.objectos.way.orm.Orm;
+import br.com.objectos.way.schema.it.MERGE;
+import br.com.objectos.way.sql.Row1;
+import br.com.objectos.way.sql.Row3;
+import br.com.objectos.way.sql.Sql;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
 public final class MergeOrm {
   private final Orm orm;
 
@@ -33,7 +33,7 @@ public final class MergeOrm {
 
   public Optional<Merge> maybe(MERGE.MERGE_SEQ pk0) {
     try (Transaction trx = orm.startTransaction()) {
-      MERGE MERGE = br.com.objectos.schema.it.MERGE.get();
+      MERGE MERGE = br.com.objectos.way.schema.it.MERGE.get();
       return Sql.select(MERGE.SEQ(), MERGE.PARENT_A(), MERGE.PARENT_B())
           .from(MERGE)
           .where(pk0)

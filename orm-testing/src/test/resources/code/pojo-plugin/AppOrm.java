@@ -1,16 +1,16 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.APP;
-import br.com.objectos.sql.query.InsertableRow1;
-import br.com.objectos.sql.query.Row1;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.way.orm.Orm;
+import br.com.objectos.way.schema.it.APP;
+import br.com.objectos.way.sql.InsertableRow1;
+import br.com.objectos.way.sql.Row1;
+import br.com.objectos.way.sql.Sql;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
 public final class AppOrm {
   private final Orm orm;
 
@@ -30,7 +30,7 @@ public final class AppOrm {
       return;
     }
     AppPojo pojo = (AppPojo) iterator.next();
-    APP APP = br.com.objectos.schema.it.APP.get();
+    APP APP = br.com.objectos.way.schema.it.APP.get();
     InsertableRow1.Values<APP.APP_ID> insert;
     insert = pojo.bindInsertableRow(Sql
         .insertInto(APP)

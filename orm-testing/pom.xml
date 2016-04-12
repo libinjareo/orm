@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>br.com.objectos</groupId>
+		<groupId>br.com.objectos.way</groupId>
 		<artifactId>orm-parent</artifactId>
-		<version>0.1.22-SNAPSHOT</version>
+		<version>0.4.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>orm-testing</artifactId>
-	<name>objectos :: orm :: testing</name>
+	<name>objectos :: way :: orm :: testing</name>
 
 	<build>
 		<plugins>
@@ -32,27 +32,25 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>assertion</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>code-testing</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>orm-compiler</artifactId>
-			<version>0.1.22-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>orm-relational-plugin</artifactId>
-			<version>0.1.22-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>pojo-testing</artifactId>
 			<scope>compile</scope>
 		</dependency>

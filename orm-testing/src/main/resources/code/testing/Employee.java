@@ -1,11 +1,11 @@
-package br.com.objectos.schema.it;
+package br.com.objectos.way.schema.it;
 
 import java.time.LocalDate;
 
-import br.com.objectos.code.Testing;
-import br.com.objectos.orm.compiler.SuperOrm;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.EMPLOYEE;
+import br.com.objectos.way.code.Testing;
+import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.way.pojo.Pojo;
+import br.com.objectos.way.schema.it.EMPLOYEE;
 
 @Pojo
 @Testing

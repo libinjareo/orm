@@ -3,59 +3,64 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>br.com.objectos</groupId>
+		<groupId>br.com.objectos.way</groupId>
 		<artifactId>orm-parent</artifactId>
-		<version>0.1.22-SNAPSHOT</version>
+		<version>0.4.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>orm-compiler</artifactId>
-	<name>objectos :: orm :: compiler</name>
+	<name>objectos :: way :: orm :: compiler</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>code-apt</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
-			<artifactId>collections</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>metainf-compiler</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>orm</artifactId>
-			<version>0.1.22-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
+			<version>0.4.2-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>pojo-compiler</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>pojo-plugin</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
-			<artifactId>schema-info</artifactId>
+			<groupId>br.com.objectos.way</groupId>
+			<artifactId>schema</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>testable</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>testable-pojo-plugin</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>br.com.objectos</groupId>
+			<groupId>br.com.objectos.way</groupId>
+			<artifactId>lazy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.way</groupId>
 			<artifactId>lazy-pojo-plugin</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos.core</groupId>
+			<artifactId>collections</artifactId>
 		</dependency>
 		
 		<dependency>

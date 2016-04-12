@@ -1,27 +1,27 @@
-package br.com.objectos.schema.it;
+package br.com.objectos.way.schema.it;
 
-import br.com.objectos.db.query.DateComparison;
-import br.com.objectos.db.query.NumericComparison;
-import br.com.objectos.db.query.SortOrder;
-import br.com.objectos.db.query.StringComparison;
-import br.com.objectos.db.type.ColumnOf;
-import br.com.objectos.schema.meta.ColumnAnnotation;
-import br.com.objectos.schema.meta.ColumnAnnotationClassArray;
-import br.com.objectos.schema.meta.ColumnClass;
-import br.com.objectos.schema.meta.ColumnName;
-import br.com.objectos.schema.meta.ColumnSeq;
-import br.com.objectos.schema.meta.GeneratedValue;
-import br.com.objectos.schema.meta.GenerationKind;
-import br.com.objectos.schema.meta.MigrationPrefix;
-import br.com.objectos.schema.meta.PrimaryKeyClassArray;
-import br.com.objectos.schema.meta.PrimaryKeyName;
-import br.com.objectos.schema.meta.SchemaName;
-import br.com.objectos.schema.meta.TableClass;
-import br.com.objectos.schema.meta.TableName;
-import br.com.objectos.schema.type.DateColumn;
-import br.com.objectos.schema.type.IntColumn;
-import br.com.objectos.schema.type.Table;
-import br.com.objectos.schema.type.VarcharColumn;
+import br.com.objectos.way.db.ColumnOf;
+import br.com.objectos.way.db.DateComparison;
+import br.com.objectos.way.db.NumericComparison;
+import br.com.objectos.way.db.SortOrder;
+import br.com.objectos.way.db.StringComparison;
+import br.com.objectos.way.schema.meta.ColumnAnnotation;
+import br.com.objectos.way.schema.meta.ColumnAnnotationClassArray;
+import br.com.objectos.way.schema.meta.ColumnClass;
+import br.com.objectos.way.schema.meta.ColumnName;
+import br.com.objectos.way.schema.meta.ColumnSeq;
+import br.com.objectos.way.schema.meta.GeneratedValue;
+import br.com.objectos.way.schema.meta.GenerationKind;
+import br.com.objectos.way.schema.meta.MigrationPrefix;
+import br.com.objectos.way.schema.meta.PrimaryKeyClassArray;
+import br.com.objectos.way.schema.meta.PrimaryKeyName;
+import br.com.objectos.way.schema.meta.SchemaName;
+import br.com.objectos.way.schema.meta.TableClass;
+import br.com.objectos.way.schema.meta.TableName;
+import br.com.objectos.way.schema.type.DateColumn;
+import br.com.objectos.way.schema.type.IntColumn;
+import br.com.objectos.way.schema.type.Table;
+import br.com.objectos.way.schema.type.VarcharColumn;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
-@Generated("br.com.objectos.schema.compiler.SchemaProcessor")
+@Generated("br.com.objectos.way.schema.compiler.SchemaProcessor")
 @TableClass
 @SchemaName("OBJECTOS_ORM")
 @TableName("REVISION")

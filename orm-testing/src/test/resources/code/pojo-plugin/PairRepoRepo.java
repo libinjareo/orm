@@ -1,16 +1,16 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.collections.MoreCollectors;
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.core.collections.MoreCollectors;
+import br.com.objectos.way.db.SqlRuntimeException;
+import br.com.objectos.way.db.Transaction;
+import br.com.objectos.way.orm.Orm;
+import br.com.objectos.way.schema.it.PAIR;
+import br.com.objectos.way.sql.Sql;
 import java.util.List;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.RepoCompiler")
+@Generated("br.com.objectos.way.orm.compiler.RepoCompiler")
 final class PairRepoRepo extends PairRepo {
   private final Orm orm;
 
@@ -22,7 +22,7 @@ final class PairRepoRepo extends PairRepo {
   @Override
   List<Pair> findAll() {
     try (Transaction trx = orm.startTransaction()) {
-      PAIR PAIR = br.com.objectos.schema.it.PAIR.get();
+      PAIR PAIR = br.com.objectos.way.schema.it.PAIR.get();
       return Sql.select(PAIR.ID(), PAIR.NAME())
           .from(PAIR)
           .compile(trx.dialect())
@@ -37,7 +37,7 @@ final class PairRepoRepo extends PairRepo {
   @Override
   List<Pair> findAllOrderByName() {
     try (Transaction trx = orm.startTransaction()) {
-      PAIR PAIR = br.com.objectos.schema.it.PAIR.get();
+      PAIR PAIR = br.com.objectos.way.schema.it.PAIR.get();
       return Sql.select(PAIR.ID(), PAIR.NAME())
           .from(PAIR)
           .orderBy(PAIR.NAME().asc())

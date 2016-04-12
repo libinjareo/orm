@@ -1,23 +1,23 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.collections.MoreCollectors;
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
-import br.com.objectos.orm.compiler.SuperOrm;
-import br.com.objectos.schema.it.EMPLOYEE;
-import br.com.objectos.schema.it.SALARY;
-import br.com.objectos.sql.query.Row5;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.core.collections.MoreCollectors;
+import br.com.objectos.way.db.SqlRuntimeException;
+import br.com.objectos.way.db.Transaction;
+import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.way.schema.it.EMPLOYEE;
+import br.com.objectos.way.schema.it.SALARY;
+import br.com.objectos.way.sql.Row5;
+import br.com.objectos.way.sql.Sql;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.orm.compiler.InjectPlugin",
-    "br.com.objectos.orm.compiler.QueryPlugin",
-    "br.com.objectos.pojo.compiler.PojoCompiler"
+    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.way.orm.compiler.InjectPlugin",
+    "br.com.objectos.way.orm.compiler.QueryPlugin",
+    "br.com.objectos.way.pojo.compiler.WritingPojoCompiler"
 })
 final class EmployeePojo extends Employee {
   final SuperOrm orm;
@@ -64,7 +64,7 @@ final class EmployeePojo extends Employee {
   @Override
   List<Salary> salaryList() {
     try (Transaction trx = orm.startTransaction()) {
-      SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
+      SALARY SALARY = br.com.objectos.way.schema.it.SALARY.get();
       return Sql.select(SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
           .from(SALARY)
           .where(SALARY.EMP_NO()).eq(empNo)

@@ -2,9 +2,9 @@ package br.com.objectos.pojo.plugin;
 
 import java.util.Optional;
 
-import br.com.objectos.db.type.ColumnType;
-import br.com.objectos.pojo.Pojo;
-import br.com.objectos.schema.it.DUO;
+import br.com.objectos.way.schema.it.DUO;
+import br.com.objectos.way.db.ColumnType;
+import br.com.objectos.way.pojo.Pojo;
 import br.com.objectos.way.relational.Loader;
 
 @Pojo

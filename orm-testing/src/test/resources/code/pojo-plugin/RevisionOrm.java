@@ -1,20 +1,20 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.db.core.SqlRuntimeException;
-import br.com.objectos.db.core.Transaction;
-import br.com.objectos.db.query.NoResultFoundException;
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.REVISION;
-import br.com.objectos.sql.query.InsertableRow3;
-import br.com.objectos.sql.query.Row3;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.way.db.NoResultFoundException;
+import br.com.objectos.way.db.SqlRuntimeException;
+import br.com.objectos.way.db.Transaction;
+import br.com.objectos.way.orm.Orm;
+import br.com.objectos.way.schema.it.REVISION;
+import br.com.objectos.way.sql.InsertableRow3;
+import br.com.objectos.way.sql.Row3;
+import br.com.objectos.way.sql.Sql;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
 public final class RevisionOrm {
   private final Orm orm;
 
@@ -34,7 +34,7 @@ public final class RevisionOrm {
       return;
     }
     RevisionPojo pojo = (RevisionPojo) iterator.next();
-    REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
+    REVISION REVISION = br.com.objectos.way.schema.it.REVISION.get();
     InsertableRow3.Values<REVISION.REVISION_SEQ, REVISION.REVISION_DATE, REVISION.REVISION_DESCRIPTION> insert;
     insert = pojo.bindInsertableRow(Sql
         .insertInto(REVISION)
@@ -52,7 +52,7 @@ public final class RevisionOrm {
 
   public Optional<Revision> maybe(REVISION.REVISION_SEQ pk0) {
     try (Transaction trx = orm.startTransaction()) {
-      REVISION REVISION = br.com.objectos.schema.it.REVISION.get();
+      REVISION REVISION = br.com.objectos.way.schema.it.REVISION.get();
       return Sql.select(REVISION.SEQ(), REVISION.DATE(), REVISION.DESCRIPTION())
           .from(REVISION)
           .where(pk0)

@@ -1,16 +1,16 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.sql.query.InsertableRow2;
-import br.com.objectos.sql.query.Row2;
-import br.com.objectos.sql.query.Sql;
+import br.com.objectos.way.orm.Orm;
+import br.com.objectos.way.schema.it.PAIR;
+import br.com.objectos.way.sql.InsertableRow2;
+import br.com.objectos.way.sql.Row2;
+import br.com.objectos.way.sql.Sql;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
 public final class PairOrm {
   private final Orm orm;
 
@@ -30,7 +30,7 @@ public final class PairOrm {
       return;
     }
     PairPojo pojo = (PairPojo) iterator.next();
-    PAIR PAIR = br.com.objectos.schema.it.PAIR.get();
+    PAIR PAIR = br.com.objectos.way.schema.it.PAIR.get();
     InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME> insert;
     insert = pojo.bindInsertableRow(Sql
         .insertInto(PAIR)

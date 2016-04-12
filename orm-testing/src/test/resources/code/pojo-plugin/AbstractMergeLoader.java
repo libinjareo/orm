@@ -1,14 +1,14 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.orm.Orm;
-import br.com.objectos.schema.it.MERGE;
+import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.ResultSetLoader;
 import br.com.objectos.way.relational.ResultSetWrapper;
+import br.com.objectos.way.schema.it.MERGE;
 import java.sql.ResultSet;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated("br.com.objectos.orm.compiler.RelationalLoaderPlugin")
+@Generated("br.com.objectos.way.orm.compiler.RelationalLoaderPlugin")
 abstract class AbstractMergeLoader implements ResultSetLoader<Merge> {
   private final Orm orm;
 
