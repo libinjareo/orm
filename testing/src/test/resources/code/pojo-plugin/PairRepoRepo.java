@@ -3,14 +3,14 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.core.util.MoreCollectors;
 import br.com.objectos.db.SqlRuntimeException;
 import br.com.objectos.db.Transaction;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.Sql;
-import br.com.objectos.way.orm.Orm;
 import java.util.List;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.way.orm.compiler.RepoCompiler")
+@Generated("br.com.objectos.orm.compiler.RepoCompiler")
 final class PairRepoRepo extends PairRepo {
   private final Orm orm;
 

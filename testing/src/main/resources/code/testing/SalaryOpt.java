@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.code.Testing;
-import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
 
 @Pojo

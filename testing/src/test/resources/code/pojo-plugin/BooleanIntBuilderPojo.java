@@ -1,12 +1,12 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.way.orm.Orm;
+import br.com.objectos.orm.Orm;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction",
-    "br.com.objectos.way.orm.compiler.InjectPlugin"
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class BooleanIntBuilderPojo implements BooleanIntBuilder, BooleanIntBuilder.BooleanIntBuilderId, BooleanIntBuilder.BooleanIntBuilderName {
   private final Orm orm;

@@ -1,8 +1,8 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.schema.it.PAIR;
-import br.com.objectos.way.orm.Insertable;
-import br.com.objectos.way.orm.Setter;
+import br.com.objectos.orm.Insertable;
+import br.com.objectos.orm.Setter;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.way.relational.Loader;
 

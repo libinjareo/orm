@@ -16,8 +16,8 @@
 package br.com.objectos.schema.info;
 
 import br.com.objectos.code.TypeInfo;
-import br.com.objectos.way.orm.compiler.NamingFake;
-import br.com.objectos.way.orm.compiler.TypeInfoFake;
+import br.com.objectos.orm.compiler.NamingFake;
+import br.com.objectos.orm.compiler.TypeInfoFake;
 
 import com.squareup.javapoet.ClassName;
 

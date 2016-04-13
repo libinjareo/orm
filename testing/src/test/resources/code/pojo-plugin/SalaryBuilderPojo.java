@@ -1,6 +1,6 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.orm.compiler.SuperOrm;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 

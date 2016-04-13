@@ -3,21 +3,21 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.core.util.MoreCollectors;
 import br.com.objectos.db.SqlRuntimeException;
 import br.com.objectos.db.Transaction;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.EMPLOYEE;
 import br.com.objectos.schema.it.SALARY;
 import br.com.objectos.sql.Row5;
 import br.com.objectos.sql.Sql;
-import br.com.objectos.way.orm.compiler.SuperOrm;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.way.orm.compiler.InjectPlugin",
-    "br.com.objectos.way.orm.compiler.QueryPlugin"
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.QueryPlugin",
+    "br.com.objectos.pojo.compiler.WritingPojoCompiler"
 })
 final class EmployeePojo extends Employee {
   final SuperOrm orm;

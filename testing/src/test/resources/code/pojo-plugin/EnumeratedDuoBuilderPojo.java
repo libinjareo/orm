@@ -1,15 +1,15 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.db.ColumnType;
-import br.com.objectos.way.orm.Orm;
+import br.com.objectos.orm.Orm;
 import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.WritingPojoCompiler",
     "br.com.objectos.pojo.plugin.OptionalPlugin",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction",
-    "br.com.objectos.way.orm.compiler.InjectPlugin"
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class EnumeratedDuoBuilderPojo implements EnumeratedDuoBuilder, EnumeratedDuoBuilder.EnumeratedDuoBuilderId, EnumeratedDuoBuilder.EnumeratedDuoBuilderName {
   private final Orm orm;

@@ -1,12 +1,12 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.way.orm.Orm;
+import br.com.objectos.orm.Orm;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.way.orm.compiler.ColumnPropertyBuilderPropertyAction",
-    "br.com.objectos.way.orm.compiler.InjectPlugin"
+    "br.com.objectos.orm.compiler.ColumnPropertyBuilderPropertyAction",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.pojo.compiler.WritingPojoCompiler"
 })
 final class AppBuilderPojo implements AppBuilder {
   private final Orm orm;

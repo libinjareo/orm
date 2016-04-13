@@ -15,10 +15,10 @@
  */
 package br.com.objectos.schema.info;
 
+import br.com.objectos.orm.compiler.TypeInfoFake;
 import br.com.objectos.schema.info.ColumnInfoTypeInfo;
 import br.com.objectos.schema.info.OrmAutoIncrementGenerationInfo;
 import br.com.objectos.schema.info.OrmNoGenerationInfo;
-import br.com.objectos.way.orm.compiler.TypeInfoFake;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)

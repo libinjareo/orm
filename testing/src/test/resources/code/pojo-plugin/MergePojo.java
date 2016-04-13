@@ -1,21 +1,21 @@
 package br.com.objectos.pojo.plugin;
 
 import br.com.objectos.db.Result;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.MERGE;
 import br.com.objectos.sql.Row1;
 import br.com.objectos.sql.Row3;
-import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.Insert;
 import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardPojoPropertyAction",
-    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.way.orm.compiler.InjectPlugin",
-    "br.com.objectos.way.orm.compiler.RelationalInsertablePlugin"
+    "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
 final class MergePojo extends Merge {
   final Orm orm;
