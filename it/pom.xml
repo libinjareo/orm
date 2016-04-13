@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>br.com.objectos.orm</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.2.-1</version>
+		<version>0.2.0</version>
 	</parent>
 
 	<artifactId>it</artifactId>
@@ -39,12 +39,12 @@
 					<dependency>
 						<groupId>br.com.objectos.orm</groupId>
 						<artifactId>compiler</artifactId>
-						<version>0.2.-1</version>
+						<version>0.2.0</version>
 					</dependency>
 					<dependency>
 						<groupId>br.com.objectos.orm</groupId>
 						<artifactId>relational-plugin</artifactId>
-						<version>0.2.-1</version>
+						<version>0.2.0</version>
 					</dependency>
 					<dependency>
 						<groupId>br.com.objectos.schema</groupId>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>br.com.objectos.orm</groupId>
 			<artifactId>api</artifactId>
-			<version>0.2.-1</version>
+			<version>0.2.0</version>
 		</dependency>
 
 		<dependency>
