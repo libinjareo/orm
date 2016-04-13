@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>br.com.objectos.orm</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.2.-1</version>
+	</parent>
+
+	<artifactId>compiler</artifactId>
+	<name>objectos :: orm :: compiler</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.objectos.orm</groupId>
+			<artifactId>api</artifactId>
+			<version>0.2.-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>collections</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>br.com.objectos.code</groupId>
+			<artifactId>apt</artifactId>
+			<version>0.11.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.metainf</groupId>
+			<artifactId>compiler</artifactId>
+			<version>0.3.0</version>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.pojo</groupId>
+			<artifactId>compiler</artifactId>
+			<version>0.8.0</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.pojo</groupId>
+			<artifactId>plugin</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.schema</groupId>
+			<artifactId>api</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.testable</groupId>
+			<artifactId>api</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.testable</groupId>
+			<artifactId>pojo-plugin</artifactId>
+			<version>0.6.0</version>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.lazy</groupId>
+			<artifactId>api</artifactId>
+			<version>0.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.lazy</groupId>
+			<artifactId>pojo-plugin</artifactId>
+			<version>0.5.0</version>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- 
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+			<scope>test</scope>
+		</dependency>
+		 -->
+	</dependencies>
+
+</project>

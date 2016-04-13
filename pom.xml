@@ -52,9 +52,9 @@
 	</organization>
 
 	<modules>
-		<module>annotations</module>
+		<module>api</module>
+		<module>compiler</module>
 		<!-- 
-		<module>orm-compiler</module>
 		<module>orm-relational-plugin</module>
 		<module>orm-testing</module>
 		 -->
