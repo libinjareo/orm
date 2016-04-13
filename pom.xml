@@ -1,15 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>br.com.objectos</groupId>
 		<artifactId>parent</artifactId>
-		<version>126</version>
+		<version>0.3.0</version>
 	</parent>
 
-	<artifactId>orm-parent</artifactId>
-	<version>0.1.22-SNAPSHOT</version>
+	<groupId>br.com.objectos.orm</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.2.-1</version>
 	<packaging>pom</packaging>
 
 	<name>objectos :: orm :: parent</name>
@@ -25,15 +27,15 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</connection>
-		<developerConnection>scm:git:file:///srv/bitbucket/shared/data/repositories/401</developerConnection>
+		<connection>scm:git:ssh://git@rio.objectos.com.br:7999/objectos/orm.git</connection>
+		<developerConnection>scm:git:ssh://git@rio.objectos.com.br:7999/objectos/orm.git</developerConnection>
 		<url>https://github.com/objectos/orm</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>http://github.com/objectos/orm/issues</url>
+		<url>http://github.com/objectos/way/issues</url>
 	</issueManagement>
 
 	<developers>
@@ -50,59 +52,112 @@
 	</organization>
 
 	<modules>
-		<module>orm</module>
-		<module>orm-compiler</module>
-		<module>orm-it</module>
-		<module>orm-relational-plugin</module>
-		<module>orm-testing</module>
+		<module>api</module>
+		<module>compiler</module>
+		<module>it</module>
+		<module>relational-plugin</module>
+		<module>testing</module>
 	</modules>
 
 	<properties>
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>travis</id>
+			<activation>
+				<property>
+					<name>env.TRAVIS</name>
+				</property>
+			</activation>
+			<properties>
+				<jdbc.server>localhost</jdbc.server>
+				<jdbc.port>3306</jdbc.port>
+				<jdbc.user>root</jdbc.user>
+				<jdbc.password />
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>br.com.objectos</groupId>
-					<artifactId>db9-maven-plugin</artifactId>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
-						<file>src/test/resources/objectos-orm.sql</file>
+						<systemPropertyVariables>
+							<jdbc.server>${jdbc.server}</jdbc.server>
+							<jdbc.port>${jdbc.port}</jdbc.port>
+							<jdbc.user>${jdbc.user}</jdbc.user>
+							<jdbc.password>${jdbc.password}</jdbc.password>
+						</systemPropertyVariables>
 					</configuration>
-					<executions>
-						<execution>
-							<id>schema</id>
-							<goals>
-								<goal>create</goal>
-								<goal>load</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
+				<plugin>
+					<groupId>br.com.objectos.db</groupId>
+					<artifactId>bootstrap-maven-plugin</artifactId>
+					<version>0.3.0</version>
+					<configuration>
+						<vendor>MYSQL</vendor>
+						<server>${jdbc.server}</server>
+						<port>${jdbc.port}</port>
+						<db>${jdbc.db}</db>
+						<user>${jdbc.user}</user>
+						<password>${jdbc.password}</password>
+						<parameters>
+							<useSSL>false</useSSL>
+						</parameters>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>br.com.objectos.db</groupId>
+							<artifactId>mysql</artifactId>
+							<version>0.3.0</version>
+						</dependency>
+						<dependency>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>5.1.38</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											br.com.objectos.db
+										</groupId>
+										<artifactId>
+											bootstrap-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.1.0-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>create</goal>
+											<goal>load</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>				
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>br.com.objectos</groupId>
-				<artifactId>assertion</artifactId>
-				<version>${objectos.assertion.version}</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>br.com.objectos</groupId>
-						<artifactId>core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.google.guava</groupId>
-						<artifactId>guava</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 </project>
