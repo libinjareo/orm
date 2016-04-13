@@ -15,13 +15,11 @@
  */
 package br.com.objectos.way.orm.compiler;
 
-import java.lang.annotation.Annotation;
-import java.util.stream.Stream;
-
 import javax.annotation.processing.Processor;
 
-import br.com.objectos.code.AnnotationProcessor;
+import br.com.objectos.code.AbstractAnnotationProcessor;
 import br.com.objectos.code.Artifact;
+import br.com.objectos.code.Configuration;
 import br.com.objectos.code.TypeInfo;
 import br.com.objectos.metainf.Services;
 import br.com.objectos.way.orm.Repo;
@@ -30,15 +28,17 @@ import br.com.objectos.way.orm.Repo;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Services(Processor.class)
-public class RepoCompiler extends AnnotationProcessor {
+public class RepoCompiler extends AbstractAnnotationProcessor {
 
   @Override
-  protected Class<? extends Annotation> annotationType() {
-    return Repo.class;
+  protected Configuration configuration() {
+    return Configuration.builder()
+        .addAnnotationType(Repo.class)
+        .addTypeInfoArtifactGenerator(this::generate)
+        .build();
   }
 
-  @Override
-  protected Stream<Artifact> generate(TypeInfo typeInfo) {
+  private Artifact generate(TypeInfo typeInfo) {
     return RepoType.of(typeInfo).generate();
   }
 

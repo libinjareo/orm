@@ -17,7 +17,6 @@ package br.com.objectos.way.orm.compiler;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import br.com.objectos.code.Artifact;
 import br.com.objectos.code.TypeInfo;
@@ -62,12 +61,11 @@ abstract class RepoType implements Testable {
     return new RepoTypeBuilderPojo();
   }
 
-  public Stream<Artifact> generate() {
+  public Artifact generate() {
     JavaFile file = JavaFile.builder(repoClassName().packageName(), type())
         .skipJavaLangImports(true)
         .build();
-    Artifact artifact = Artifact.of(file);
-    return Stream.of(artifact);
+    return Artifact.of(file);
   }
 
   public String simpleName() {
