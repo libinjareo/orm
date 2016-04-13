@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>br.com.objectos.orm</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.2.-1</version>
+	</parent>
+
+	<artifactId>testing</artifactId>
+	<name>objectos :: orm :: testing</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.objectos.orm</groupId>
+			<artifactId>compiler</artifactId>
+			<version>0.2.-1</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.orm</groupId>
+			<artifactId>relational-plugin</artifactId>
+			<version>0.2.-1</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>assertion</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.code</groupId>
+			<artifactId>testing</artifactId>
+			<version>0.11.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>br.com.objectos.pojo</groupId>
+			<artifactId>testing</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+	</dependencies>
+
+</project>

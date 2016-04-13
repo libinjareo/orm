@@ -1,3 +1,0 @@
-br.com.objectos.way.schema.it.PAIR PAIR = br.com.objectos.way.schema.it.PAIR.get();
-return br.com.objectos.way.sql.Sql.select(PAIR.ID(), PAIR.NAME())
-    .from(PAIR)

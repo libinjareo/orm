@@ -1,0 +1,3 @@
+br.com.objectos.schema.it.PAIR PAIR = br.com.objectos.schema.it.PAIR.get();
+return br.com.objectos.sql.Sql.select(PAIR.ID(), PAIR.NAME())
+    .from(PAIR)

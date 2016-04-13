@@ -52,7 +52,7 @@ class OrmNaming {
   }
 
   private static ClassName insertableRow(int size) {
-    return ClassName.get("br.com.objectos.way.sql", "InsertableRow" + size);
+    return ClassName.get("br.com.objectos.sql", "InsertableRow" + size);
   }
 
 }
