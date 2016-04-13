@@ -54,6 +54,7 @@
 	<modules>
 		<module>api</module>
 		<module>compiler</module>
+		<module>it</module>
 		<module>relational-plugin</module>
 		<module>testing</module>
 	</modules>
@@ -62,25 +63,99 @@
 		<jdbc.db>OBJECTOS_ORM</jdbc.db>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>travis</id>
+			<activation>
+				<property>
+					<name>env.TRAVIS</name>
+				</property>
+			</activation>
+			<properties>
+				<jdbc.server>localhost</jdbc.server>
+				<jdbc.port>3306</jdbc.port>
+				<jdbc.user>root</jdbc.user>
+				<jdbc.password />
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>br.com.objectos</groupId>
-					<artifactId>db9-maven-plugin</artifactId>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
-						<file>src/test/resources/objectos-orm.sql</file>
+						<systemPropertyVariables>
+							<jdbc.server>${jdbc.server}</jdbc.server>
+							<jdbc.port>${jdbc.port}</jdbc.port>
+							<jdbc.user>${jdbc.user}</jdbc.user>
+							<jdbc.password>${jdbc.password}</jdbc.password>
+						</systemPropertyVariables>
 					</configuration>
-					<executions>
-						<execution>
-							<id>schema</id>
-							<goals>
-								<goal>create</goal>
-								<goal>load</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
+				<plugin>
+					<groupId>br.com.objectos.db</groupId>
+					<artifactId>bootstrap-maven-plugin</artifactId>
+					<version>0.3.0</version>
+					<configuration>
+						<vendor>MYSQL</vendor>
+						<server>${jdbc.server}</server>
+						<port>${jdbc.port}</port>
+						<db>${jdbc.db}</db>
+						<user>${jdbc.user}</user>
+						<password>${jdbc.password}</password>
+						<parameters>
+							<useSSL>false</useSSL>
+						</parameters>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>br.com.objectos.db</groupId>
+							<artifactId>mysql</artifactId>
+							<version>0.3.0</version>
+						</dependency>
+						<dependency>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>5.1.38</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											br.com.objectos.db
+										</groupId>
+										<artifactId>
+											bootstrap-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.1.0-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>create</goal>
+											<goal>load</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>				
 			</plugins>
 		</pluginManagement>
 	</build>

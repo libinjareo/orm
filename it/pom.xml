@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>br.com.objectos.orm</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.2.-1</version>
+	</parent>
+
+	<artifactId>it</artifactId>
+	<name>objectos :: orm :: it</name>
+
+	<properties>
+		<jdbc.server>localhost</jdbc.server>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>br.com.objectos.pojo</groupId>
+						<artifactId>compiler</artifactId>
+						<version>0.8.0</version>
+					</dependency>
+					<dependency>
+						<groupId>br.com.objectos.orm</groupId>
+						<artifactId>compiler</artifactId>
+						<version>0.2.-1</version>
+					</dependency>
+					<dependency>
+						<groupId>br.com.objectos.orm</groupId>
+						<artifactId>relational-plugin</artifactId>
+						<version>0.2.-1</version>
+					</dependency>
+					<dependency>
+						<groupId>br.com.objectos.schema</groupId>
+						<artifactId>compiler</artifactId>
+						<version>0.2.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>br.com.objectos.db</groupId>
+				<artifactId>bootstrap-maven-plugin</artifactId>
+				<configuration>
+					<file>${project.basedir}/src/test/resources/objectos-orm.sql</file>
+				</configuration>
+				<executions>
+					<execution>
+						<id>objectos-orm</id>
+						<goals>
+							<goal>create</goal>
+							<goal>load</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>br.com.objectos.db</groupId>
+						<artifactId>mysql</artifactId>
+						<version>0.3.0</version>
+					</dependency>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.38</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.objectos.orm</groupId>
+			<artifactId>api</artifactId>
+			<version>0.2.-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>assertion</artifactId>
+			<version>0.3.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>collections</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos.db</groupId>
+			<artifactId>mysql</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos.schema</groupId>
+			<artifactId>api</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos.sql</groupId>
+			<artifactId>legacy</artifactId>
+			<version>0.12.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.objectos.testable</groupId>
+			<artifactId>api</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.objectos.testable</groupId>
+			<artifactId>pojo-plugin</artifactId>
+			<version>0.6.0</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
