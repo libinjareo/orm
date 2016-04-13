@@ -54,8 +54,8 @@
 	<modules>
 		<module>api</module>
 		<module>compiler</module>
+		<module>relational-plugin</module>
 		<!-- 
-		<module>orm-relational-plugin</module>
 		<module>orm-testing</module>
 		 -->
 	</modules>
