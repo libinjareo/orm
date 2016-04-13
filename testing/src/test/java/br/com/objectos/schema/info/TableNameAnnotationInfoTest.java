@@ -17,7 +17,7 @@ package br.com.objectos.schema.info;
 
 import br.com.objectos.assertion.TestableAssertion;
 import br.com.objectos.code.TypeInfo;
-import br.com.objectos.way.orm.compiler.TypeInfoFake;
+import br.com.objectos.orm.compiler.TypeInfoFake;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

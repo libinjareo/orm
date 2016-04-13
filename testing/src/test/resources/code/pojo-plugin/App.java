@@ -1,7 +1,7 @@
 package br.com.objectos.pojo.plugin;
 
-import br.com.objectos.way.orm.Insertable;
-import br.com.objectos.way.orm.Orm;
+import br.com.objectos.orm.Insertable;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.APP;
 

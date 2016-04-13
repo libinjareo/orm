@@ -3,18 +3,18 @@ package br.com.objectos.pojo.plugin;
 import br.com.objectos.db.NoResultFoundException;
 import br.com.objectos.db.SqlRuntimeException;
 import br.com.objectos.db.Transaction;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.REVISION;
 import br.com.objectos.sql.InsertableRow3;
 import br.com.objectos.sql.Row3;
 import br.com.objectos.sql.Sql;
-import br.com.objectos.way.orm.Orm;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
 public final class RevisionOrm {
   private final Orm orm;
 

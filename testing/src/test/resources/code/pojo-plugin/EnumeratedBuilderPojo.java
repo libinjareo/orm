@@ -1,13 +1,13 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.meta.EnumType;
-import br.com.objectos.way.orm.Orm;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.InjectPlugin",
     "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction",
-    "br.com.objectos.way.orm.compiler.InjectPlugin"
+    "br.com.objectos.pojo.plugin.StandardBuilderPropertyAction"
 })
 final class EnumeratedBuilderPojo implements EnumeratedBuilder, EnumeratedBuilder.EnumeratedBuilderOrdinalEnum, EnumeratedBuilder.EnumeratedBuilderStringEnum {
   private final Orm orm;

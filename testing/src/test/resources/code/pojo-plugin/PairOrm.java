@@ -1,16 +1,16 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.InsertableRow2;
 import br.com.objectos.sql.Row2;
 import br.com.objectos.sql.Sql;
-import br.com.objectos.way.orm.Orm;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.inject.Inject;
 
-@Generated("br.com.objectos.way.orm.compiler.CompanionTypePlugin")
+@Generated("br.com.objectos.orm.compiler.CompanionTypePlugin")
 public final class PairOrm {
   private final Orm orm;
 

@@ -1,23 +1,23 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.InsertableRowBinder;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.schema.it.SALARY;
 import br.com.objectos.sql.InsertableRow4;
 import br.com.objectos.sql.Row3;
 import br.com.objectos.sql.Row4;
-import br.com.objectos.way.orm.InsertableRowBinder;
-import br.com.objectos.way.orm.compiler.SuperOrm;
 import br.com.objectos.way.relational.Insert;
 import java.time.LocalDate;
 import javax.annotation.Generated;
 
 @Generated({
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.InsertablePlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
     "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.pojo.plugin.StandardPojoPropertyAction",
-    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.way.orm.compiler.InjectPlugin",
-    "br.com.objectos.way.orm.compiler.InsertablePlugin",
-    "br.com.objectos.way.orm.compiler.RelationalInsertablePlugin"
+    "br.com.objectos.pojo.plugin.StandardPojoPropertyAction"
 })
 final class SalaryPojo extends Salary implements InsertableRowBinder<InsertableRow4<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE>, InsertableRow4.Values<SALARY.SALARY_EMP_NO, SALARY.SALARY_SALARY, SALARY.SALARY_FROM_DATE, SALARY.SALARY_TO_DATE>> {
   final SuperOrm orm;

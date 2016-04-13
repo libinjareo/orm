@@ -3,8 +3,8 @@ package br.com.objectos.pojo.plugin;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.com.objectos.way.orm.Query;
-import br.com.objectos.way.orm.compiler.SuperOrm;
+import br.com.objectos.orm.Query;
+import br.com.objectos.orm.compiler.SuperOrm;
 import br.com.objectos.pojo.Pojo;
 import br.com.objectos.schema.it.EMPLOYEE;
 

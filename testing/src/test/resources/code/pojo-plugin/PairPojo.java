@@ -1,21 +1,21 @@
 package br.com.objectos.pojo.plugin;
 
+import br.com.objectos.orm.InsertableRowBinder;
+import br.com.objectos.orm.Orm;
 import br.com.objectos.schema.it.PAIR;
 import br.com.objectos.sql.InsertableRow2;
 import br.com.objectos.sql.Row2;
-import br.com.objectos.way.orm.InsertableRowBinder;
-import br.com.objectos.way.orm.Orm;
 import br.com.objectos.way.relational.Insert;
 import javax.annotation.Generated;
 
 @Generated({
-    "br.com.objectos.pojo.compiler.WritingPojoCompiler",
-    "br.com.objectos.way.orm.compiler.ColumnOrmPropertyPlugin",
-    "br.com.objectos.way.orm.compiler.ConstructorPlugin",
-    "br.com.objectos.way.orm.compiler.InjectPlugin",
-    "br.com.objectos.way.orm.compiler.InsertablePlugin",
-    "br.com.objectos.way.orm.compiler.RelationalInsertablePlugin",
-    "br.com.objectos.way.orm.compiler.SetterPlugin"
+    "br.com.objectos.orm.compiler.ColumnOrmPropertyPlugin",
+    "br.com.objectos.orm.compiler.ConstructorPlugin",
+    "br.com.objectos.orm.compiler.InjectPlugin",
+    "br.com.objectos.orm.compiler.InsertablePlugin",
+    "br.com.objectos.orm.compiler.RelationalInsertablePlugin",
+    "br.com.objectos.orm.compiler.SetterPlugin",
+    "br.com.objectos.pojo.compiler.WritingPojoCompiler"
 })
 final class PairPojo extends Pair implements InsertableRowBinder<InsertableRow2<PAIR.PAIR_ID, PAIR.PAIR_NAME>, InsertableRow2.Values<PAIR.PAIR_ID, PAIR.PAIR_NAME>> {
   final Orm orm;
