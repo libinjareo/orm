@@ -1,0 +1,3 @@
+br.com.objectos.schema.it.SALARY SALARY = br.com.objectos.schema.it.SALARY.get();
+return br.com.objectos.sql.Sql.select(SALARY.EMP_NO(), SALARY.SALARY_(), SALARY.FROM_DATE(), SALARY.TO_DATE())
+    .from(SALARY)

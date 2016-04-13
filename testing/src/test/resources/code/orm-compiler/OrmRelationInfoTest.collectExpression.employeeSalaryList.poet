@@ -1,0 +1,4 @@
+    .compile(trx.dialect())
+    .stream(trx)
+    .map(row -> br.com.objectos.schema.it.SalaryOrm.get(orm).load(br.com.objectos.schema.it.EmployeePojo.this, row))
+    .collect(br.com.objectos.core.util.MoreCollectors.toImmutableList());
